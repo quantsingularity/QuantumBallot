@@ -16,7 +16,6 @@ A full-stack Web and Mobile application for American elections using Blockchain 
 - [Overview](#overview)
 - [Project Structure](#project-structure)
 - [Features](#features)
-- [Feature Implementation Status](#feature-implementation-status)
 - [Technology Stack](#technology-stack)
 - [Installation and Setup](#installation-and-setup)
 - [Usage](#usage)
