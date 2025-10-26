@@ -1,6 +1,6 @@
 # Chainocracy
 
-[![CI Status](https://img.shields.io/github/actions/workflow/status/abrar2030/Chainocracy/main.yml?branch=main&label=CI&logo=github)](https://github.com/abrar2030/Chainocracy/actions)
+![CI/CD Status](https://img.shields.io/github/actions/workflow/status/abrar2030/Chainocracy/cicd.yml?branch=main&label=CI/CD&logo=github)
 [![Test Coverage](https://img.shields.io/badge/coverage-87%25-brightgreen)](https://github.com/abrar2030/Chainocracy/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
