@@ -21,4 +21,3 @@
 #       maximum_percent: 200
 #   become: no # Assuming AWS credentials are handled by the runner
 #   when: new_task_definition_revision is defined
-

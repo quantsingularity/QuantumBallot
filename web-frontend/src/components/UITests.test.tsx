@@ -1,4 +1,4 @@
- 
+
 import 'resize-observer-polyfill';
 import { fireEvent, render, screen } from '@testing-library/react';
 import Login from '@/screens/Login';
@@ -15,7 +15,7 @@ import Users from '@/screens/Users';
 vi.mock('@/context/AuthContext', () => ({
     useAuth: () => ({
         onLogOut: vi.fn(),
-        updateImages: vi.fn(), 
+        updateImages: vi.fn(),
         isLoggedIn: vi.fn()
     }),
 }));
@@ -216,7 +216,7 @@ describe('PopulationData Component', () => {
 
 vi.mock('@/context/AuthContext', () => ({
     useAuth: () => ({
-        updateImages: vi.fn(), // 
+        updateImages: vi.fn(), //
     }),
 }));
 

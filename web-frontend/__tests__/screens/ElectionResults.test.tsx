@@ -40,20 +40,20 @@ describe('ElectionResults Component', () => {
     // Check initial state (both should be visible)
     const mapView = screen.getByTestId('angola-map');
     const tableView = screen.getByTestId('election-results-table');
-    
+
     expect(mapView).toBeVisible();
     expect(tableView).toBeVisible();
-    
+
     // Find and click the toggle buttons if they exist
     const mapButton = screen.queryByRole('button', { name: /Map View/i });
     const tableButton = screen.queryByRole('button', { name: /Table View/i });
-    
+
     if (mapButton && tableButton) {
       // Click table view button
       fireEvent.click(tableButton);
       expect(tableView).toBeVisible();
       expect(mapView).not.toBeVisible();
-      
+
       // Click map view button
       fireEvent.click(mapButton);
       expect(mapView).toBeVisible();

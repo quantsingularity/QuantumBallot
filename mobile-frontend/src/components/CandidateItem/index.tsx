@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 type ItemProps = { id: number, name: string, party: string, acronym: string, photo: any, src: any, selected?: any, setSelected: any, xTexts: any, setXtexts: any, isFactor: boolean, navigation: any };
 
 export function CandidateItem({ id, name, party, acronym, photo, src, setSelected, xTexts, setXtexts, isFactor, navigation }: ItemProps) {
-    
+
     const onPress = () => {
         setSelected(id);
         setXtexts((prevState: any) => {

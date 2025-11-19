@@ -24,9 +24,9 @@ const Home = () => {
           </CardHeader>
           <CardContent className="flex justify-center">
             <div className="relative w-40 h-40">
-              <Image 
-                src="/images/bitcoin.svg" 
-                alt="Secure Voting" 
+              <Image
+                src="/images/bitcoin.svg"
+                alt="Secure Voting"
                 fill
                 style={{ objectFit: 'contain' }}
               />
@@ -46,9 +46,9 @@ const Home = () => {
           </CardHeader>
           <CardContent className="flex justify-center">
             <div className="relative w-40 h-40">
-              <Image 
-                src="/images/nakamoto.svg" 
-                alt="Transparent Process" 
+              <Image
+                src="/images/nakamoto.svg"
+                alt="Transparent Process"
                 fill
                 style={{ objectFit: 'contain' }}
               />
@@ -68,9 +68,9 @@ const Home = () => {
           </CardHeader>
           <CardContent className="flex justify-center">
             <div className="relative w-40 h-40">
-              <Image 
-                src="/images/crypto_portfolio.svg" 
-                alt="Real-time Results" 
+              <Image
+                src="/images/crypto_portfolio.svg"
+                alt="Real-time Results"
                 fill
                 style={{ objectFit: 'contain' }}
               />
@@ -92,9 +92,9 @@ const Home = () => {
           </CardHeader>
           <CardContent className="flex justify-center">
             <div className="relative w-full h-48">
-              <Image 
-                src="/images/ethereum.svg" 
-                alt="Current Election" 
+              <Image
+                src="/images/ethereum.svg"
+                alt="Current Election"
                 fill
                 style={{ objectFit: 'contain' }}
               />
@@ -117,9 +117,9 @@ const Home = () => {
           </CardHeader>
           <CardContent className="flex justify-center">
             <div className="relative w-full h-48">
-              <Image 
-                src="/images/digital_currency.svg" 
-                alt="Election Results" 
+              <Image
+                src="/images/digital_currency.svg"
+                alt="Election Results"
                 fill
                 style={{ objectFit: 'contain' }}
               />

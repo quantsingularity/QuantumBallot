@@ -22,7 +22,7 @@ describe('Entrance Component', () => {
 
   it('renders entrance page with welcome message', () => {
     mockAuthContext.isLoggedIn.mockReturnValue(false);
-    
+
     render(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthContext}>
@@ -36,7 +36,7 @@ describe('Entrance Component', () => {
 
   it('displays login and register options for non-logged in users', () => {
     mockAuthContext.isLoggedIn.mockReturnValue(false);
-    
+
     render(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthContext}>
@@ -51,7 +51,7 @@ describe('Entrance Component', () => {
 
   it('redirects to dashboard for logged in users', () => {
     mockAuthContext.isLoggedIn.mockReturnValue(true);
-    
+
     // Mock useNavigate
     const mockNavigate = vi.fn();
     vi.mock('react-router-dom', async () => {
@@ -61,7 +61,7 @@ describe('Entrance Component', () => {
         useNavigate: () => mockNavigate
       };
     });
-    
+
     render(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthContext}>
@@ -69,14 +69,14 @@ describe('Entrance Component', () => {
         </AuthContext.Provider>
       </BrowserRouter>
     );
-    
+
     // Check if navigation was called
     expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
   });
 
   it('navigates to login page when login button is clicked', () => {
     mockAuthContext.isLoggedIn.mockReturnValue(false);
-    
+
     // Mock useNavigate
     const mockNavigate = vi.fn();
     vi.mock('react-router-dom', async () => {
@@ -86,7 +86,7 @@ describe('Entrance Component', () => {
         useNavigate: () => mockNavigate
       };
     });
-    
+
     render(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthContext}>
@@ -97,14 +97,14 @@ describe('Entrance Component', () => {
 
     // Click login button
     fireEvent.click(screen.getByRole('button', { name: /Login/i }));
-    
+
     // Check if navigation was called
     expect(mockNavigate).toHaveBeenCalledWith('/login');
   });
 
   it('navigates to register page when register button is clicked', () => {
     mockAuthContext.isLoggedIn.mockReturnValue(false);
-    
+
     // Mock useNavigate
     const mockNavigate = vi.fn();
     vi.mock('react-router-dom', async () => {
@@ -114,7 +114,7 @@ describe('Entrance Component', () => {
         useNavigate: () => mockNavigate
       };
     });
-    
+
     render(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthContext}>
@@ -125,7 +125,7 @@ describe('Entrance Component', () => {
 
     // Click register button
     fireEvent.click(screen.getByRole('button', { name: /Register/i }));
-    
+
     // Check if navigation was called
     expect(mockNavigate).toHaveBeenCalledWith('/register');
   });

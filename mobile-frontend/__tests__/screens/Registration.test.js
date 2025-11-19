@@ -175,7 +175,7 @@ describe('Registration Screen', () => {
 
   test('handles registration failure', async () => {
     // Mock registration failure
-    mockAxios.post.mockImplementationOnce(() => 
+    mockAxios.post.mockImplementationOnce(() =>
       Promise.reject({
         response: {
           status: 400,

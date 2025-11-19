@@ -502,4 +502,3 @@ resource "aws_security_group_rule" "log_all_traffic" {
   cidr_blocks       = ["255.255.255.255/32"]  # Dummy rule for logging
   description       = "Logging rule - no actual traffic allowed"
 }
-

@@ -51,11 +51,11 @@ describe('AuthContext', () => {
     // Check if context values are correctly provided
     expect(screen.getByTestId('user-name')).toHaveTextContent('Test User');
     expect(screen.getByTestId('user-role')).toHaveTextContent('admin');
-    
+
     // Test logout function
     const logoutButton = screen.getByRole('button', { name: /Logout/i });
     fireEvent.click(logoutButton);
-    
+
     // Since onLogOut is a mock function, we can check if it was called
     expect(AuthContext.useAuth().onLogOut).toHaveBeenCalled();
   });
@@ -64,7 +64,7 @@ describe('AuthContext', () => {
     // Create a test component with login state toggle
     const TestComponent = () => {
       const [isLoggedIn, setIsLoggedIn] = vi.useState(false);
-      
+
       return (
         <AuthContext.Provider value={{
           user: isLoggedIn ? { name: 'Test User', role: 'admin' } : null,
@@ -86,10 +86,10 @@ describe('AuthContext', () => {
 
     // Check initial state
     expect(screen.getByTestId('login-status')).toHaveTextContent('Logged Out');
-    
+
     // Toggle login state
     fireEvent.click(screen.getByRole('button', { name: /Toggle Login/i }));
-    
+
     // Check updated state
     expect(screen.getByTestId('login-status')).toHaveTextContent('Logged In');
   });

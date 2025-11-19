@@ -11,7 +11,7 @@ interface CandidateDetailsProps {
   isLoading?: boolean;
 }
 
-const CandidateDetails: React.FC<CandidateDetailsProps> = ({ 
+const CandidateDetails: React.FC<CandidateDetailsProps> = ({
   candidate = {
     id: "1",
     name: "John Doe",
@@ -19,8 +19,8 @@ const CandidateDetails: React.FC<CandidateDetailsProps> = ({
     image: "/images/nakamoto.svg",
     speech: "/audio/sample-speech.mp3",
     votes: 0
-  }, 
-  isLoading = false 
+  },
+  isLoading = false
 }) => {
   const router = useRouter();
   const { id } = router.query;
@@ -46,9 +46,9 @@ const CandidateDetails: React.FC<CandidateDetailsProps> = ({
             <div className="w-full md:w-1/3 flex justify-center">
               {candidate.image && (
                 <div className="relative w-64 h-64">
-                  <Image 
-                    src={candidate.image} 
-                    alt={candidate.name || "Candidate"} 
+                  <Image
+                    src={candidate.image}
+                    alt={candidate.name || "Candidate"}
                     fill
                     style={{ objectFit: 'contain' }}
                   />
@@ -61,7 +61,7 @@ const CandidateDetails: React.FC<CandidateDetailsProps> = ({
                 This candidate is running for office with the {candidate.party} party.
                 They have received {candidate.votes} votes so far.
               </p>
-              
+
               {candidate.speech && (
                 <div className="mt-6">
                   <h3 className="text-lg font-medium mb-2">Campaign Speech</h3>

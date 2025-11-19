@@ -62,12 +62,12 @@ describe('Secret generation Tests', () => {
 
   it('Generate a secret key and IV', () => {
     const consoleSpy = jest.spyOn(console, 'log');
-    
+
     // Mock fs.writeFileSync
     fs.writeFileSync = jest.fn();
 
     cyptoChain.generateSecret();
-    
+
     expect(fs.writeFileSync).toHaveBeenCalledWith('secret.key', expect.any(String));
     expect(consoleSpy).toHaveBeenCalledTimes(3);
   });

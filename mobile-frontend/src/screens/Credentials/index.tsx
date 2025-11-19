@@ -26,7 +26,7 @@ export function Credentials({ navigation }: any) {
   }
 
   const onPressVerify = () => {
-    navigation.navigate('CameraQR', 
+    navigation.navigate('CameraQR',
     { secret });
   }
 

@@ -19,7 +19,7 @@ const AnnounceElection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Validate form
     if (!title || !description || !dateRange.from || !dateRange.to) {
       toast({

@@ -24,4 +24,3 @@ output "website_url" {
   description = "URL of the deployed web frontend"
   value       = var.domain_name != "" ? "https://${var.domain_name}" : "https://${aws_cloudfront_distribution.frontend_distribution.domain_name}"
 }
-

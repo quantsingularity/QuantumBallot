@@ -27,7 +27,7 @@ function TableVoters({ toast }: { toast: (...params: any[]) => void }) {
 
     useEffect(() => {
         onPressLoadIdentifiers();
-    }, []); 
+    }, []);
 
     const removeExtraEquals = (str: string): string => {
         if (str.substring(0, str.length - 2) !== "==") {
@@ -40,7 +40,7 @@ function TableVoters({ toast }: { toast: (...params: any[]) => void }) {
         const token = await getItemAsync(TOKEN_KEY);
         axios.defaults.withCredentials = true;
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    
+
         axios.get('http://' + GLOBAL_VARIABLES.LOCALHOST + '/api/committee/generate-identifiers', { withCredentials: true })
             .then(response => {
                 const votersGenerated = response.data.voters;
@@ -121,7 +121,7 @@ function TableVoters({ toast }: { toast: (...params: any[]) => void }) {
                         state: element.state ? "true" : "false",
                         secret: element.secret,
                     }));
-                    
+
                     setData([...newData]);
                 }
             })

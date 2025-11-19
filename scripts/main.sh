@@ -55,7 +55,7 @@ check_script() {
         echo -e "${RED}Error: Script $script not found${NC}"
         exit 1
     fi
-    
+
     if [ ! -x "$SCRIPT_DIR/$script" ]; then
         echo -e "${YELLOW}Warning: Script $script is not executable, fixing permissions...${NC}"
         chmod +x "$SCRIPT_DIR/$script"
@@ -65,13 +65,13 @@ check_script() {
 # Make all scripts executable
 make_scripts_executable() {
     section "Making Scripts Executable"
-    
+
     chmod +x "$SCRIPT_DIR/setup_environment.sh"
     chmod +x "$SCRIPT_DIR/dev_workflow.sh"
     chmod +x "$SCRIPT_DIR/deployment.sh"
     chmod +x "$SCRIPT_DIR/documentation_generator.sh"
     chmod +x "$SCRIPT_DIR/ci_cd_helper.sh"
-    
+
     echo -e "${GREEN}All scripts are now executable${NC}"
 }
 

@@ -23,8 +23,8 @@ app.get('/', (req: Request, res: Response) => {
 const startServer = async () => {
   try {
     // Connect to LevelDB
-    await connectToDB(); 
-    
+    await connectToDB();
+
     app.listen(PORT, () => {
       console.log(`Server is running on http://localhost:${PORT}`);
     });

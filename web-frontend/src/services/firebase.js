@@ -42,7 +42,7 @@ export const registerUser = async (email, password, userData) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
-        
+
         // Store additional user data in Firestore
         await setDoc(doc(db, "users", user.uid), {
             ...userData,
@@ -50,7 +50,7 @@ export const registerUser = async (email, password, userData) => {
             createdAt: new Date(),
             updatedAt: new Date()
         });
-        
+
         if (analytics) logEvent(analytics, 'sign_up');
         return { success: true, user };
     } catch (error) {
@@ -92,7 +92,7 @@ export const getUserData = async (userId) => {
     try {
         const docRef = doc(db, "users", userId);
         const docSnap = await getDoc(docRef);
-        
+
         if (docSnap.exists()) {
             return { success: true, data: docSnap.data() };
         } else {
@@ -185,7 +185,7 @@ export const callCloudFunction = async (functionName, data) => {
 // Messaging functions
 export const requestNotificationPermission = async () => {
     if (!messaging) return { success: false, error: "Messaging not supported" };
-    
+
     try {
         const permission = await Notification.requestPermission();
         if (permission === 'granted') {
@@ -201,7 +201,7 @@ export const requestNotificationPermission = async () => {
 
 export const onMessageListener = (callback) => {
     if (!messaging) return () => {};
-    
+
     return onMessage(messaging, (payload) => {
         callback(payload);
     });

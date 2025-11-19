@@ -116,8 +116,8 @@ class Committee {
 
                 return output;
             }
-        } catch (error) { } 
-        
+        } catch (error) { }
+
         return null;
     }
 
@@ -136,7 +136,7 @@ class Committee {
                 return output;
             }
 
-        } catch (error) { } 
+        } catch (error) { }
         return null;
     }
 

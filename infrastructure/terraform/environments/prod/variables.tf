@@ -65,4 +65,3 @@ variable "backend_memory" {
   type        = string
   default     = "2048" # More Memory for prod
 }
-

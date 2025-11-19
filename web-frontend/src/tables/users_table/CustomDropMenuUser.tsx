@@ -23,7 +23,7 @@ type CustomDropMenuProps = {
 
 export default function CustomDropMenuUser({ user }: CustomDropMenuProps) {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    
+
     return (
         <>
             <UserModal isOpen={isModalOpen} onOpenChange={setIsModalOpen} defaultValues={user} setData={user.setData} mode={false} toast={user.toast}/>

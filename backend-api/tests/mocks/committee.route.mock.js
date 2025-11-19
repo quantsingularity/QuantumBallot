@@ -68,11 +68,11 @@ router.delete('/clear-candidates', async (req, res) => {
 
 router.post('/add-candidate', async (req, res) => {
   const { name, code, party, acronym, status } = req.body;
-  
+
   if (!name || !code || !party || !acronym || !status) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
-  
+
   const result = await committee.addCandidateCommittee(name, code, party, acronym, status);
   res.json(result);
 });
@@ -80,14 +80,14 @@ router.post('/add-candidate', async (req, res) => {
 router.post('/auth/mobile', async (req, res) => {
   const { electoralId, password } = req.body;
   const user = await committee.authMobile(electoralId, password);
-  
+
   if (!user) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
-  
+
   const accessToken = 'test-access-token';
   const refreshToken = 'test-refresh-token';
-  
+
   res.json({
     accessToken,
     refreshToken,
@@ -98,14 +98,14 @@ router.post('/auth/mobile', async (req, res) => {
 router.post('/auth/web', async (req, res) => {
   const { username, password } = req.body;
   const user = await committee.authWeb(username, password);
-  
+
   if (!user) {
     return res.status(401).json({ message: 'Invalid credentials' });
   }
-  
+
   const accessToken = 'test-access-token';
   const refreshToken = 'test-refresh-token';
-  
+
   res.json({
     accessToken,
     refreshToken,
@@ -135,41 +135,41 @@ router.delete('/citizen/:electoralId', async (req, res) => {
 
 router.post('/add-citizen', async (req, res) => {
   const result = await committee.addCitzen(req.body);
-  
+
   if (!result) {
     return res.status(400).json({ message: 'Failed to add citizen' });
   }
-  
+
   res.status(201).json({ success: true });
 });
 
 router.put('/update-citizen', async (req, res) => {
   const result = await committee.updateCitizen(req.body);
-  
+
   if (!result) {
     return res.status(400).json({ message: 'Failed to update citizen' });
   }
-  
+
   res.json({ success: true });
 });
 
 router.post('/add-user', async (req, res) => {
   const result = await committee.addUser(req.body);
-  
+
   if (!result) {
     return res.status(400).json({ message: 'Failed to add user' });
   }
-  
+
   res.status(201).json(result);
 });
 
 router.put('/update-user', async (req, res) => {
   const result = await committee.updateUser(req.body);
-  
+
   if (!result) {
     return res.status(400).json({ message: 'Failed to update user' });
   }
-  
+
   res.json({ success: true });
 });
 
@@ -186,11 +186,11 @@ router.get('/announcement', async (req, res) => {
 router.post('/verify-otp', (req, res) => {
   const { secret, token } = req.body;
   const verified = committee.verifyOtp(secret, token);
-  
+
   if (!verified) {
     return res.status(400).json({ verified: false });
   }
-  
+
   res.json({ verified: true });
 });
 

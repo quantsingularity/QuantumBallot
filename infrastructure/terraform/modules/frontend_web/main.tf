@@ -123,4 +123,3 @@ resource "aws_cloudfront_distribution" "frontend_distribution" {
 
 # Note: Route 53 record creation for the custom domain is typically handled
 # in the environment-specific configuration or a dedicated DNS module.
-

@@ -69,12 +69,12 @@ class SmartContract {
             "Namibe",
             "Uíge",
             "Zaire"
-        ];     
-        
-        
+        ];
+
+
         this.hashCandidates = {};
         this.hashVoters = {};
-        
+
         await this.loadCandidates();
         await this.loadVoters();
         await this.loadAnnouncement();
@@ -362,7 +362,7 @@ class SmartContract {
         const citizen: Citizen = this.citizens.find(x => x.electoralId === electoralId);
         const province: string = citizen.province;
 
-        if (this.provinces.find(x => x === province)) {   
+        if (this.provinces.find(x => x === province)) {
             const currentStatOfPrivince = this.statsPerProvince[province];
             currentStatOfPrivince[this.hashCandidates[choice_code].party]++;
             currentStatOfPrivince['sum']++;

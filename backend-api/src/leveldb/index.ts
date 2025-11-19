@@ -33,7 +33,7 @@ const announcementdb = db.sublevel(ANNOUNCEMENT, { valueEncoding: 'json' })
 const resultsdb = db.sublevel(RESULTS, { valueEncoding: 'json' })
 const votercitizenrelationdb = db.sublevel(VOTER_CITIZEN_RELATION, { valueEncoding: 'json' })
 
-/* 
+/*
   INFO ABOUT THE API: https://github.com/Level/level?tab=readme-ov-file
 */
 

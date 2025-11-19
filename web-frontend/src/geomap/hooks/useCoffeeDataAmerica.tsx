@@ -43,7 +43,7 @@ const constructProvincies = (mapSize: [number, number]): IMapProvincy[] => {
   const geoPathGenerator = geoPath().projection(projection);
 
   const americaCountry = geoJson.features.map((feature: any) => {
-    
+
     const svgProps: SVGProps<SVGPathElement> = {
       d: geoPathGenerator(feature as any) || '',
       stroke: colors['default'].color,

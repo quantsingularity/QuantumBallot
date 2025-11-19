@@ -26,7 +26,7 @@ vi.mock('@/context/AuthContext', () => ({
 describe('EditAccount Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     // Mock axios.put to return success
     (axios.put as jest.Mock).mockResolvedValue({
       data: {
@@ -60,7 +60,7 @@ describe('EditAccount Component', () => {
     const nameInput = screen.getByLabelText(/Name/i);
     fireEvent.change(nameInput, { target: { value: 'Updated Name' } });
     expect(nameInput).toHaveValue('Updated Name');
-    
+
     // Edit username field
     const usernameInput = screen.getByLabelText(/Username/i);
     fireEvent.change(usernameInput, { target: { value: 'updateduser' } });
@@ -77,10 +77,10 @@ describe('EditAccount Component', () => {
     // Edit fields
     fireEvent.change(screen.getByLabelText(/Name/i), { target: { value: 'Updated Name' } });
     fireEvent.change(screen.getByLabelText(/Username/i), { target: { value: 'updateduser' } });
-    
+
     // Submit form
     fireEvent.click(screen.getByRole('button', { name: /Update Account/i }));
-    
+
     // Check if axios.put was called with correct data
     await waitFor(() => {
       expect(axios.put).toHaveBeenCalledWith(
@@ -103,7 +103,7 @@ describe('EditAccount Component', () => {
 
     // Submit form
     fireEvent.click(screen.getByRole('button', { name: /Update Account/i }));
-    
+
     // Check for success message
     await waitFor(() => {
       expect(screen.getByText(/Account updated successfully/i)).toBeInTheDocument();
@@ -128,7 +128,7 @@ describe('EditAccount Component', () => {
 
     // Submit form
     fireEvent.click(screen.getByRole('button', { name: /Update Account/i }));
-    
+
     // Check for error message
     await waitFor(() => {
       expect(screen.getByText(/Failed to update account/i)).toBeInTheDocument();
@@ -144,15 +144,15 @@ describe('EditAccount Component', () => {
 
     // Clear required fields
     fireEvent.change(screen.getByLabelText(/Name/i), { target: { value: '' } });
-    
+
     // Submit form
     fireEvent.click(screen.getByRole('button', { name: /Update Account/i }));
-    
+
     // Check for validation error
     await waitFor(() => {
       expect(screen.getByText(/Name is required/i)).toBeInTheDocument();
     });
-    
+
     // Verify that axios.put was not called
     expect(axios.put).not.toHaveBeenCalled();
   });

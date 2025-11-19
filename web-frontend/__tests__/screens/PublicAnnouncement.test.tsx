@@ -11,7 +11,7 @@ vi.mock('axios');
 describe('PublicAnnouncement Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     // Mock axios.get to return announcement data
     (axios.get as jest.Mock).mockResolvedValue({
       data: {

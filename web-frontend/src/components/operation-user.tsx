@@ -27,7 +27,7 @@ export const UserModal = ({ isOpen, onOpenChange, defaultValues, mode, toast }: 
   const [name, setName] = useState(defaultValues.name || '');
   const [username, setUsername] = useState(defaultValues.username || '');
   const [password, setPassword] = useState(defaultValues.password || '');
-  
+
   useEffect(() => {
     if (isOpen) {
       setName(defaultValues.name || '');
@@ -39,10 +39,10 @@ export const UserModal = ({ isOpen, onOpenChange, defaultValues, mode, toast }: 
   const handleSubmit = () => {
     // Handle form submission logic here
     console.log("Submitting user data:", { name, username, password });
-    
+
     // Close the modal
     onOpenChange(false);
-    
+
     // Show success toast
     toast({
       title: "Success",
@@ -118,10 +118,10 @@ const UserOperations = () => {
     try {
       const userPhotoName = `users/${currentUser?.id || 'unknown'}/profile.jpg`;
       const downloadURL = await uploadImage(data.photoFile, userPhotoName);
-      
+
       // Use mock function instead of missing context function
       mockUpdateImageList(downloadURL);
-      
+
       toast({
         title: "Success",
         description: "Profile photo uploaded successfully",
@@ -138,12 +138,12 @@ const UserOperations = () => {
   return (
     <div className="p-4">
       <h2 className="text-xl font-bold mb-4">User Operations</h2>
-      
+
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">Upload Profile Photo</label>
-        <input 
-          type="file" 
-          accept="image/*" 
+        <input
+          type="file"
+          accept="image/*"
           onChange={handleFileChange}
           className="block w-full text-sm text-gray-500
             file:mr-4 file:py-2 file:px-4
@@ -153,7 +153,7 @@ const UserOperations = () => {
             hover:file:bg-blue-100"
         />
       </div>
-      
+
       <button
         onClick={() => selectedFile && handleUpload({ photoFile: selectedFile })}
         disabled={!selectedFile}

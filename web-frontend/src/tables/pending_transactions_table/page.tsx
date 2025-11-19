@@ -1,4 +1,4 @@
- 
+
 import { GLOBAL_VARIABLES } from "@/global/globalVariables";
 import { columns } from "./columns";
 

@@ -575,4 +575,3 @@ resource "aws_cloudwatch_metric_alarm" "waf_rate_limit_triggered" {
     Environment = var.environment
   })
 }
-

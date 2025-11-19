@@ -33,7 +33,7 @@ export const columns: ColumnDef<PendingTransaction>[] = [
         header: "Vote",
         cell: ({ row }) => {
             let choiceCode: string = row.getValue("choiceCode");
-            
+
             if (typeof choiceCode === 'string') {
                 choiceCode = choiceCode === '-' ? '' : choiceCode;
                 return (<span>{choiceCode.substring(0, ("000000000").length)}...</span>);

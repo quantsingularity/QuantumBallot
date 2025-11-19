@@ -1,11 +1,11 @@
- 
+
 import fs from "fs";
 import path from "path";
 import OpenAI from "openai";
 //import 'dotenv/config';
 
 export default async function textToSpeech(str) {
-  
+
     const body = {
       organization: process.env.ORGANIZATION,
       project: process.env.PROJECT_ID,
@@ -15,7 +15,7 @@ export default async function textToSpeech(str) {
 
     const speechFile = path.resolve("src/sounds/speech.mp3");
     const openai = new OpenAI(body);
-    
+
     const mp3 = await openai.audio.speech.create({
       model: "tts-1",
       voice: "alloy",

@@ -156,7 +156,7 @@ describe('PopulationData Component', () => {
 });
 vi.mock('@/context/AuthContext', () => ({
     useAuth: () => ({
-        updateImages: vi.fn(), // 
+        updateImages: vi.fn(), //
     }),
 }));
 describe('Users component', () => {

@@ -24,10 +24,10 @@ vi.mock('@/tables/transactions_block_details/page', () => ({
 describe('BlockchainDetails Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     // Mock useParams to return a blockId
     (useParams as jest.Mock).mockReturnValue({ blockId: '123' });
-    
+
     // Mock axios.get to return block data
     (axios.get as jest.Mock).mockResolvedValue({
       data: {

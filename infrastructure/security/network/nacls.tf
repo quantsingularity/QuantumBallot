@@ -73,7 +73,7 @@ resource "aws_network_acl_rule" "public_inbound_http" {
 
 resource "aws_network_acl_rule" "public_inbound_ssh_admin" {
   count = length(var.allowed_ssh_cidrs)
-  
+
   network_acl_id = aws_network_acl.public.id
   rule_number    = 120 + count.index
   protocol       = "tcp"
@@ -334,7 +334,7 @@ resource "aws_network_acl_rule" "private_db_outbound_ephemeral" {
 # Inbound rules for isolated management subnets
 resource "aws_network_acl_rule" "isolated_mgmt_inbound_ssh" {
   count = length(var.allowed_ssh_cidrs)
-  
+
   network_acl_id = aws_network_acl.isolated_mgmt.id
   rule_number    = 100 + count.index
   protocol       = "tcp"
@@ -356,7 +356,7 @@ resource "aws_network_acl_rule" "isolated_mgmt_inbound_monitoring" {
 
 resource "aws_network_acl_rule" "isolated_mgmt_inbound_grafana" {
   count = length(var.monitoring_access_cidrs)
-  
+
   network_acl_id = aws_network_acl.isolated_mgmt.id
   rule_number    = 130 + count.index
   protocol       = "tcp"
@@ -468,4 +468,3 @@ resource "aws_network_acl_rule" "deny_smtp_inbound" {
   from_port      = 25  # SMTP
   to_port        = 25
 }
-

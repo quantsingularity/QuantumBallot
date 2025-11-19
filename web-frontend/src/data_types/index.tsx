@@ -132,7 +132,7 @@ export interface Results {
     votesPerProvince: any,
     averageTimePerVote: number, // minutes / vote
     averageVotePerProvince: number, // votes / province
-    votesPerDay: any, // 
+    votesPerDay: any, //
     votesPerParty: any
 }
 
@@ -160,7 +160,7 @@ export interface Results {
     votesPerProvince: any,
     averageTimePerVote: number, // minutes / vote
     averageVotePerProvince: number, // votes / province
-    votesPerDay: any, // 
+    votesPerDay: any, //
     votesPerParty: any
 }
 
@@ -187,6 +187,6 @@ export interface Results {
     votesPerProvince: any,
     averageTimePerVote: number, // minutes / vote
     averageVotePerProvince: number, // votes / province
-    votesPerDay: any, // 
+    votesPerDay: any, //
     votesPerParty: any
 }

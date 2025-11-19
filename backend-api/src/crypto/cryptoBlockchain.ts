@@ -47,7 +47,7 @@ class CryptoBlockchain {
     // Use the key to decrypt data.
     public decryptData(encryptedData): string {
         // console.log("EncryptedData: ", encryptedData);
-        
+
         let IV = Buffer.from(encryptedData.IV, 'hex');
         let encryptedText = Buffer.from(encryptedData.CIPHER_TEXT, 'hex');
         let decipher = crypto.createDecipheriv(this.algorithm, Buffer.from(this.KEY), IV);

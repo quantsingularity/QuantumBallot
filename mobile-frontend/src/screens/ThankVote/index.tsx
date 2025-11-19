@@ -27,7 +27,7 @@ export default function ThankVote() {
       <StatusBar barStyle="dark-content" />
       <Text style={styles.title}>Thank You!</Text>
       <Text style={styles.subtitle}>Your vote has been recorded</Text>
-      
+
       <View style={styles.card}>
         <Text style={styles.cardTitle}>Transaction Details</Text>
         <Text style={styles.label}>Transaction ID:</Text>
@@ -38,11 +38,11 @@ export default function ThankVote() {
           </TouchableOpacity>
         </View>
         <Text style={styles.info}>
-          Your vote has been securely recorded on the blockchain. You can use this 
+          Your vote has been securely recorded on the blockchain. You can use this
           transaction ID to verify your vote at any time.
         </Text>
       </View>
-      
+
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>Return to Home</Text>
       </TouchableOpacity>

@@ -66,9 +66,9 @@ describe('Dashboard Component', () => {
 
   it('handles data loading state correctly', async () => {
     // Mock a delayed response to test loading state
-    global.fetch.mockImplementationOnce(() => 
-      new Promise(resolve => 
-        setTimeout(() => 
+    global.fetch.mockImplementationOnce(() =>
+      new Promise(resolve =>
+        setTimeout(() =>
           resolve({
             ok: true,
             json: async () => ({
@@ -79,7 +79,7 @@ describe('Dashboard Component', () => {
                 winner: null
               }
             })
-          }), 
+          }),
           100
         )
       )
@@ -129,13 +129,13 @@ describe('Dashboard Component', () => {
     });
 
     // Find and click refresh button if it exists
-    const refreshButton = screen.getByRole('button', { name: /refresh/i }) || 
+    const refreshButton = screen.getByRole('button', { name: /refresh/i }) ||
                           screen.getByRole('button', { name: /update/i }) ||
                           screen.getByRole('button', { name: /reload/i });
-    
+
     if (refreshButton) {
       fireEvent.click(refreshButton);
-      
+
       // Verify fetch was called again
       await waitFor(() => {
         expect(global.fetch).toHaveBeenCalledTimes(2);

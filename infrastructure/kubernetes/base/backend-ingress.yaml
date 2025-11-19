@@ -23,4 +23,3 @@ spec:
   # - hosts:
   #   - chainocracy-dev.example.com # Replace with actual domain
   #   secretName: chainocracy-tls-secret # Secret containing TLS cert
-

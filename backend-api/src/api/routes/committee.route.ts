@@ -157,7 +157,7 @@ router.post('/delete-register', async (req, res) => {
 })
 
 router.post('/register-voter', async (req, res) => {
-   let data = req.body;   
+   let data = req.body;
    if (!data.electoralId || !data.name || !data.email || !data.address || !data.province || !data.password) return res.status(400).json({ note: "Rejected." });
 
    try {
@@ -264,7 +264,7 @@ router.post('/verify-otp', verifyJWT, async (req, res) => {
    const data = req.body;
 
    if (!data.email || !data.token || !data.otpCode) return res.status(400).json({ note: "Rejected. Email is required." }); // Changed status code to 400 for client errors
-   
+
    // Lets pretend for a while that all the requests are good, just for testing purpose ...
 
    try {
@@ -274,9 +274,9 @@ router.post('/verify-otp', verifyJWT, async (req, res) => {
       const citizen = committee.getCitizens().find(x => x.email.localeCompare(email) === 0);
 
       console.log("Verify-OTP: ", citizen);
-      
+
       if (!citizen) return res.status(404).json({ note: "Rejected. Citizen not found." }); // Return 404 if citizen not found
-      
+
       const ans = committee.verifyOtp(citizen.otp.base32, otpCode);
       console.log("OTP Valid? => ", ans);
 
@@ -362,7 +362,7 @@ router.post('/auth-web', async (req, res) => {
 
       await committee.updateTokenUser(username, refreshToken)
 
-      res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'Strict', secure: false, maxAge: 24 * 60 * 60 * 1000 }); // Let's set secure: false for now. 
+      res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'Strict', secure: false, maxAge: 24 * 60 * 60 * 1000 }); // Let's set secure: false for now.
 
       if (ans !== null) {
          return res.status(201).send({ accessToken: accessToken, refreshToken: refreshToken, username: username, name: ans.name, role: ans.role });
@@ -388,7 +388,7 @@ router.get('/refresh-token', verifyJWT, (req, res) => {
       const refreshToken = cookies.jwt;
 
       const foundUser = committee.getCitizens().find(x => x.refreshToken.localeCompare(refreshToken) === 0);
-      if (!foundUser) return res.sendStatus(403); //Forbidden 
+      if (!foundUser) return res.sendStatus(403); //Forbidden
 
       return jwt.verify(
          refreshToken,
@@ -426,9 +426,9 @@ router.get('/refresh-token-web', async (req, res) => {
       const refreshToken = cookies.jwt;
       const foundUser = committee.getUsers().find(x => x.refreshToken === refreshToken);
 
-      if (!foundUser) return res.sendStatus(403); //Forbidden 
+      if (!foundUser) return res.sendStatus(403); //Forbidden
 
-      // Evaluate jwt 
+      // Evaluate jwt
       return jwt.verify(
          refreshToken,
          process.env.REFRESH_TOKEN_SECRET,
@@ -460,7 +460,7 @@ router.get('/refresh-token-web', async (req, res) => {
          }
       );
    } catch (error) {
-      return res.sendStatus(500); //Forbidden 
+      return res.sendStatus(500); //Forbidden
    }
 })
 

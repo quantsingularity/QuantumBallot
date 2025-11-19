@@ -1,9 +1,9 @@
 #!/bin/bash
 # setup_environment.sh
-# 
+#
 # This script automates the setup of the development environment for Chainocracy project
 # It installs all necessary dependencies and configures the environment for all components
-# 
+#
 # Usage: ./setup_environment.sh [--component <component>]
 # Options:
 #   --component: Specify which component to set up (backend, web, mobile, all). Default: all
@@ -44,7 +44,7 @@ command_exists() {
 # Function to install system dependencies
 install_system_dependencies() {
     section "Installing System Dependencies"
-    
+
     if command_exists apt-get; then
         echo "Detected Debian/Ubuntu system"
         sudo apt-get update
@@ -61,17 +61,17 @@ install_system_dependencies() {
         echo -e "${YELLOW}Unsupported package manager. Please install dependencies manually.${NC}"
         echo "Required: git, curl, build tools"
     fi
-    
+
     echo -e "${GREEN}System dependencies installed successfully${NC}"
 }
 
 # Function to install Node.js and npm
 install_node() {
     section "Installing Node.js and npm"
-    
+
     if ! command_exists node || ! command_exists npm; then
         echo "Installing Node.js and npm..."
-        
+
         if command_exists apt-get; then
             curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
             sudo apt-get install -y nodejs
@@ -88,7 +88,7 @@ install_node() {
     else
         echo "Node.js is already installed"
     fi
-    
+
     # Verify installation
     NODE_VERSION=$(node -v)
     NPM_VERSION=$(npm -v)
@@ -99,14 +99,14 @@ install_node() {
 # Function to install Expo CLI for mobile development
 install_expo() {
     section "Installing Expo CLI"
-    
+
     if ! command_exists expo; then
         echo "Installing Expo CLI..."
         npm install -g expo-cli
     else
         echo "Expo CLI is already installed"
     fi
-    
+
     EXPO_VERSION=$(expo --version 2>/dev/null || echo "Unknown")
     echo -e "Expo CLI version: ${GREEN}$EXPO_VERSION${NC}"
 }
@@ -114,22 +114,22 @@ install_expo() {
 # Function to set up backend environment
 setup_backend() {
     section "Setting up Backend Environment"
-    
+
     if [ -d "backend-api" ]; then
         echo "Setting up backend environment..."
         cd backend-api
-        
+
         # Install dependencies
         echo "Installing backend dependencies..."
         npm install
-        
+
         # Set up environment variables
         if [ -f ".env.example" ] && [ ! -f ".env" ]; then
             echo "Creating .env file from example..."
             cp .env.example .env
             echo -e "${YELLOW}Please edit .env file with your configuration${NC}"
         fi
-        
+
         echo -e "${GREEN}Backend environment setup complete${NC}"
         cd "$PROJECT_ROOT"
     else
@@ -140,22 +140,22 @@ setup_backend() {
 # Function to set up web frontend environment
 setup_web_frontend() {
     section "Setting up Web Frontend Environment"
-    
+
     if [ -d "web-frontend" ]; then
         echo "Setting up web frontend environment..."
         cd web-frontend
-        
+
         # Install dependencies
         echo "Installing web frontend dependencies..."
         npm install
-        
+
         # Set up environment variables
         if [ -f ".env.example" ] && [ ! -f ".env" ]; then
             echo "Creating .env file from example..."
             cp .env.example .env
             echo -e "${YELLOW}Please edit .env file with your configuration${NC}"
         fi
-        
+
         echo -e "${GREEN}Web frontend environment setup complete${NC}"
         cd "$PROJECT_ROOT"
     else
@@ -166,22 +166,22 @@ setup_web_frontend() {
 # Function to set up mobile frontend environment
 setup_mobile_frontend() {
     section "Setting up Mobile Frontend Environment"
-    
+
     if [ -d "mobile-frontend" ]; then
         echo "Setting up mobile frontend environment..."
         cd mobile-frontend
-        
+
         # Install dependencies
         echo "Installing mobile frontend dependencies..."
         npm install
-        
+
         # Set up environment variables
         if [ -f ".env.example" ] && [ ! -f ".env" ]; then
             echo "Creating .env file from example..."
             cp .env.example .env
             echo -e "${YELLOW}Please edit .env file with your configuration${NC}"
         fi
-        
+
         echo -e "${GREEN}Mobile frontend environment setup complete${NC}"
         cd "$PROJECT_ROOT"
     else
@@ -193,11 +193,11 @@ setup_mobile_frontend() {
 main() {
     section "Chainocracy Environment Setup"
     echo "Setting up environment for component: $COMPONENT"
-    
+
     # Install common dependencies
     install_system_dependencies
     install_node
-    
+
     # Set up components based on selection
     case $COMPONENT in
         "backend")
@@ -222,7 +222,7 @@ main() {
             exit 1
             ;;
     esac
-    
+
     section "Setup Complete"
     echo -e "${GREEN}Chainocracy environment setup completed successfully!${NC}"
 }

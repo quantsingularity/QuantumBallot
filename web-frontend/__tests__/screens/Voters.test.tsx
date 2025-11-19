@@ -20,7 +20,7 @@ vi.mock('axios');
 describe('Voters Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     // Mock axios.get to return voters data
     (axios.get as jest.Mock).mockResolvedValue({
       data: {

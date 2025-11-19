@@ -11,12 +11,12 @@ export const UltimateSpeech = async (results) => {
     const str = `
         Ladies and gentlemen,
         Thank you for gathering here today as we announce the results of this closely-watched election. After a thorough and diligent process, we have now counted all the votes. I am honored to share the final results with you.
-        
+
         The voting period started on ${new Date(results.startTime).toLocaleDateString()} and concluded on ${new Date(results.endTime).toLocaleDateString()}. During this time, we witnessed robust participation across our provinces, reflecting the democratic spirit of our people.
         Out of the ${results.expectedTotalVotes} expected votes, we received a total of ${results.totalVotesReceived} votes, ensuring a complete and transparent count. The candidates who are competing for your support were ${results.candidatesResult.map(cr => cr.candidate.name).join(', ')}.
 
         The winner of this election, with a significant majority of ${winnerResult.numVotes} votes, is ${results.winner.name} from ${results.winner.party}. Congratulations, ${results.winner.name}, on this remarkable victory. Your verified status and overwhelming support clearly demonstrate the trust and confidence the voters have placed in you.
-        
+
         ${results.candidatesResult.filter(x => x.candidate.name !== winnerResult.candidate.name).map(cr => `${cr.candidate.name} from ${cr.candidate.party} received ${cr.percentage}% of the votes, totaling ${cr.numVotes} vote${cr.numVotes > 1 ? 's' : ''}.`).join(' ')}
 
         This election not only highlights the winning candidate but also emphasizes the importance of each vote and the collective voice of our electorate. We thank all the candidates for their participation and dedication, and we extend our gratitude to the voters who exercised their democratic rights.

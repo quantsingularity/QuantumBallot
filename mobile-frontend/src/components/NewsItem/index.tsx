@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         height: 100,
         marginBottom: 10
-    }, 
+    },
     background: {
         position: 'absolute',
         left: 0,

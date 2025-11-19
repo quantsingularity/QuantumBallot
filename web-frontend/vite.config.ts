@@ -25,10 +25,10 @@ export default defineConfig({
     assetsDir: 'assets',
     cssCodeSplit: true,
     reportCompressedSize: false,
-    esbuild: { 
-      logOverride: { 
-        'this-is-undefined-in-esm': 'silent' 
-      } 
+    esbuild: {
+      logOverride: {
+        'this-is-undefined-in-esm': 'silent'
+      }
     }
   },
   resolve: {

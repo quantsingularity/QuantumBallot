@@ -106,13 +106,13 @@ export default function VerticalBars() {
                     NumberOfVotes: numberOfVotes
                 };
             });
-                    
+
             setDataset(val);
         }
 
     }, [topVotesPerProvinces]);
 
-    if (topVotesPerProvinces === undefined) 
+    if (topVotesPerProvinces === undefined)
         return (
             <div>Loading ...</div>
         );

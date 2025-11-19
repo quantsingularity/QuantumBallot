@@ -56,14 +56,14 @@ section() {
 deploy_backend() {
     local env=$1
     section "Deploying Backend to $env"
-    
+
     if [ -d "backend-api" ]; then
         cd backend-api
-        
+
         # Build for production
         echo "Building backend for deployment..."
         npm run build
-        
+
         # Deploy based on environment
         case $env in
             "dev")
@@ -82,7 +82,7 @@ deploy_backend() {
                 echo -e "${GREEN}Backend deployed to production environment${NC}"
                 ;;
         esac
-        
+
         cd "$PROJECT_ROOT"
     else
         echo -e "${RED}Backend directory not found${NC}"
@@ -94,14 +94,14 @@ deploy_backend() {
 deploy_web() {
     local env=$1
     section "Deploying Web Frontend to $env"
-    
+
     if [ -d "web-frontend" ]; then
         cd web-frontend
-        
+
         # Build for production
         echo "Building web frontend for deployment..."
         npm run build
-        
+
         # Deploy based on environment
         case $env in
             "dev")
@@ -120,7 +120,7 @@ deploy_web() {
                 echo -e "${GREEN}Web frontend deployed to production environment${NC}"
                 ;;
         esac
-        
+
         cd "$PROJECT_ROOT"
     else
         echo -e "${RED}Web frontend directory not found${NC}"
@@ -132,10 +132,10 @@ deploy_web() {
 deploy_mobile() {
     local env=$1
     section "Deploying Mobile Frontend to $env"
-    
+
     if [ -d "mobile-frontend" ]; then
         cd mobile-frontend
-        
+
         # Build for the specified environment
         case $env in
             "dev")
@@ -157,11 +157,11 @@ deploy_mobile() {
                 echo -e "${GREEN}Mobile app built for production environment${NC}"
                 ;;
         esac
-        
+
         echo -e "${YELLOW}Mobile app deployment requires manual steps:${NC}"
         echo "1. Download the built app from Expo"
         echo "2. Submit to Google Play Store and/or Apple App Store"
-        
+
         cd "$PROJECT_ROOT"
     else
         echo -e "${RED}Mobile frontend directory not found${NC}"

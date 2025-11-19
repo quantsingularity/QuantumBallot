@@ -68,4 +68,3 @@ export default class LineChartDemo extends PureComponent {
     );
   }
 }
-  

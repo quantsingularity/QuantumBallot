@@ -35,7 +35,7 @@ describe('Axios API Client', () => {
     });
 
     const response = await axios.get('/test-endpoint');
-    
+
     expect(mockAxios.get).toHaveBeenCalledWith('/test-endpoint');
     expect(response.status).toBe(200);
     expect(response.data).toEqual({ success: true });
@@ -49,7 +49,7 @@ describe('Axios API Client', () => {
 
     const data = { name: 'Test', value: 123 };
     const response = await axios.post('/test-endpoint', data);
-    
+
     expect(mockAxios.post).toHaveBeenCalledWith('/test-endpoint', data);
     expect(response.status).toBe(201);
     expect(response.data).toEqual({ id: 1, success: true });

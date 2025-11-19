@@ -593,4 +593,3 @@ resource "aws_kms_grant" "backup_grant" {
     }
   }
 }
-

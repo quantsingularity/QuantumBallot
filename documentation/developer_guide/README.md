@@ -156,7 +156,7 @@ describe('Authentication API', () => {
         email: 'test@example.com',
         password: 'password123'
       });
-    
+
     expect(response.status).toBe(200);
     expect(response.body).toHaveProperty('token');
   });
@@ -182,17 +182,17 @@ describe('LoginForm', () => {
   it('should call onSubmit with email and password when form is submitted', async () => {
     const onSubmit = jest.fn();
     render(<LoginForm onSubmit={onSubmit} />);
-    
+
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: 'test@example.com' }
     });
-    
+
     fireEvent.change(screen.getByLabelText(/password/i), {
       target: { value: 'password123' }
     });
-    
+
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
-    
+
     expect(onSubmit).toHaveBeenCalledWith({
       email: 'test@example.com',
       password: 'password123'
@@ -223,11 +223,11 @@ describe('LoginScreen', () => {
     const { getByPlaceholderText, getByText } = render(
       <LoginScreen login={loginMock} />
     );
-    
+
     fireEvent.changeText(getByPlaceholderText('Email'), 'test@example.com');
     fireEvent.changeText(getByPlaceholderText('Password'), 'password123');
     fireEvent.press(getByText('Login'));
-    
+
     expect(loginMock).toHaveBeenCalledWith('test@example.com', 'password123');
   });
 });
@@ -288,12 +288,12 @@ export interface CustomTransaction extends BaseTransaction {
 ```typescript
 export function validateTransaction(transaction: Transaction): boolean {
   // Existing validation logic
-  
+
   if (transaction.type === 'CUSTOM_TYPE') {
     // Custom validation logic
     return validateCustomTransaction(transaction as CustomTransaction);
   }
-  
+
   return true;
 }
 
@@ -308,7 +308,7 @@ function validateCustomTransaction(transaction: CustomTransaction): boolean {
 ```typescript
 private processTransaction(transaction: Transaction): void {
   // Existing processing logic
-  
+
   if (transaction.type === 'CUSTOM_TYPE') {
     // Custom processing logic
     this.processCustomTransaction(transaction as CustomTransaction);
@@ -389,11 +389,11 @@ import { Request, Response, NextFunction } from 'express';
 
 export function customMiddleware(req: Request, res: Response, next: NextFunction): void {
   // Middleware logic
-  
+
   if (/* condition */) {
     return res.status(400).json({ error: 'Error message' });
   }
-  
+
   // If everything is okay, proceed to the next middleware/route handler
   next();
 }
@@ -470,7 +470,7 @@ const AppContext = createContext<AppContextType | undefined>(undefined);
 
 export function AppProvider({ children }: { children: React.ReactNode }): React.ReactElement {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  
+
   return (
     <AppContext.Provider value={{ theme, setTheme }}>
       {children}
@@ -506,7 +506,7 @@ export function useElections() {
 // Mutate data
 export function useCreateElection() {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: (election) => api.post('/elections', election).then(res => res.data),
     onSuccess: () => {
@@ -601,29 +601,29 @@ import { Camera } from 'expo-camera';
 export function CameraScreen(): React.ReactElement {
   const [hasPermission, setHasPermission] = useState<boolean | null>(null);
   const [camera, setCamera] = useState<Camera | null>(null);
-  
+
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
       setHasPermission(status === 'granted');
     })();
   }, []);
-  
+
   const takePicture = async () => {
     if (camera) {
       const photo = await camera.takePictureAsync();
       console.log(photo);
     }
   };
-  
+
   if (hasPermission === null) {
     return <View />;
   }
-  
+
   if (hasPermission === false) {
     return <Text>No access to camera</Text>;
   }
-  
+
   return (
     <View style={styles.container}>
       <Camera

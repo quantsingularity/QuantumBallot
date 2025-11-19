@@ -34,4 +34,3 @@ env=prod
 [frontend_servers:children]
 # dev_servers # Assuming frontend runs on these dev servers if using EC2
 # prod_servers # Assuming frontend runs on these prod servers if using EC2
-

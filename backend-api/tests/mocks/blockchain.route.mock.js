@@ -36,39 +36,39 @@ router.get('/pending-transactions', (req, res) => {
 
 router.get('/block/:blockHash', (req, res) => {
   const block = blockchain.getBlockDetails(req.params.blockHash);
-  
+
   if (!block) {
     return res.status(404).json({ message: 'Block not found' });
   }
-  
+
   res.json(block);
 });
 
 router.post('/mine', (req, res) => {
   const block = blockchain.mineBlock();
-  
+
   if (!block) {
     return res.status(400).json({ message: 'Mining failed' });
   }
-  
+
   res.status(201).json(block);
 });
 
 router.post('/add-transaction', (req, res) => {
   const { identifier, electoralId, electoralIdIV, choiceCode, choiceCodeIV, secret } = req.body;
-  
+
   if (!identifier || !electoralId || !electoralIdIV || !choiceCode || !choiceCodeIV || !secret) {
     return res.status(400).json({ message: 'Missing required fields' });
   }
-  
+
   const transaction = blockchain.addPendingTransaction(
     identifier, electoralId, electoralIdIV, choiceCode, choiceCodeIV, secret
   );
-  
+
   if (!transaction) {
     return res.status(400).json({ message: 'Invalid transaction' });
   }
-  
+
   res.status(201).json(transaction);
 });
 
@@ -99,11 +99,11 @@ router.delete('/clear-chains', async (req, res) => {
 
 router.get('/citizen-identifier/:electoralId', async (req, res) => {
   const identifier = await blockchain.getCitizenRelatedIdentifier(req.params.electoralId);
-  
+
   if (!identifier) {
     return res.status(404).json({ message: 'Identifier not found' });
   }
-  
+
   res.json({ identifier });
 });
 

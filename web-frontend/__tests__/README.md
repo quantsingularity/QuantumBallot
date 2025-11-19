@@ -7,7 +7,7 @@ This document provides comprehensive information about the test suite implemente
 - **Framework**: React with TypeScript
 - **Build Tool**: Vite
 - **Testing Framework**: Vitest
-- **Testing Libraries**: 
+- **Testing Libraries**:
   - React Testing Library
   - Jest DOM (for DOM assertions)
   - User Event (for simulating user interactions)

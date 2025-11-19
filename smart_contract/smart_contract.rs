@@ -1,4 +1,4 @@
-#![allow(warnings)] 
+#![allow(warnings)]
 
 use std::fmt;
 use std::env;
@@ -10,7 +10,7 @@ use reqwest::Error;
 
 #[derive(Clone)]
 #[derive(Debug)]
-#[derive(Deserialize)] 
+#[derive(Deserialize)]
 struct Candidate {
     name: String,
     num_votes: u64,
@@ -19,7 +19,7 @@ struct Candidate {
 
 #[derive(Clone)]
 #[derive(Debug)]
-#[derive(Deserialize)] 
+#[derive(Deserialize)]
 struct Voter {
     identifier: String,
     choice_code: u64,
@@ -218,7 +218,7 @@ fn load_data() {
     let file_url = "test-immutable-file.txt";
     let file_git = "https://github.com/CodeTyperPro/rust-getting-started/blob/main/smart-contract/file_candidates.txt";
     use rusty_leveldb::{DB, DBIterator, LdbIterator, Options};
-    
+
     let mut opt = Options::default();
     opt.create_if_missing = true;
 
@@ -238,7 +238,7 @@ fn load_data() {
 
 #[tokio::main]
 async fn main() {
-    
+
     let mut state: ElectionState = ElectionState::Announced;
     let mut hash_voters: HashMap<String, u64> = HashMap::new();
     let mut array_voters: Vec<Voter> = Vec::new();

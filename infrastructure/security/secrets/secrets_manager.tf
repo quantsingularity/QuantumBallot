@@ -474,4 +474,3 @@ resource "aws_iam_policy" "secret_access" {
     Environment = var.environment
   })
 }
-

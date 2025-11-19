@@ -579,4 +579,3 @@ resource "aws_iam_instance_profile" "application" {
     Environment = var.environment
   })
 }
-

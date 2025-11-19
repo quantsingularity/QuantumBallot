@@ -13,7 +13,7 @@ networks:
       com.docker.network.bridge.name: chainocracy-br0
       com.docker.network.bridge.enable_icc: "false"
       com.docker.network.bridge.enable_ip_masquerade: "true"
-  
+
   monitoring-network:
     driver: bridge
     ipam:
@@ -29,21 +29,21 @@ volumes:
       type: none
       o: bind
       device: ${PWD}/data/postgres
-  
+
   redis-data:
     driver: local
     driver_opts:
       type: none
       o: bind
       device: ${PWD}/data/redis
-  
+
   prometheus-data:
     driver: local
     driver_opts:
       type: none
       o: bind
       device: ${PWD}/data/prometheus
-  
+
   grafana-data:
     driver: local
     driver_opts:
@@ -447,4 +447,3 @@ services:
         max-size: "10m"
         max-file: "3"
         labels: "service=fluentd,environment=${ENVIRONMENT:-development}"
-

@@ -197,4 +197,3 @@ CMD ["node", "--max-old-space-size=512", "--no-warnings", "build/network.js"]
 # Security scan instructions
 # RUN trivy filesystem --exit-code 1 --no-progress --severity HIGH,CRITICAL .
 # RUN grype . --fail-on high
-

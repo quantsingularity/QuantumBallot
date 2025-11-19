@@ -23,4 +23,3 @@ variable "backend_api_url" {
 }
 
 # Add other variables as needed, e.g., for WAF, logging configuration, etc.
-

@@ -18,7 +18,7 @@ const ElectionResults = () => {
         { id: "2", name: "Jane Smith", party: "Progressive", votes: 980, percentage: 33.3 },
         { id: "3", name: "Bob Johnson", party: "Conservative", votes: 710, percentage: 24.2 },
       ];
-      
+
       setTimeout(() => {
         setResults(mockResults);
         setIsLoading(false);
@@ -34,7 +34,7 @@ const ElectionResults = () => {
   return (
     <div className="container mx-auto py-10">
       <h1 className="text-3xl font-bold mb-6">Election Results</h1>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
         <Card>
           <CardHeader>
@@ -51,7 +51,7 @@ const ElectionResults = () => {
             )}
           </CardContent>
         </Card>
-        
+
         <Card>
           <CardHeader>
             <CardTitle>Vote Distribution</CardTitle>
@@ -88,7 +88,7 @@ const ElectionResults = () => {
           </CardContent>
         </Card>
       </div>
-      
+
       <Card>
         <CardHeader>
           <CardTitle>Election Summary</CardTitle>
@@ -103,7 +103,7 @@ const ElectionResults = () => {
                 Total votes cast: {results.reduce((sum, candidate) => sum + (candidate.votes || 0), 0)}
               </p>
               <p>
-                Winner: {results.sort((a, b) => (b.votes || 0) - (a.votes || 0))[0]?.name} 
+                Winner: {results.sort((a, b) => (b.votes || 0) - (a.votes || 0))[0]?.name}
                 ({results.sort((a, b) => (b.votes || 0) - (a.votes || 0))[0]?.party})
               </p>
               <p>

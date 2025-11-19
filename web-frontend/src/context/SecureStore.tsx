@@ -1,4 +1,4 @@
- 
+
 import * as CryptoJS from 'crypto-js';
 
 const SECRET_KEY_TOKEN: string = import.meta.env.SECRET_KEY_TOKEN ?? "";

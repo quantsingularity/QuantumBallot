@@ -18,7 +18,7 @@ type EditVoterModalProps = {
 export default function RevealModal({ isOpen, onOpenChange }: EditVoterModalProps) {
     // Removing unused function
     // const revealVoter = () => {
-    //    
+    //
     // }
 
     return (

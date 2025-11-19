@@ -22,7 +22,7 @@ describe('NoPage Component', () => {
 
   it('renders 404 page with error message', () => {
     mockAuthContext.isLoggedIn.mockReturnValue(true);
-    
+
     render(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthContext}>
@@ -37,7 +37,7 @@ describe('NoPage Component', () => {
 
   it('displays return to home button', () => {
     mockAuthContext.isLoggedIn.mockReturnValue(true);
-    
+
     render(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthContext}>
@@ -52,7 +52,7 @@ describe('NoPage Component', () => {
 
   it('navigates to home page when button is clicked', () => {
     mockAuthContext.isLoggedIn.mockReturnValue(true);
-    
+
     // Mock useNavigate
     const mockNavigate = vi.fn();
     vi.mock('react-router-dom', async () => {
@@ -62,7 +62,7 @@ describe('NoPage Component', () => {
         useNavigate: () => mockNavigate
       };
     });
-    
+
     render(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthContext}>
@@ -73,7 +73,7 @@ describe('NoPage Component', () => {
 
     const homeButton = screen.getByRole('button', { name: /Return to Home/i });
     fireEvent.click(homeButton);
-    
+
     expect(mockNavigate).toHaveBeenCalledWith('/');
   });
 });

@@ -32,10 +32,10 @@ describe('CandidateDetails Component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     // Mock useParams to return a candidateId
     (useParams as jest.Mock).mockReturnValue({ candidateId: '123' });
-    
+
     // Mock axios.get to return candidate data
     (axios.get as jest.Mock).mockResolvedValue({
       data: {

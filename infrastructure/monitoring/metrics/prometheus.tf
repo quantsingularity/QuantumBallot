@@ -337,7 +337,7 @@ resource "kubernetes_persistent_volume_claim" "prometheus" {
 
   spec {
     access_modes = ["ReadWriteOnce"]
-    
+
     resources {
       requests = {
         storage = var.prometheus_storage_size
@@ -546,7 +546,7 @@ resource "kubernetes_persistent_volume_claim" "grafana" {
 
   spec {
     access_modes = ["ReadWriteOnce"]
-    
+
     resources {
       requests = {
         storage = var.grafana_storage_size
@@ -728,7 +728,7 @@ resource "kubernetes_persistent_volume_claim" "alertmanager" {
 
   spec {
     access_modes = ["ReadWriteOnce"]
-    
+
     resources {
       requests = {
         storage = var.alertmanager_storage_size
@@ -768,4 +768,3 @@ resource "kubernetes_service" "alertmanager" {
 
   depends_on = [kubernetes_deployment.alertmanager]
 }
-

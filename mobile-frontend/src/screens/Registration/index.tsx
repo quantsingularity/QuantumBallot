@@ -41,26 +41,26 @@ export default function Registration() {
       Alert.alert('Error', 'Please fill in all fields');
       return false;
     }
-    
+
     if (password !== confirmPassword) {
       Alert.alert('Error', 'Passwords do not match');
       return false;
     }
-    
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       Alert.alert('Error', 'Please enter a valid email address');
       return false;
     }
-    
+
     return true;
   };
 
   const handleRegistration = async () => {
     if (!validateForm()) return;
-    
+
     setIsLoading(true);
-    
+
     try {
       const response = await api.post('/auth/register', {
         name,
@@ -69,21 +69,21 @@ export default function Registration() {
         address,
         province
       });
-      
+
       if (response.status === 201) {
         Alert.alert(
-          'Success', 
+          'Success',
           'Registration successful. Please check your email for verification.',
           [{ text: 'OK', onPress: () => navigation.navigate('Login' as never) }]
         );
       }
     } catch (error) {
-      const message = error instanceof Error && 'response' in error && 
-        typeof error.response === 'object' && error.response !== null && 
-        'data' in error.response && typeof error.response.data === 'object' && 
-        error.response.data !== null && 'message' in error.response.data && 
-        typeof error.response.data.message === 'string' 
-        ? error.response.data.message 
+      const message = error instanceof Error && 'response' in error &&
+        typeof error.response === 'object' && error.response !== null &&
+        'data' in error.response && typeof error.response.data === 'object' &&
+        error.response.data !== null && 'message' in error.response.data &&
+        typeof error.response.data.message === 'string'
+        ? error.response.data.message
         : 'Registration failed. Please try again.';
       Alert.alert('Error', message);
     } finally {
@@ -96,7 +96,7 @@ export default function Registration() {
       <View style={styles.container}>
         <Text style={styles.title}>Create Account</Text>
         <Text style={styles.subtitle}>Join Chainocracy Voting System</Text>
-        
+
         <View style={styles.formContainer}>
           <Text style={styles.label}>Full Name</Text>
           <TextInput
@@ -105,7 +105,7 @@ export default function Registration() {
             value={name}
             onChangeText={setName}
           />
-          
+
           <Text style={styles.label}>Email</Text>
           <TextInput
             style={styles.input}
@@ -115,7 +115,7 @@ export default function Registration() {
             value={email}
             onChangeText={setEmail}
           />
-          
+
           <Text style={styles.label}>Password</Text>
           <TextInput
             style={styles.input}
@@ -124,7 +124,7 @@ export default function Registration() {
             value={password}
             onChangeText={setPassword}
           />
-          
+
           <Text style={styles.label}>Confirm Password</Text>
           <TextInput
             style={styles.input}
@@ -133,7 +133,7 @@ export default function Registration() {
             value={confirmPassword}
             onChangeText={setConfirmPassword}
           />
-          
+
           <Text style={styles.label}>Address</Text>
           <TextInput
             style={styles.input}
@@ -141,7 +141,7 @@ export default function Registration() {
             value={address}
             onChangeText={setAddress}
           />
-          
+
           <Text style={styles.label}>Province</Text>
           <View style={styles.pickerContainer}>
             <Picker
@@ -155,8 +155,8 @@ export default function Registration() {
               ))}
             </Picker>
           </View>
-          
-          <TouchableOpacity 
+
+          <TouchableOpacity
             style={[styles.button, isLoading && styles.buttonDisabled]}
             onPress={handleRegistration}
             disabled={isLoading}
@@ -165,7 +165,7 @@ export default function Registration() {
               {isLoading ? 'Registering...' : 'Register'}
             </Text>
           </TouchableOpacity>
-          
+
           <View style={styles.loginContainer}>
             <Text style={styles.loginText}>Already have an account?</Text>
             <TouchableOpacity onPress={() => navigation.navigate('Login' as never)}>

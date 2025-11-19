@@ -162,7 +162,7 @@ func TestTerraformIAMModule(t *testing.T) {
 
 		// Get attached policies
 		policies := aws.GetIamRolePolicies(t, roleName)
-		
+
 		// Verify no admin policies are attached
 		for _, policy := range policies {
 			assert.NotContains(t, policy, "AdministratorAccess", "Role should not have admin access")
@@ -174,7 +174,7 @@ func TestTerraformIAMModule(t *testing.T) {
 	t.Run("External_ID_Security", func(t *testing.T) {
 		auditRoleArn := terraform.Output(t, terraformOptions, "security_audit_role_arn")
 		roleName := extractRoleNameFromArn(auditRoleArn)
-		
+
 		role := aws.GetIamRole(t, roleName)
 		assert.Contains(t, role.AssumeRolePolicyDocument, "sts:ExternalId", "Audit role should require external ID")
 	})
@@ -223,7 +223,7 @@ func TestKubernetesDeployment(t *testing.T) {
 		for _, container := range containers {
 			assert.NotNil(t, container.Resources.Limits, "Resource limits should be defined")
 			assert.NotNil(t, container.Resources.Requests, "Resource requests should be defined")
-			
+
 			// Verify CPU and memory limits are set
 			assert.NotEmpty(t, container.Resources.Limits.Cpu(), "CPU limit should be set")
 			assert.NotEmpty(t, container.Resources.Limits.Memory(), "Memory limit should be set")
@@ -281,7 +281,7 @@ func TestDockerSecurity(t *testing.T) {
 		defer docker.RemoveImage(t, "chainocracy-frontend:test")
 
 		imageInfo := docker.Inspect(t, "chainocracy-frontend:test")
-		
+
 		// Verify Nginx security configuration
 		assert.Equal(t, "1001", imageInfo.Config.User, "Frontend should run as non-root user")
 		assert.Contains(t, imageInfo.Config.ExposedPorts, "8080/tcp", "Should expose non-privileged port")
@@ -294,7 +294,7 @@ func TestEndToEndSecurity(t *testing.T) {
 
 	// This would typically test a deployed environment
 	baseURL := "https://test.chainocracy.com"
-	
+
 	// Test HTTPS configuration
 	t.Run("HTTPS_Security", func(t *testing.T) {
 		tlsConfig := &tls.Config{
@@ -309,7 +309,7 @@ func TestEndToEndSecurity(t *testing.T) {
 	// Test security headers
 	t.Run("Security_Headers", func(t *testing.T) {
 		response := http_helper.HttpGet(t, baseURL, nil)
-		
+
 		// Verify security headers are present
 		assert.Contains(t, response.Header, "X-Frame-Options", "X-Frame-Options header should be present")
 		assert.Contains(t, response.Header, "X-Content-Type-Options", "X-Content-Type-Options header should be present")
@@ -324,7 +324,7 @@ func TestEndToEndSecurity(t *testing.T) {
 	// Test API security
 	t.Run("API_Security", func(t *testing.T) {
 		apiURL := baseURL + "/api/health"
-		
+
 		// Test rate limiting
 		for i := 0; i < 20; i++ {
 			response := http_helper.HttpGet(t, apiURL, nil)
@@ -333,7 +333,7 @@ func TestEndToEndSecurity(t *testing.T) {
 				return
 			}
 		}
-		
+
 		// If we get here, rate limiting might not be working
 		t.Log("Warning: Rate limiting may not be configured properly")
 	})
@@ -414,9 +414,9 @@ func TestPerformance(t *testing.T) {
 	t.Run("Concurrent_Load", func(t *testing.T) {
 		concurrency := 10
 		requests := 100
-		
+
 		results := make(chan time.Duration, requests)
-		
+
 		for i := 0; i < concurrency; i++ {
 			go func() {
 				for j := 0; j < requests/concurrency; j++ {
@@ -459,4 +459,3 @@ func TestDisasterRecovery(t *testing.T) {
 		t.Log("Cross-region replication test would be implemented here")
 	})
 }
-

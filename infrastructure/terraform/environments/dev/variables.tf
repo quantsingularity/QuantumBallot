@@ -47,4 +47,3 @@ variable "backend_docker_image_tag" {
   type        = string
   default     = "latest"
 }
-

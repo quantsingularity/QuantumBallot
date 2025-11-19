@@ -55,10 +55,10 @@ command_exists() {
 # Function to validate workflow files
 validate_workflows() {
     section "Validating CI/CD Workflow Files"
-    
+
     if [ -d ".github/workflows" ]; then
         echo "Checking for workflow validation tools..."
-        
+
         # Install actionlint if not available
         if ! command_exists actionlint; then
             echo "Installing actionlint..."
@@ -69,10 +69,10 @@ validate_workflows() {
                 echo "Please install Go and actionlint manually for better validation"
             fi
         fi
-        
+
         # Validate workflow files
         echo "Validating workflow files..."
-        
+
         # Basic YAML validation
         for file in .github/workflows/*.yml; do
             if [ -f "$file" ]; then
@@ -89,18 +89,18 @@ validate_workflows() {
                 fi
             fi
         done
-        
+
         # Use actionlint if available
         if command_exists actionlint; then
             echo "Running actionlint..."
             actionlint
         fi
-        
+
         echo -e "${GREEN}Workflow validation completed${NC}"
     else
         echo -e "${YELLOW}No .github/workflows directory found${NC}"
         echo "Creating example workflow directory and file..."
-        
+
         # Create example workflow directory and file
         mkdir -p .github/workflows
         cat > .github/workflows/ci.yml << EOF
@@ -115,26 +115,26 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '16'
-        
+
     - name: Install dependencies
       run: |
         npm ci
-        
+
     - name: Run linting
       run: npm run lint
-      
+
     - name: Run tests
       run: npm test
 EOF
-        
+
         echo -e "${GREEN}Example workflow file created at .github/workflows/ci.yml${NC}"
     fi
 }
@@ -142,82 +142,82 @@ EOF
 # Function to run CI checks locally
 run_local_ci() {
     section "Running CI Checks Locally"
-    
+
     echo "Running local CI checks..."
-    
+
     # Check if backend exists and run its checks
     if [ -d "backend-api" ]; then
         echo "Running backend CI checks..."
         cd backend-api
-        
+
         # Install dependencies if needed
         if [ ! -d "node_modules" ]; then
             echo "Installing backend dependencies..."
             npm install
         fi
-        
+
         # Run linting
         echo "Running backend linting..."
         npm run lint || echo -e "${YELLOW}Backend linting issues found${NC}"
-        
+
         # Run tests
         echo "Running backend tests..."
         npm test || echo -e "${YELLOW}Backend tests failed${NC}"
-        
+
         cd "$PROJECT_ROOT"
     fi
-    
+
     # Check if web frontend exists and run its checks
     if [ -d "web-frontend" ]; then
         echo "Running web frontend CI checks..."
         cd web-frontend
-        
+
         # Install dependencies if needed
         if [ ! -d "node_modules" ]; then
             echo "Installing web frontend dependencies..."
             npm install
         fi
-        
+
         # Run linting
         echo "Running web frontend linting..."
         npm run lint || echo -e "${YELLOW}Web frontend linting issues found${NC}"
-        
+
         # Run tests
         echo "Running web frontend tests..."
         npm test || echo -e "${YELLOW}Web frontend tests failed${NC}"
-        
+
         cd "$PROJECT_ROOT"
     fi
-    
+
     # Check if mobile frontend exists and run its checks
     if [ -d "mobile-frontend" ]; then
         echo "Running mobile frontend CI checks..."
         cd mobile-frontend
-        
+
         # Install dependencies if needed
         if [ ! -d "node_modules" ]; then
             echo "Installing mobile frontend dependencies..."
             npm install
         fi
-        
+
         # Run linting
         echo "Running mobile frontend linting..."
         npm run lint || echo -e "${YELLOW}Mobile frontend linting issues found${NC}"
-        
+
         # Run tests
         echo "Running mobile frontend tests..."
         npm test || echo -e "${YELLOW}Mobile frontend tests failed${NC}"
-        
+
         cd "$PROJECT_ROOT"
     fi
-    
+
     echo -e "${GREEN}Local CI checks completed${NC}"
 }
 
 # Function to check GitHub Actions workflow status
 check_workflow_status() {
     section "Checking GitHub Actions Workflow Status"
-    
+
     # Check if gh CLI is installed
     if ! command_exists gh; then
         echo -e "${YELLOW}GitHub CLI (gh) is not installed${NC}"
@@ -225,27 +225,27 @@ check_workflow_status() {
         echo "https://cli.github.com/manual/installation"
         return 1
     fi
-    
+
     # Check if authenticated with GitHub
     if ! gh auth status &>/dev/null; then
         echo -e "${YELLOW}Not authenticated with GitHub${NC}"
         echo "Please run 'gh auth login' to authenticate"
         return 1
     fi
-    
+
     # Get repository name
     REPO_NAME=$(basename "$PROJECT_ROOT")
     REPO_OWNER=$(git config --get remote.origin.url | sed -n 's/.*github.com[:/]\([^/]*\).*/\1/p')
-    
+
     if [ -z "$REPO_OWNER" ]; then
         echo -e "${YELLOW}Could not determine repository owner${NC}"
         echo "Please run this command in a git repository with a GitHub remote"
         return 1
     fi
-    
+
     echo "Checking workflow status for $REPO_OWNER/$REPO_NAME..."
     gh workflow list
-    
+
     echo -e "\n${GREEN}Workflow status check completed${NC}"
 }
 

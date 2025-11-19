@@ -26,7 +26,7 @@ vi.mock('@/context/AuthContext', () => ({
 describe('AnnounceElection Component', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    
+
     // Mock axios.post to return success
     (axios.post as jest.Mock).mockResolvedValue({
       data: {
@@ -60,7 +60,7 @@ describe('AnnounceElection Component', () => {
     const titleInput = screen.getByLabelText(/Title/i);
     fireEvent.change(titleInput, { target: { value: 'Test Announcement' } });
     expect(titleInput).toHaveValue('Test Announcement');
-    
+
     // Enter content
     const contentInput = screen.getByLabelText(/Content/i);
     fireEvent.change(contentInput, { target: { value: 'This is a test announcement' } });
@@ -77,10 +77,10 @@ describe('AnnounceElection Component', () => {
     // Enter announcement details
     fireEvent.change(screen.getByLabelText(/Title/i), { target: { value: 'Test Announcement' } });
     fireEvent.change(screen.getByLabelText(/Content/i), { target: { value: 'This is a test announcement' } });
-    
+
     // Submit form
     fireEvent.click(screen.getByRole('button', { name: /Submit Announcement/i }));
-    
+
     // Check if axios.post was called with correct data
     await waitFor(() => {
       expect(axios.post).toHaveBeenCalledWith(
@@ -104,10 +104,10 @@ describe('AnnounceElection Component', () => {
     // Enter announcement details
     fireEvent.change(screen.getByLabelText(/Title/i), { target: { value: 'Test Announcement' } });
     fireEvent.change(screen.getByLabelText(/Content/i), { target: { value: 'This is a test announcement' } });
-    
+
     // Submit form
     fireEvent.click(screen.getByRole('button', { name: /Submit Announcement/i }));
-    
+
     // Check for success message
     await waitFor(() => {
       expect(screen.getByText(/Announcement created successfully/i)).toBeInTheDocument();
@@ -133,10 +133,10 @@ describe('AnnounceElection Component', () => {
     // Enter announcement details
     fireEvent.change(screen.getByLabelText(/Title/i), { target: { value: 'Test Announcement' } });
     fireEvent.change(screen.getByLabelText(/Content/i), { target: { value: 'This is a test announcement' } });
-    
+
     // Submit form
     fireEvent.click(screen.getByRole('button', { name: /Submit Announcement/i }));
-    
+
     // Check for error message
     await waitFor(() => {
       expect(screen.getByText(/Failed to create announcement/i)).toBeInTheDocument();
@@ -152,13 +152,13 @@ describe('AnnounceElection Component', () => {
 
     // Submit form without entering any data
     fireEvent.click(screen.getByRole('button', { name: /Submit Announcement/i }));
-    
+
     // Check for validation errors
     await waitFor(() => {
       expect(screen.getByText(/Title is required/i)).toBeInTheDocument();
       expect(screen.getByText(/Content is required/i)).toBeInTheDocument();
     });
-    
+
     // Verify that axios.post was not called
     expect(axios.post).not.toHaveBeenCalled();
   });

@@ -73,7 +73,7 @@ export function AppRoutes() {
                 name="CameraQR"
                 component={CameraQR}
             />
-            
+
         </Navigator>
     )
 }

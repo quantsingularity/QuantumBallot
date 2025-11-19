@@ -461,4 +461,3 @@ resource "aws_cloudwatch_metric_alarm" "application_errors_alarm" {
     Environment = var.environment
   })
 }
-

@@ -25,7 +25,7 @@ const Waveform: React.FC<WaveformProps> = ({ url }) => {
       });
 
       waveSurfer.load(url);
-      
+
       waveSurfer.on('ready', () => {
         waveSurferRef.current = waveSurfer;
       });

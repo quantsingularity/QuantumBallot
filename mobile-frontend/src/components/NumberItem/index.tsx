@@ -12,7 +12,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 type ItemPropsNumber = { number: number};
 
 export function NumberItem({ number }: ItemPropsNumber) {
-    
+
     const initValue = 9;
 
     if (number > initValue) {
@@ -23,7 +23,7 @@ export function NumberItem({ number }: ItemPropsNumber) {
               </Text>
           </View>
       );
-    } else 
+    } else
 
     return (
         <View style={styles.container}>

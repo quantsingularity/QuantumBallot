@@ -22,7 +22,7 @@ describe('Home Component', () => {
 
   it('renders welcome message and navigation options', () => {
     mockAuthContext.isLoggedIn.mockReturnValue(true);
-    
+
     render(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthContext}>
@@ -38,7 +38,7 @@ describe('Home Component', () => {
   it('displays different content for logged in and logged out users', () => {
     // Test logged in state
     mockAuthContext.isLoggedIn.mockReturnValue(true);
-    
+
     const { rerender } = render(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthContext}>
@@ -48,10 +48,10 @@ describe('Home Component', () => {
     );
 
     expect(screen.getByText(/Dashboard/i)).toBeInTheDocument();
-    
+
     // Test logged out state
     mockAuthContext.isLoggedIn.mockReturnValue(false);
-    
+
     rerender(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthContext}>
@@ -65,7 +65,7 @@ describe('Home Component', () => {
 
   it('navigates to correct routes when links are clicked', () => {
     mockAuthContext.isLoggedIn.mockReturnValue(true);
-    
+
     render(
       <BrowserRouter>
         <AuthContext.Provider value={mockAuthContext}>

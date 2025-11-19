@@ -84,7 +84,7 @@ const emailTemplate = (otp: Otp, voterName: string, textQRCode: string) => {
         </div>
     </body>
     </html>
-    
+
     `;
 
     return html;

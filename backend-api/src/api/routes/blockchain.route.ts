@@ -17,16 +17,16 @@ const verifyJWTWeb = require('../../middleware/verifyJWTWeb');
 
 // Error response helper function
 const errorResponse = (res, status, message, details = null) => {
-  const response = { 
-    success: false, 
-    message, 
+  const response = {
+    success: false,
+    message,
     timestamp: new Date().toISOString()
   };
-  
+
   if (details) {
     response.details = details;
   }
-  
+
   return res.status(status).json(response);
 };
 
@@ -44,7 +44,7 @@ const successResponse = (res, status, data, message = 'Operation successful') =>
 const asyncHandler = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch((err) => {
     console.error(`API Error: ${err.message}`, err);
-    return errorResponse(res, 500, 'Internal server error', 
+    return errorResponse(res, 500, 'Internal server error',
       process.env.NODE_ENV === 'development' ? err.message : null);
   });
 };
@@ -54,19 +54,19 @@ module.exports = function (blockchain: BlockChain, allNodes) {
    // Input validation middleware
    const validateTransaction = (req, res, next) => {
      const { identifier, choiceCode } = req.body;
-     
+
      if (!identifier) {
        return errorResponse(res, 400, 'Missing required field: identifier');
      }
-     
+
      if (!choiceCode) {
        return errorResponse(res, 400, 'Missing required field: choiceCode');
      }
-     
+
      if (isNaN(parseInt(choiceCode))) {
        return errorResponse(res, 400, 'Invalid choice code: must be a number');
      }
-     
+
      next();
    };
 
@@ -91,17 +91,17 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
    router.get('/block-detail/:id', asyncHandler(async (req, res) => {
       const blockHash = req.params.id;
-      
+
       if (!blockHash) {
         return errorResponse(res, 400, 'Block hash is required');
       }
-      
+
       const blockDetails = blockchain.getBlockDetails(blockHash);
-      
+
       if (!blockDetails) {
         return errorResponse(res, 404, 'Block not found');
       }
-      
+
       return successResponse(res, 200, blockDetails);
    }));
 
@@ -111,21 +111,21 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
    router.get('/get-results', verifyJWTWeb, asyncHandler(async (req, res) => {
       const results = await blockchain.smartContract.getResults();
-      
+
       if (!results) {
         return errorResponse(res, 404, 'No results available');
       }
-      
+
       return successResponse(res, 200, results);
    }));
 
    router.get('/get-results-computed', asyncHandler(async (req, res) => {
       const results = await blockchain.smartContract.getResultsComputed();
-      
+
       if (!results) {
         return errorResponse(res, 404, 'No computed results available');
       }
-      
+
       return successResponse(res, 200, results);
    }));
 
@@ -135,35 +135,35 @@ module.exports = function (blockchain: BlockChain, allNodes) {
       if (!identifier || !choiceCode) return false;
       return true;
    }
-   
+
    router.post('/transaction', validateTransaction, asyncHandler(async (req, res) => {
       const data = req.body;
-      
+
       try {
          if (checkVote(data.identifier, parseInt(data.choiceCode))) {
             const electoralId: string = data.identifier;
             console.log("identifier: ", electoralId);
-            
+
             const identifier = await blockchain.getCitizenRelatedIdentifier(electoralId);
             if (!identifier) {
                return errorResponse(res, 401, 'Invalid electoral identifier');
             }
 
             const choiceCode: number = parseInt(data.choiceCode);
-            
+
             const choiceEncrypted = blockchain.encryptDataVoter(choiceCode.toString());
             const electoralIdEncrypted = blockchain.encryptDataIdentifier(electoralId.toString());
             const secret: string = data.secret || ''; // Add default value
 
             const ans = blockchain.addPendingTransaction(
-               identifier, 
-               electoralIdEncrypted.CIPHER_TEXT, 
-               electoralIdEncrypted.IV, 
-               choiceEncrypted.CIPHER_TEXT, 
-               choiceEncrypted.IV, 
+               identifier,
+               electoralIdEncrypted.CIPHER_TEXT,
+               electoralIdEncrypted.IV,
+               choiceEncrypted.CIPHER_TEXT,
+               choiceEncrypted.IV,
                secret
             );
-            
+
             if (ans) {
                return successResponse(res, 201, ans, 'Transaction added successfully');
             } else {
@@ -174,29 +174,29 @@ module.exports = function (blockchain: BlockChain, allNodes) {
          }
       } catch (error) {
          console.error('Transaction error:', error);
-         return errorResponse(res, 500, 'Failed to process transaction', 
+         return errorResponse(res, 500, 'Failed to process transaction',
             process.env.NODE_ENV === 'development' ? error.message : null);
       }
    }));
 
    router.post('/transaction/broadcast', validateTransaction, asyncHandler(async (req, res) => {
       const data = req.body;
-      
+
       // Validate required fields
-      if (!data.identifier || !data.electoralId || !data.electoralIdIV || 
+      if (!data.identifier || !data.electoralId || !data.electoralIdIV ||
           !data.choiceCode || !data.IV) {
          return errorResponse(res, 400, 'Missing required transaction fields');
       }
-      
+
       const ans = blockchain.addPendingTransaction(
-         data.identifier, 
-         data.electoralId, 
-         data.electoralIdIV, 
-         data.choiceCode, 
-         data.IV, 
+         data.identifier,
+         data.electoralId,
+         data.electoralIdIV,
+         data.choiceCode,
+         data.IV,
          data.secret || ''
       );
-      
+
       if (!ans) {
          return errorResponse(res, 400, 'Failed to add transaction');
       }
@@ -206,7 +206,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
          return successResponse(res, 200, ans, 'Transaction broadcasted successfully');
       } catch (error) {
          console.error('Broadcast error:', error);
-         return errorResponse(res, 500, 'Transaction added but broadcast failed', 
+         return errorResponse(res, 500, 'Transaction added but broadcast failed',
             process.env.NODE_ENV === 'development' ? error.message : null);
       }
    }));
@@ -239,7 +239,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
    router.get('/deploy-voters', asyncHandler(async (req, res) => {
       const ans = await blockchain.deployVoters();
-      
+
       if (ans !== null) {
          const votersDeployed = await blockchain.getSmartContractVoters();
          return successResponse(res, 200, { voters: votersDeployed }, 'Voters deployed successfully');
@@ -250,7 +250,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
    router.get('/deploy-candidates', asyncHandler(async (req, res) => {
       const ans = await blockchain.deployCandidatesBlockchain();
-      
+
       if (ans !== null) {
          const candidatesDeployed = await blockchain.getSmartContractCandidates();
          return successResponse(res, 200, { candidates: candidatesDeployed }, 'Candidates deployed successfully');
@@ -261,17 +261,17 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
    router.post('/receive-new-block', asyncHandler(async (req, res) => {
       const block = req.body;
-      
+
       // Validate block data
       if (!block || !block.hash) {
          return errorResponse(res, 400, 'Invalid block data');
       }
-      
+
       const ans: boolean = blockchain.addBlock(block);
 
       try {
          await runConsensus(res);
-         
+
          if (ans) {
             return successResponse(res, 200, { block }, 'Block accepted and added to chain');
          } else {
@@ -279,7 +279,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
          }
       } catch (error) {
          console.error('Consensus error:', error);
-         return errorResponse(res, 500, 'Error during consensus process', 
+         return errorResponse(res, 500, 'Error during consensus process',
             process.env.NODE_ENV === 'development' ? error.message : null);
       }
    }));
@@ -294,12 +294,12 @@ module.exports = function (blockchain: BlockChain, allNodes) {
             });
 
          const responses = await Promise.all(requests);
-         
+
          const allResp = [];
          responses.forEach(x => {
             allResp.push(x.data);
          });
-         
+
          return allResp;
       } catch (error) {
          console.error('Broadcast error:', error);
@@ -309,24 +309,24 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
    router.get('/mine', asyncHandler(async (req, res) => {
       const block: Block = blockchain.mineBlock();
-      
+
       if (!block) {
          return errorResponse(res, 500, 'Mining failed');
       }
-      
+
       try {
          await broadcastData('/receive-new-block', block, res);
          return successResponse(res, 200, { block }, 'New block mined successfully');
       } catch (error) {
          console.error('Mining broadcast error:', error);
-         return errorResponse(res, 500, 'Block mined but broadcast failed', 
+         return errorResponse(res, 500, 'Block mined but broadcast failed',
             process.env.NODE_ENV === 'development' ? error.message : null);
       }
    }));
 
    router.post('/synchronize-chain', asyncHandler(async (req, res) => {
       const data = req.body;
-      
+
       if (!data.chain) {
          return errorResponse(res, 400, 'Missing chain data');
       }
@@ -352,7 +352,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
             });
 
          const responses = await Promise.all(requests);
-         
+
          let blockchains: BlockChain[] = [blockchain];
          responses.forEach(element => {
             blockchains.push(element.data);

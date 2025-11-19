@@ -37,4 +37,3 @@ variable "docker_image_uri" {
   description = "URI of the backend Docker image in ECR"
   type        = string
 }
-

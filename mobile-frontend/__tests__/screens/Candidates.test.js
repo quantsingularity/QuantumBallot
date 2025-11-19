@@ -24,8 +24,8 @@ jest.mock('src/components/CandidatesList', () => {
     return (
       <div data-testid="candidates-list">
         {candidates.map(candidate => (
-          <button 
-            key={candidate.id} 
+          <button
+            key={candidate.id}
             data-testid={`candidate-${candidate.id}`}
             onClick={() => onSelectCandidate(candidate)}
           >
@@ -47,7 +47,7 @@ describe('Candidates Screen', () => {
   beforeEach(() => {
     mockNavigate.mockClear();
     mockAxios.mockClear();
-    
+
     // Mock API response for candidates
     mockAxios.get.mockImplementation((url) => {
       if (url.includes('candidates')) {
@@ -104,8 +104,8 @@ describe('Candidates Screen', () => {
     // Click on a candidate
     fireEvent.click(getByTestId('candidate-1'));
 
-    expect(mockNavigate).toHaveBeenCalledWith('CandidateDetails', { 
-      candidate: mockCandidates[0] 
+    expect(mockNavigate).toHaveBeenCalledWith('CandidateDetails', {
+      candidate: mockCandidates[0]
     });
   });
 

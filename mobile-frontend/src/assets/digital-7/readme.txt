@@ -32,7 +32,7 @@ We will welcome any useful suggestions and comments; please send them to ms-7@st
 
 FREEWARE USE (NOTES)
 -=================-
-Also you may: 
+Also you may:
  * Use the font in freeware software (credit needed);
  * Use the font for your education process.
 

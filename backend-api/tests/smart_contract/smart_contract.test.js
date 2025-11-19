@@ -50,9 +50,9 @@ describe('SmartContract', () => {
     ];
 
     mockVoters = [
-      { 
-        identifier: '12345', 
-        electoralId: 'encrypted_electoral_id', 
+      {
+        identifier: '12345',
+        electoralId: 'encrypted_electoral_id',
         electoralIV: 'iv_value',
         choiceCode: 'encrypted_choice_code',
         IV: 'iv_value',
@@ -99,10 +99,10 @@ describe('SmartContract', () => {
         startTimeVoting: new Date(Date.now() - 7200000).toISOString(), // 2 hours ago
         endTimeVoting: new Date(Date.now() - 3600000).toISOString()    // 1 hour ago
       };
-      
+
       leveldb.readAnnouncement.mockResolvedValue(pastAnnouncement);
       await smartContract.getAnnouncement();
-      
+
       expect(smartContract.isValidElectionTime()).toBe(false);
     });
   });
@@ -140,11 +140,11 @@ describe('SmartContract', () => {
         { code: 'PARTY2', party: 'Party2', num_votes: 5 },
         { code: 'PARTY3', party: 'Party3', num_votes: 3 }
       ];
-      
+
       leveldb.readCandidates.mockResolvedValue(updatedCandidates);
       await smartContract.getCandidates();
       smartContract.candidates = updatedCandidates;
-      
+
       const winner = smartContract.winningCandidate();
       expect(winner).toEqual(updatedCandidates[0]);
     });
@@ -155,11 +155,11 @@ describe('SmartContract', () => {
         { code: 'PARTY2', party: 'Party2', num_votes: 10 },
         { code: 'PARTY3', party: 'Party3', num_votes: 3 }
       ];
-      
+
       leveldb.readCandidates.mockResolvedValue(tiedCandidates);
       await smartContract.getCandidates();
       smartContract.candidates = tiedCandidates;
-      
+
       const winner = smartContract.winningCandidate();
       expect(winner).toBeNull();
     });
@@ -191,7 +191,7 @@ describe('SmartContract', () => {
   describe('error handling', () => {
     it('should handle errors when loading data', async () => {
       leveldb.readCandidates.mockRejectedValue(new Error('Database error'));
-      
+
       // Should not throw an error
       await expect(smartContract.loadCandidates()).resolves.toEqual([]);
     });

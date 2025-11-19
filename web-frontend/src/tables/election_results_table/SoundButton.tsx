@@ -31,7 +31,7 @@ function SoundButton({ type }: { type: string }) {
 
   return (
     <div className='flex items-center bg-gray-200 p-2 pl-3 pr-3 rounded-sm hover:bg-gray-300'>
-      <button onClick={() => {        
+      <button onClick={() => {
         if (type === "on") {
             if (!isPlaying) {
               sound.play();

@@ -133,4 +133,3 @@
   when:
     - create_swap
     - not swap_file_check.stat.exists
-

@@ -92,7 +92,7 @@ const rightItem = () => {
 
 const CardItem = ({ id, hashBlock, index, len, blockSize }: { id: number, hashBlock: string, index: number, len: number, blockSize: number }) => {
   //console.log("Size: ", blockSize);
-  
+
   return (
     <div key={id} className='flex flex-col items-center gap-0.5'>
       <div className='flex flex-row items-center bg-yellow- h-full'>

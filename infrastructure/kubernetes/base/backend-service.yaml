@@ -12,4 +12,3 @@ spec:
       port: 80 # Service port
       targetPort: 3000 # Container port (backend_port)
   type: ClusterIP # Use LoadBalancer or NodePort if external access needed directly (Ingress is preferred)
-

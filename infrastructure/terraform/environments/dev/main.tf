@@ -125,4 +125,3 @@ output "frontend_cloudfront_distribution_id" {
   description = "ID of the CloudFront distribution for the frontend"
   value       = module.frontend_web.cloudfront_distribution_id
 }
-

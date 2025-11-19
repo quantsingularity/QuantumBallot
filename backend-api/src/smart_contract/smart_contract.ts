@@ -48,7 +48,7 @@ class SmartContract {
     private results: Results;
 
     private statsPerProvince: HashMap<HashMap<number>>;
-    
+
     // Track processed votes to prevent double voting
     private processedVotes: Set<string>;
 
@@ -75,11 +75,11 @@ class SmartContract {
             "Cuanza Norte", "Cuanza Sul", "Cunene", "Huambo", "Huíla",
             "Luanda", "Lunda Norte", "Lunda Sul", "Malanje", "Moxico",
             "Namibe", "Uíge", "Zaire"
-        ];     
-        
+        ];
+
         this.hashCandidates = {};
         this.hashVoters = {};
-        
+
         try {
             await Promise.all([
                 this.loadCandidates(),
@@ -172,24 +172,24 @@ class SmartContract {
 
     public isValidElectionTime(): boolean {
         if (!this.announcement) return false;
-        
+
         const currentTime: number = Date.now();
         const startTime = new Date(this.announcement.startTimeVoting).getTime();
         const endTime = new Date(this.announcement.endTimeVoting).getTime();
-        
+
         // Validate date objects
         if (isNaN(startTime) || isNaN(endTime)) {
             console.error('Invalid date format in announcement');
             return false;
         }
-        
-        return this.isElectionState() && 
-               currentTime >= startTime && 
+
+        return this.isElectionState() &&
+               currentTime >= startTime &&
                currentTime <= endTime;
     }
 
     private isElectionState(): boolean {
-        return this.electionState >= ElectionState.Started && 
+        return this.electionState >= ElectionState.Started &&
                this.electionState <= ElectionState.Ended;
     }
 
@@ -250,7 +250,7 @@ class SmartContract {
 
         try {
             const decryptedId = CryptoBlockIdentifier.decryptData(objData);
-            
+
             return {
                 electoralId: decryptedId,
                 identifier: voter.identifier
@@ -292,7 +292,7 @@ class SmartContract {
         // Reset hash maps
         this.hashCandidates = {};
         this.hashVoters = {};
-        
+
         // Build candidate lookup
         for (const candidate of this.candidates) {
             this.hashCandidates[candidate.code] = candidate;
@@ -320,18 +320,18 @@ class SmartContract {
             }
 
             if (!voter.state) continue;
-            
+
             // Skip test/default transactions
             if (voter.identifier === "00000" || voter.identifier === "20000") continue;
 
             try {
                 await this.placeVote(voter);
-                
+
                 // Calculate vote duration
                 if (this.announcement.startTimeVoting) {
                     const startTime: Date = new Date(this.announcement.startTimeVoting);
                     const endTime: Date = new Date(voter.voteTime);
-                    
+
                     if (!isNaN(startTime.getTime()) && !isNaN(endTime.getTime())) {
                         const duration = (endTime.getTime() - startTime.getTime()) / (1000 * 60); // In minutes
                         if (duration >= 0) { // Ensure positive duration
@@ -363,7 +363,7 @@ class SmartContract {
 
             let candidateResult: CandidateResult = {
                 numVotes: value.num_votes,
-                percentage: this.announcement.numOfVoters > 0 ? 
+                percentage: this.announcement.numOfVoters > 0 ?
                     (value.num_votes * 100) / this.announcement.numOfVoters : 0,
                 candidate: value
             };
@@ -374,7 +374,7 @@ class SmartContract {
         // Validate timestamps
         const startTime: number = new Date(this.announcement.startTimeVoting).getTime();
         const endTime: number = new Date(this.announcement.endTimeVoting).getTime();
-        
+
         if (isNaN(startTime) || isNaN(endTime)) {
             throw new Error('Invalid election time data');
         }
@@ -464,7 +464,7 @@ class SmartContract {
         if (this.hashVoters[voter.identifier]) {
             this.hashVoters[voter.identifier].state = true;
         }
-        
+
         if (this.hashCandidates[choice_code]) {
             this.hashCandidates[choice_code].num_votes++;
         }
@@ -482,28 +482,28 @@ class SmartContract {
 
             const province: string = citizen.province;
 
-            if (this.provinces.includes(province) && 
-                this.statsPerProvince[province] && 
+            if (this.provinces.includes(province) &&
+                this.statsPerProvince[province] &&
                 this.hashCandidates[choice_code]) {
-                
+
                 let currentStatOfProvince = this.statsPerProvince[province];
                 const party = this.hashCandidates[choice_code].party;
-                
+
                 if (typeof currentStatOfProvince[party] === 'number') {
                     currentStatOfProvince[party]++;
                 }
-                
+
                 if (typeof currentStatOfProvince['sum'] === 'number') {
                     currentStatOfProvince['sum']++;
                 }
-                
+
                 this.statsPerProvince[province] = currentStatOfProvince;
             }
         } catch (error) {
             console.error('Error updating statistics:', error);
             // Continue with vote processing even if statistics update fails
         }
-        
+
         // Mark vote as processed
         this.processedVotes.add(voter.identifier);
     }

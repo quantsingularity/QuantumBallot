@@ -81,7 +81,7 @@ describe('Blockchain Component', () => {
         cancel: vi.fn()
       })
     };
-    
+
     // Mock axios.interceptors
     axios.interceptors = {
       response: {
@@ -98,7 +98,7 @@ describe('Blockchain Component', () => {
     // Change range input
     const rangeInput = screen.getByRole('textbox');
     fireEvent.change(rangeInput, { target: { value: '3010-3011' } });
-    
+
     // Click mine block button
     const mineButton = screen.getByRole('button', { name: /Mine Block/i });
     fireEvent.click(mineButton);
@@ -120,7 +120,7 @@ describe('Blockchain Component', () => {
     // Clear range input
     const rangeInput = screen.getByRole('textbox');
     fireEvent.change(rangeInput, { target: { value: '' } });
-    
+
     // Click mine block button
     const mineButton = screen.getByRole('button', { name: /Mine Block/i });
     fireEvent.click(mineButton);

@@ -57,7 +57,7 @@ show_help() {
 # Function to start development servers
 start_dev_server() {
     local component=$1
-    
+
     case $component in
         "backend")
             section "Starting Backend Development Server"
@@ -94,7 +94,7 @@ start_dev_server() {
             ;;
         "all")
             echo -e "${YELLOW}Starting all servers in separate terminals...${NC}"
-            
+
             # This requires multiple terminals, so we'll provide instructions
             echo -e "${RED}Cannot start all servers in one process.${NC}"
             echo "Please run the following commands in separate terminals:"
@@ -114,7 +114,7 @@ start_dev_server() {
 # Function to run tests
 run_tests() {
     local component=$1
-    
+
     case $component in
         "backend")
             section "Running Backend Tests"
@@ -151,7 +151,7 @@ run_tests() {
             ;;
         "all")
             section "Running All Tests"
-            
+
             # Run backend tests
             if [ -d "backend-api" ]; then
                 echo "Running backend tests..."
@@ -160,7 +160,7 @@ run_tests() {
             else
                 echo -e "${YELLOW}Backend directory not found, skipping tests${NC}"
             fi
-            
+
             # Run web frontend tests
             if [ -d "web-frontend" ]; then
                 echo "Running web frontend tests..."
@@ -169,7 +169,7 @@ run_tests() {
             else
                 echo -e "${YELLOW}Web frontend directory not found, skipping tests${NC}"
             fi
-            
+
             # Run mobile frontend tests
             if [ -d "mobile-frontend" ]; then
                 echo "Running mobile frontend tests..."
@@ -178,7 +178,7 @@ run_tests() {
             else
                 echo -e "${YELLOW}Mobile frontend directory not found, skipping tests${NC}"
             fi
-            
+
             echo -e "${GREEN}All tests completed${NC}"
             ;;
         *)
@@ -192,7 +192,7 @@ run_tests() {
 # Function to run linting
 run_linting() {
     local component=$1
-    
+
     case $component in
         "backend")
             section "Running Backend Linting"
@@ -229,7 +229,7 @@ run_linting() {
             ;;
         "all")
             section "Running All Linting"
-            
+
             # Run backend linting
             if [ -d "backend-api" ]; then
                 echo "Running backend linting..."
@@ -238,7 +238,7 @@ run_linting() {
             else
                 echo -e "${YELLOW}Backend directory not found, skipping linting${NC}"
             fi
-            
+
             # Run web frontend linting
             if [ -d "web-frontend" ]; then
                 echo "Running web frontend linting..."
@@ -247,7 +247,7 @@ run_linting() {
             else
                 echo -e "${YELLOW}Web frontend directory not found, skipping linting${NC}"
             fi
-            
+
             # Run mobile frontend linting
             if [ -d "mobile-frontend" ]; then
                 echo "Running mobile frontend linting..."
@@ -256,7 +256,7 @@ run_linting() {
             else
                 echo -e "${YELLOW}Mobile frontend directory not found, skipping linting${NC}"
             fi
-            
+
             echo -e "${GREEN}All linting completed${NC}"
             ;;
         *)
@@ -270,7 +270,7 @@ run_linting() {
 # Function to build for production
 build_production() {
     local component=$1
-    
+
     case $component in
         "backend")
             section "Building Backend for Production"
@@ -310,7 +310,7 @@ build_production() {
             ;;
         "all")
             section "Building All Components for Production"
-            
+
             # Build backend
             if [ -d "backend-api" ]; then
                 echo "Building backend for production..."
@@ -319,7 +319,7 @@ build_production() {
             else
                 echo -e "${YELLOW}Backend directory not found, skipping build${NC}"
             fi
-            
+
             # Build web frontend
             if [ -d "web-frontend" ]; then
                 echo "Building web frontend for production..."
@@ -328,7 +328,7 @@ build_production() {
             else
                 echo -e "${YELLOW}Web frontend directory not found, skipping build${NC}"
             fi
-            
+
             # Build mobile frontend
             if [ -d "mobile-frontend" ]; then
                 echo "Building mobile frontend for production..."
@@ -337,7 +337,7 @@ build_production() {
             else
                 echo -e "${YELLOW}Mobile frontend directory not found, skipping build${NC}"
             fi
-            
+
             echo -e "${GREEN}All builds completed${NC}"
             ;;
         *)

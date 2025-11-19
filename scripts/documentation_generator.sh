@@ -50,44 +50,44 @@ command_exists() {
 # Function to install documentation dependencies
 install_doc_dependencies() {
     section "Installing Documentation Dependencies"
-    
+
     # Check if Python is installed
     if ! command_exists python3; then
         echo -e "${RED}Python 3 is required but not installed${NC}"
         echo "Please install Python 3 and try again"
         exit 1
     fi
-    
+
     # Install Sphinx and other documentation tools
     echo "Installing Sphinx and other documentation tools..."
     pip3 install --user sphinx sphinx_rtd_theme recommonmark
-    
+
     echo -e "${GREEN}Documentation dependencies installed successfully${NC}"
 }
 
 # Function to generate API documentation
 generate_api_docs() {
     section "Generating API Documentation"
-    
+
     if [ -d "backend-api" ]; then
         echo "Generating API documentation..."
-        
+
         # Create docs directory if it doesn't exist
         mkdir -p docs/api
-        
+
         # Check if TypeDoc is installed
         if ! command_exists npx; then
             echo "Installing TypeDoc..."
             npm install --global typedoc
         fi
-        
+
         # Generate API documentation using TypeDoc
         cd backend-api
         npx typedoc --out ../docs/api src/
-        
+
         echo -e "${GREEN}API documentation generated successfully${NC}"
         echo "Documentation available at: docs/api/index.html"
-        
+
         cd "$PROJECT_ROOT"
     else
         echo -e "${RED}Backend API directory not found${NC}"
@@ -98,17 +98,17 @@ generate_api_docs() {
 # Function to generate user documentation
 generate_user_docs() {
     section "Generating User Documentation"
-    
+
     # Create docs directory if it doesn't exist
     mkdir -p docs/user_guide
-    
+
     # Check if documentation source exists
     if [ -d "documentation/user_manual" ]; then
         echo "Generating user documentation..."
-        
+
         # Copy existing documentation
         cp -r documentation/user_manual/* docs/user_guide/
-        
+
         # Generate PDF if pandoc is available
         if command_exists pandoc; then
             echo "Generating PDF user guide..."
@@ -116,12 +116,12 @@ generate_user_docs() {
         else
             echo -e "${YELLOW}Pandoc not found, skipping PDF generation${NC}"
         fi
-        
+
         echo -e "${GREEN}User documentation generated successfully${NC}"
         echo "Documentation available at: docs/user_guide/"
     else
         echo -e "${YELLOW}User manual source not found, creating template...${NC}"
-        
+
         # Create template user documentation
         cat > docs/user_guide/index.md << EOF
 # Chainocracy User Guide
@@ -141,7 +141,7 @@ Instructions for committee members on how to use the web application.
 ## Troubleshooting
 Common issues and their solutions.
 EOF
-        
+
         echo -e "${GREEN}User documentation template created${NC}"
         echo "Please edit the template at: docs/user_guide/index.md"
     fi
@@ -150,22 +150,22 @@ EOF
 # Function to generate developer documentation
 generate_developer_docs() {
     section "Generating Developer Documentation"
-    
+
     # Create docs directory if it doesn't exist
     mkdir -p docs/developer_guide
-    
+
     # Check if documentation source exists
     if [ -d "documentation/developer_guide" ]; then
         echo "Generating developer documentation..."
-        
+
         # Copy existing documentation
         cp -r documentation/developer_guide/* docs/developer_guide/
-        
+
         echo -e "${GREEN}Developer documentation generated successfully${NC}"
         echo "Documentation available at: docs/developer_guide/"
     else
         echo -e "${YELLOW}Developer guide source not found, creating template...${NC}"
-        
+
         # Create template developer documentation
         cat > docs/developer_guide/index.md << EOF
 # Chainocracy Developer Guide
@@ -191,7 +191,7 @@ Instructions for testing the application.
 ## Deployment
 Instructions for deploying the application.
 EOF
-        
+
         echo -e "${GREEN}Developer documentation template created${NC}"
         echo "Please edit the template at: docs/developer_guide/index.md"
     fi

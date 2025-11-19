@@ -48,7 +48,7 @@ function Candidates() {
 
             const candidatePhotoName = element.name.toLowerCase().split(' ').join('.');
             const partyPhotoName = element.party.toLowerCase().split(' ').join('.');
-            
+
             return ({
               id: index + 1,
               code: element.code.toString(),

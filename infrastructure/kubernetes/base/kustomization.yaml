@@ -23,4 +23,3 @@ commonLabels:
 # - name: backend-config-base
 #   literals:
 #     - LOG_LEVEL=info
-

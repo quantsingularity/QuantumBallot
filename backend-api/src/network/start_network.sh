@@ -19,13 +19,13 @@ printHeader(){
         echo "\t:: L - List nodes ::"
         echo "\t:: S <ID_0, ID_1, ... > - Stop nodes ::"
         echo "\t:: E - Stop & Exit the server ::"
-    
+
     askOption
 }
 
 resetPids() {
     for index in "${!pids[@]}"; do
-        kill $index 
+        kill $index
     done
 }
 
@@ -46,7 +46,7 @@ startFullNode(){
 
 addNewNode(){
     local parameter="$1"
-    
+
     isNumber=`echo $parameter | grep "\<[0-9]\+\([0-9]\+\)*\>" -o`
     numberOfNodes=`echo $isNumber | wc -w`
 

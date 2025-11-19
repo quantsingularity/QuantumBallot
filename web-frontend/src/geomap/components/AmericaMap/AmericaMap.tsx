@@ -1,4 +1,4 @@
- 
+
 import useCoffeeDataAmerica, { IMapProvincy } from '../../hooks/useCoffeeDataAmerica';
 
 import './AmericaMap.scss';
@@ -28,7 +28,7 @@ export default function AmericaMap() {
     getRegionColor,
     getRegionHoverColor,
   } = useCoffeeDataAmerica();
-  
+
   const mapSize: [number, number] = useMemo(() => {
     return [
       (width) || 0,

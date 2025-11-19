@@ -14,7 +14,7 @@ type ItemType = { number: boolean };
 
 
 export function Item(x: ItemType) {
-    if (x.number) { return (<View style={styles.flatView1}/>); } 
+    if (x.number) { return (<View style={styles.flatView1}/>); }
     else return (<View style={styles.flatView2}/>);
 };
 
@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
         backgroundColor: 'transparent',
         marginTop: StatusBar.currentHeight,
         flexDirection: 'column',
-        
+
     }, flatView1: {
         flex: 1,
         backgroundColor: '#010101',

@@ -8,10 +8,10 @@ import {
     Text,
   } from "@chakra-ui/react";
   import { LANGUAGE_VERSIONS } from "./constants";
-  
+
   const languages = Object.entries(LANGUAGE_VERSIONS);
   const ACTIVE_COLOR = "blue.400";
-  
+
   const LanguageSelector = ({ language, onSelect }) => {
     return (
       <Box ml={2} mb={4}>

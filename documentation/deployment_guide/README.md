@@ -615,16 +615,16 @@ The Chainocracy system uses LevelDB for blockchain data storage. This is embedde
    TIMESTAMP=$(date +"%Y%m%d%H%M%S")
    BACKUP_DIR=/var/backups/chainocracy
    mkdir -p $BACKUP_DIR
-   
+
    # Stop the application temporarily
    pm2 stop chainocracy-backend
-   
+
    # Create a backup
    tar -czf $BACKUP_DIR/blockchain-$TIMESTAMP.tar.gz /var/chainocracy/data
-   
+
    # Restart the application
    pm2 start chainocracy-backend
-   
+
    # Remove backups older than 30 days
    find $BACKUP_DIR -name "blockchain-*.tar.gz" -mtime +30 -delete
    ```
@@ -699,7 +699,7 @@ For a production environment, multiple blockchain nodes are recommended:
    sudo ufw allow ssh
    sudo ufw allow http
    sudo ufw allow https
-   
+
    # Enable the firewall
    sudo ufw enable
    ```
@@ -723,13 +723,13 @@ For a production environment, multiple blockchain nodes are recommended:
 
    ```javascript
    const rateLimit = require('express-rate-limit');
-   
+
    const apiLimiter = rateLimit({
      windowMs: 15 * 60 * 1000, // 15 minutes
      max: 100, // limit each IP to 100 requests per windowMs
      message: 'Too many requests from this IP, please try again after 15 minutes'
    });
-   
+
    app.use('/api/', apiLimiter);
    ```
 
@@ -780,7 +780,7 @@ For a production environment, multiple blockchain nodes are recommended:
    wget https://github.com/prometheus/prometheus/releases/download/v2.37.0/prometheus-2.37.0.linux-amd64.tar.gz
    tar xvfz prometheus-2.37.0.linux-amd64.tar.gz
    cd prometheus-2.37.0.linux-amd64
-   
+
    # Configure Prometheus
    nano prometheus.yml
    ```
@@ -790,16 +790,16 @@ For a production environment, multiple blockchain nodes are recommended:
    ```yaml
    global:
      scrape_interval: 15s
-   
+
    scrape_configs:
      - job_name: 'prometheus'
        static_configs:
          - targets: ['localhost:9090']
-     
+
      - job_name: 'node'
        static_configs:
          - targets: ['localhost:9100']
-     
+
      - job_name: 'chainocracy-backend'
        static_configs:
          - targets: ['localhost:3010']
@@ -812,11 +812,11 @@ For a production environment, multiple blockchain nodes are recommended:
    sudo apt-get install -y apt-transport-https software-properties-common
    sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
    wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
-   
+
    # Install Grafana
    sudo apt-get update
    sudo apt-get install -y grafana
-   
+
    # Start Grafana
    sudo systemctl enable grafana-server
    sudo systemctl start grafana-server
@@ -829,7 +829,7 @@ For a production environment, multiple blockchain nodes are recommended:
    wget https://github.com/prometheus/node_exporter/releases/download/v1.3.1/node_exporter-1.3.1.linux-amd64.tar.gz
    tar xvfz node_exporter-1.3.1.linux-amd64.tar.gz
    cd node_exporter-1.3.1.linux-amd64
-   
+
    # Start Node Exporter
    ./node_exporter &
    ```
@@ -842,12 +842,12 @@ For a production environment, multiple blockchain nodes are recommended:
    app.get('/health', (req, res) => {
      res.status(200).json({ status: 'UP' });
    });
-   
+
    app.get('/health/detailed', (req, res) => {
      // Check database connection, blockchain status, etc.
      const dbStatus = checkDatabaseConnection();
      const blockchainStatus = checkBlockchainStatus();
-     
+
      res.status(200).json({
        status: dbStatus && blockchainStatus ? 'UP' : 'DOWN',
        components: {
@@ -862,7 +862,7 @@ For a production environment, multiple blockchain nodes are recommended:
 
    ```javascript
    const winston = require('winston');
-   
+
    const logger = winston.createLogger({
      level: 'info',
      format: winston.format.json(),
@@ -872,7 +872,7 @@ For a production environment, multiple blockchain nodes are recommended:
        new winston.transports.File({ filename: 'combined.log' })
      ]
    });
-   
+
    if (process.env.NODE_ENV !== 'production') {
      logger.add(new winston.transports.Console({
        format: winston.format.simple()
@@ -914,10 +914,10 @@ For a production environment, multiple blockchain nodes are recommended:
    ```bash
    # Install AWS CLI
    sudo apt install -y awscli
-   
+
    # Configure AWS credentials
    aws configure
-   
+
    # Create backup script
    nano /opt/chainocracy/s3-backup.sh
    ```
@@ -929,10 +929,10 @@ For a production environment, multiple blockchain nodes are recommended:
    TIMESTAMP=$(date +"%Y%m%d%H%M%S")
    BACKUP_DIR=/var/backups/chainocracy
    S3_BUCKET=s3://chainocracy-backups
-   
+
    # Create local backup
    /opt/chainocracy/backup.sh
-   
+
    # Upload to S3
    aws s3 cp $BACKUP_DIR/blockchain-$TIMESTAMP.tar.gz $S3_BUCKET/
    ```
@@ -960,30 +960,30 @@ For a production environment, multiple blockchain nodes are recommended:
 
    ```bash
    #!/bin/bash
-   
+
    if [ $# -ne 1 ]; then
      echo "Usage: $0 <backup-file>"
      exit 1
    fi
-   
+
    BACKUP_FILE=$1
-   
+
    # Stop the application
    pm2 stop chainocracy-backend
-   
+
    # Backup current data
    TIMESTAMP=$(date +"%Y%m%d%H%M%S")
    tar -czf /var/backups/chainocracy/pre-recovery-$TIMESTAMP.tar.gz /var/chainocracy/data
-   
+
    # Remove current data
    rm -rf /var/chainocracy/data/*
-   
+
    # Restore from backup
    tar -xzf $BACKUP_FILE -C /
-   
+
    # Restart the application
    pm2 start chainocracy-backend
-   
+
    echo "Recovery completed successfully"
    ```
 
@@ -1008,7 +1008,7 @@ For a production environment, multiple blockchain nodes are recommended:
    ```bash
    # Install HAProxy
    sudo apt install -y haproxy
-   
+
    # Configure HAProxy
    sudo nano /etc/haproxy/haproxy.cfg
    ```
@@ -1020,7 +1020,7 @@ For a production environment, multiple blockchain nodes are recommended:
      bind *:80
      stats uri /haproxy?stats
      default_backend http_back
-   
+
    backend http_back
      balance roundrobin
      server backend1 backend1.chainocracy.com:3010 check
@@ -1088,7 +1088,7 @@ For a production environment, multiple blockchain nodes are recommended:
    ```bash
    # View real-time logs
    pm2 logs chainocracy-backend
-   
+
    # Search for specific errors
    grep "Error" /opt/chainocracy/backend/logs/combined.log
    ```
@@ -1098,10 +1098,10 @@ For a production environment, multiple blockchain nodes are recommended:
    ```bash
    # CPU and memory usage
    top
-   
+
    # Disk usage
    df -h
-   
+
    # I/O statistics
    iostat
    ```

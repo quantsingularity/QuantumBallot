@@ -161,7 +161,7 @@ http {
     add_header Referrer-Policy "strict-origin-when-cross-origin" always;
     add_header Permissions-Policy "geolocation=(), microphone=(), camera=()" always;
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains; preload" always;
-    
+
     # Content Security Policy
     add_header Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https:; frame-ancestors 'none';" always;
 
@@ -256,7 +256,7 @@ http {
         location / {
             limit_req zone=static burst=10 nodelay;
             try_files \$uri \$uri/ /index.html;
-            
+
             # Additional security headers for HTML
             location ~ \.html$ {
                 add_header Cache-Control "no-cache, no-store, must-revalidate";
@@ -268,7 +268,7 @@ http {
         # Error pages
         error_page 404 /404.html;
         error_page 500 502 503 504 /50x.html;
-        
+
         location = /50x.html {
             root /usr/share/nginx/html;
         }
@@ -304,4 +304,3 @@ CMD ["nginx", "-g", "daemon off;"]
 # Security scan instructions
 # RUN trivy filesystem --exit-code 1 --no-progress --severity HIGH,CRITICAL .
 # RUN grype . --fail-on high
-

@@ -57,7 +57,7 @@ if [ -d "backend-api" ]; then
       echo "Found package.json. Installing npm dependencies if needed..."
       npm install --no-fund
     fi
-    
+
     # Create a basic ESLint config compatible with ESLint v8 or v9
     echo "Creating ESLint config for TypeScript..."
     cat > eslint.config.js << 'EOF'
@@ -99,11 +99,11 @@ module.exports = {
   }
 };
 EOF
-      
+
     # Install TypeScript ESLint dependencies if needed
     echo "Installing ESLint dependencies..."
     npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin typescript-eslint --no-fund
-    
+
     echo "Running ESLint with --fix for TypeScript files..."
     # Try modern ESLint config first, fall back to legacy if it fails
     if npx eslint --fix 'src/**/*.{ts,js}' 2>/dev/null || npx eslint --config .eslintrc.js --fix 'src/**/*.{ts,js}'; then
@@ -126,7 +126,7 @@ if [ -d "web-frontend" ]; then
       echo "Found package.json. Installing npm dependencies if needed..."
       npm install --no-fund
     fi
-    
+
     echo "Running ESLint with --fix for TypeScript/React files..."
     # Use the existing lint script if available
     if grep -q "\"lint\":" package.json; then
@@ -156,7 +156,7 @@ if [ -d "mobile-frontend" ]; then
       echo "Found package.json. Installing npm dependencies if needed..."
       npm install --legacy-peer-deps --no-fund
     fi
-    
+
     # Create a basic ESLint config for React Native if it doesn't exist
     if [ ! -f .eslintrc.js ] && [ ! -f .eslintrc.json ] && [ ! -f .eslintrc.yml ]; then
       echo "Creating basic ESLint config for React Native..."
@@ -186,7 +186,7 @@ EOF
       # Install React Native ESLint dependencies if needed
       npm install --save-dev eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-plugin-react eslint-plugin-react-native --legacy-peer-deps --no-fund
     fi
-    
+
     echo "Running ESLint with --fix for TypeScript/React Native files..."
     # Use the existing lint script if available
     if grep -q "\"lint\":" package.json; then

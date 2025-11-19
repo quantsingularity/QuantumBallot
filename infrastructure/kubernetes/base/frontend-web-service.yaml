@@ -14,4 +14,3 @@ spec:
       port: 80 # Service port
       targetPort: 80 # Container port (assuming Nginx/container serves on 80)
   type: ClusterIP
-

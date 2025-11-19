@@ -63,8 +63,8 @@ export function DataTable<TData, TValue>({
             table.getColumn("transactionHash")?.setFilterValue(event.target.value)
           }
           className="max-w-lg"
-        /> 
-        
+        />
+
         </div>
       <div className="rounded-md border">
         <Table>

@@ -118,7 +118,7 @@ describe('UI Components', () => {
           <Input id="test-input" />
         </>
       );
-      
+
       const label = screen.getByText('Test Label');
       expect(label).toHaveAttribute('for', 'test-input');
     });
@@ -176,16 +176,16 @@ describe('UI Components', () => {
           <TabsContent value="tab2">Content 2</TabsContent>
         </Tabs>
       );
-      
+
       render(mockTabs);
-      
+
       // Verify initial state
       expect(screen.getByText('Content 1')).toBeInTheDocument();
       expect(screen.getByText('Content 2')).toBeInTheDocument();
-      
+
       // Click on tab2
       fireEvent.click(screen.getByTestId('tab-tab2'));
-      
+
       // In a real implementation, this would change the visibility
       // For our mock, we're just verifying the click happened
       expect(screen.getByTestId('tab-tab2')).toHaveAttribute('data-value', 'tab2');

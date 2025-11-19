@@ -131,7 +131,7 @@ const requestConnection = (thisAllNodes, destines) => {
     let newNodes = [];
 
     thisAllNodes.forEach(element => {
-      if (!fullUpdated[element] || fullUpdated[NODE_ADDRESS]) 
+      if (!fullUpdated[element] || fullUpdated[NODE_ADDRESS])
         return;
 
       if (!areEqualUpdated(fullUpdated[element], fullUpdated[NODE_ADDRESS])) {

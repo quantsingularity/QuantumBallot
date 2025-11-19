@@ -11,39 +11,39 @@ export default function News() {
         <Text style={styles.title}>Election News</Text>
         <Text style={styles.subtitle}>Stay updated with the latest election information</Text>
       </View>
-      
+
       <View style={styles.newsCard}>
         <Text style={styles.newsTitle}>Presidential Debate Highlights</Text>
         <Text style={styles.newsDate}>April 15, 2025</Text>
         <Text style={styles.newsContent}>
-          The presidential candidates engaged in a heated debate last night, discussing key issues including 
-          economic policies, healthcare reform, and foreign relations. Analysts suggest that Candidate A 
+          The presidential candidates engaged in a heated debate last night, discussing key issues including
+          economic policies, healthcare reform, and foreign relations. Analysts suggest that Candidate A
           performed strongly on economic questions, while Candidate B showed expertise in foreign policy matters.
         </Text>
         <TouchableOpacity style={styles.readMoreButton}>
           <Text style={styles.readMoreText}>Read More</Text>
         </TouchableOpacity>
       </View>
-      
+
       <View style={styles.newsCard}>
         <Text style={styles.newsTitle}>Voter Registration Deadline Approaching</Text>
         <Text style={styles.newsDate}>April 10, 2025</Text>
         <Text style={styles.newsContent}>
-          The deadline for voter registration is April 30, 2025. All eligible citizens are encouraged to 
-          register through the mobile app or visit their local election office. Remember to bring valid 
+          The deadline for voter registration is April 30, 2025. All eligible citizens are encouraged to
+          register through the mobile app or visit their local election office. Remember to bring valid
           identification documents when registering in person.
         </Text>
         <TouchableOpacity style={styles.readMoreButton}>
           <Text style={styles.readMoreText}>Read More</Text>
         </TouchableOpacity>
       </View>
-      
+
       <View style={styles.newsCard}>
         <Text style={styles.newsTitle}>New Polling Locations Announced</Text>
         <Text style={styles.newsDate}>April 5, 2025</Text>
         <Text style={styles.newsContent}>
-          The Election Commission has announced several new polling locations to accommodate the increased 
-          number of registered voters. The new locations include community centers, schools, and public 
+          The Election Commission has announced several new polling locations to accommodate the increased
+          number of registered voters. The new locations include community centers, schools, and public
           libraries across all districts. Check the app for your assigned polling station.
         </Text>
         <TouchableOpacity style={styles.readMoreButton}>
