@@ -1,7 +1,7 @@
-#"""
-#AWS Lambda function for automatic secret rotation
-#Implements secure password rotation for database credentials
-#"""
+# """
+# AWS Lambda function for automatic secret rotation
+# Implements secure password rotation for database credentials
+# """
 
 import json
 import logging
@@ -21,9 +21,9 @@ rds_client = boto3.client("rds")
 
 
 def lambda_handler(event, context):
-#    """
-#    Main Lambda handler for secret rotation
-#    """
+    #    """
+    #    Main Lambda handler for secret rotation
+    #    """
     try:
         # Extract secret ARN and token from event
         secret_arn = event["SecretId"]
@@ -59,9 +59,9 @@ def lambda_handler(event, context):
 
 
 def create_secret(secret_arn, token):
-#    """
-#    Create a new secret version with a new password
-#    """
+    #    """
+    #    Create a new secret version with a new password
+    #    """
     try:
         # Get current secret
         current_secret = get_secret_dict(secret_arn, "AWSCURRENT")
@@ -91,9 +91,9 @@ def create_secret(secret_arn, token):
 
 
 def set_secret(secret_arn, token):
-#    """
-#    Set the new password in the database
-#    """
+    #    """
+    #    Set the new password in the database
+    #    """
     try:
         # Get current and pending secrets
         current_secret = get_secret_dict(secret_arn, "AWSCURRENT")
@@ -125,9 +125,9 @@ def set_secret(secret_arn, token):
 
 
 def test_secret(secret_arn, token):
-#    """
-#    Test the new password by connecting to the database
-#    """
+    #    """
+    #    Test the new password by connecting to the database
+    #    """
     try:
         # Get pending secret
         pending_secret = get_secret_dict(secret_arn, "AWSPENDING", token)
@@ -155,9 +155,9 @@ def test_secret(secret_arn, token):
 
 
 def finish_secret(secret_arn, token):
-#    """
-#    Finalize the rotation by updating version stages
-#    """
+    #    """
+    #    Finalize the rotation by updating version stages
+    #    """
     try:
         # Move AWSPENDING to AWSCURRENT
         secrets_client.update_secret_version_stage(
@@ -175,9 +175,9 @@ def finish_secret(secret_arn, token):
 
 
 def get_secret_dict(secret_arn, stage, token=None):
-#    """
-#    Get secret as dictionary
-#    """
+    #    """
+    #    Get secret as dictionary
+    #    """
     try:
         kwargs = {"SecretId": secret_arn, "VersionStage": stage}
 
@@ -193,9 +193,9 @@ def get_secret_dict(secret_arn, stage, token=None):
 
 
 def get_secret_version_id(secret_arn, stage):
-#    """
-#    Get version ID for a specific stage
-#    """
+    #    """
+    #    Get version ID for a specific stage
+    #    """
     try:
         response = secrets_client.describe_secret(SecretId=secret_arn)
 
@@ -211,9 +211,9 @@ def get_secret_version_id(secret_arn, stage):
 
 
 def get_database_connection(secret_dict):
-#    """
-#    Create database connection using secret credentials
-#    """
+    #    """
+    #    Create database connection using secret credentials
+    #    """
     try:
         connection = psycopg2.connect(
             host=secret_dict["host"],
@@ -233,9 +233,9 @@ def get_database_connection(secret_dict):
 
 
 def generate_password():
-#    """
-#    Generate a secure random password
-#    """
+    #    """
+    #    Generate a secure random password
+    #    """
     import secrets
     import string
 
@@ -265,9 +265,9 @@ def generate_password():
 
 
 def send_notification(message, secret_arn):
-#    """
-#    Send notification about rotation status
-#    """
+    #    """
+    #    Send notification about rotation status
+    #    """
     try:
         sns_client = boto3.client("sns")
         topic_arn = os.environ.get("SNS_TOPIC_ARN")

@@ -1,7 +1,7 @@
-#"""
-#AWS Lambda function for log processing and security analysis
-#Processes CloudWatch logs and sends alerts for security events
-#"""
+# """
+# AWS Lambda function for log processing and security analysis
+# Processes CloudWatch logs and sends alerts for security events
+# """
 
 import base64
 import gzip
@@ -56,9 +56,9 @@ SECURITY_PATTERNS = {
 
 
 def lambda_handler(event, context):
-#    """
-#    Main Lambda handler for log processing
-#    """
+    #    """
+    #    Main Lambda handler for log processing
+    #    """
     try:
         # Process CloudWatch Logs data
         cw_data = event["awslogs"]["data"]
@@ -105,9 +105,9 @@ def lambda_handler(event, context):
 
 
 def process_log_event(log_event, log_group):
-#    """
-#    Process individual log event for security analysis
-#    """
+    #    """
+    #    Process individual log event for security analysis
+    #    """
     try:
         message = log_event["message"]
         timestamp = log_event["timestamp"]
@@ -152,9 +152,9 @@ def process_log_event(log_event, log_group):
 
 
 def analyze_security_patterns(message):
-#    """
-#    Analyze message for security patterns
-#    """
+    #    """
+    #    Analyze message for security patterns
+    #    """
     findings = []
 
     for pattern_type, patterns in SECURITY_PATTERNS.items():
@@ -172,9 +172,9 @@ def analyze_security_patterns(message):
 
 
 def determine_severity(security_findings):
-#    """
-#    Determine severity based on security findings
-#    """
+    #    """
+    #    Determine severity based on security findings
+    #    """
     high_severity_types = ["sql_injection", "command_injection", "privilege_escalation"]
     medium_severity_types = ["xss_attempt", "path_traversal"]
 
@@ -188,18 +188,18 @@ def determine_severity(security_findings):
 
 
 def extract_log_level(message):
-#    """
-#    Extract log level from message
-#    """
+    #    """
+    #    Extract log level from message
+    #    """
     level_pattern = r"\b(DEBUG|INFO|WARN|ERROR|FATAL)\b"
     match = re.search(level_pattern, message, re.IGNORECASE)
     return match.group(1).upper() if match else "INFO"
 
 
 def extract_user(message):
-#    """
-#    Extract user from message
-#    """
+    #    """
+    #    Extract user from message
+    #    """
     user_patterns = [
         r"user[:\s]+([a-zA-Z0-9_\-\.@]+)",
         r"username[:\s]+([a-zA-Z0-9_\-\.@]+)",
@@ -215,27 +215,27 @@ def extract_user(message):
 
 
 def extract_ip_address(message):
-#    """
-#    Extract IP address from message
-#    """
+    #    """
+    #    Extract IP address from message
+    #    """
     ip_pattern = r"\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b"
     match = re.search(ip_pattern, message)
     return match.group(0) if match else "unknown"
 
 
 def extract_user_agent(message):
-#    """
-#    Extract user agent from message
-#    """
+    #    """
+    #    Extract user agent from message
+    #    """
     ua_pattern = r"user[_\-\s]?agent[:\s]+([^\n\r]+)"
     match = re.search(ua_pattern, message, re.IGNORECASE)
     return match.group(1).strip() if match else "unknown"
 
 
 def send_to_elasticsearch(security_events):
-#    """
-#    Send security events to Elasticsearch
-#    """
+    #    """
+    #    Send security events to Elasticsearch
+    #    """
     try:
         es_endpoint = os.environ.get("ELASTICSEARCH_ENDPOINT")
         if not es_endpoint:
@@ -262,9 +262,9 @@ def send_to_elasticsearch(security_events):
 
 
 def send_security_alert(high_severity_events):
-#    """
-#    Send security alert for high-severity events
-#    """
+    #    """
+    #    Send security alert for high-severity events
+    #    """
     try:
         sns_topic_arn = os.environ.get("SNS_TOPIC_ARN")
         if not sns_topic_arn:
@@ -278,16 +278,16 @@ SECURITY ALERT - {os.environ.get('ENVIRONMENT', 'Unknown')} Environment
 {len(high_severity_events)} high-severity security events detected:
 
 #"""
-#
-#        for event in high_severity_events[:5]:  # Limit to first 5 events
-#            alert_message += f"""
-#Timestamp: {event['timestamp']}
-#User: {event['user']}
-#IP Address: {event['ip_address']}
-#Findings: {', '.join([f['type'] for f in event['security_findings']])}
-#Message: {event['message'][:200]}...
-#
-#"""
+        #
+        #        for event in high_severity_events[:5]:  # Limit to first 5 events
+        #            alert_message += f"""
+        # Timestamp: {event['timestamp']}
+        # User: {event['user']}
+        # IP Address: {event['ip_address']}
+        # Findings: {', '.join([f['type'] for f in event['security_findings']])}
+        # Message: {event['message'][:200]}...
+        #
+        # """
 
         if len(high_severity_events) > 5:
             alert_message += f"\n... and {len(high_severity_events) - 5} more events"
@@ -306,9 +306,9 @@ SECURITY ALERT - {os.environ.get('ENVIRONMENT', 'Unknown')} Environment
 
 
 def enrich_with_threat_intelligence(event):
-#    """
-#    Enrich event with threat intelligence data
-#    """
+    #    """
+    #    Enrich event with threat intelligence data
+    #    """
     try:
         ip_address = event.get("ip_address", "")
 
@@ -330,9 +330,9 @@ def enrich_with_threat_intelligence(event):
 
 
 def get_malicious_ip_list():
-#    """
-#    Get list of known malicious IPs (placeholder implementation)
-#    """
+    #    """
+    #    Get list of known malicious IPs (placeholder implementation)
+    #    """
     # In a real implementation, this would fetch from threat intelligence feeds
     return {
         "192.168.1.100": "botnet",
@@ -342,9 +342,9 @@ def get_malicious_ip_list():
 
 
 def calculate_risk_score(event):
-#    """
-#    Calculate risk score for the event
-#    """
+    #    """
+    #    Calculate risk score for the event
+    #    """
     try:
         score = 0
 
