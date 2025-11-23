@@ -65,14 +65,14 @@ jobs:
           fi
 
       # -------------------------------
-      # Prettier: backend (with Solidity plugin)
+      # Prettier: backend (with Solidity plugin from root)
       # -------------------------------
       - name: Run Prettier Checks (backend-api)
         run: |
           if [ -f "${BACKEND_DIR}/package.json" ]; then
             echo "=== Running Prettier (backend-api) ==="
             cd "${BACKEND_DIR}"
-            npx prettier --plugin=prettier-plugin-solidity --check "**/*.{js,jsx,ts,tsx,sol,json,html,css,md}"
+            npx prettier --plugin-search-dir=. --check "**/*.{js,jsx,ts,tsx,sol,json,html,css,md}"
           else
             echo "No package.json in ${BACKEND_DIR}, skipping Prettier check"
           fi
@@ -85,7 +85,7 @@ jobs:
           if [ -f "${WEB_FRONTEND_DIR}/package.json" ]; then
             echo "=== Running Prettier (web-frontend) ==="
             cd "${WEB_FRONTEND_DIR}"
-            npx prettier --check "**/*.{js,jsx,ts,tsx,json,html,css,md}"
+            npx prettier --plugin-search-dir=. --check "**/*.{js,jsx,ts,tsx,json,html,css,md}"
           else
             echo "No package.json in ${WEB_FRONTEND_DIR}, skipping Prettier check"
           fi
@@ -98,7 +98,7 @@ jobs:
           if [ -f "${MOBILE_FRONTEND_DIR}/package.json" ]; then
             echo "=== Running Prettier (mobile-frontend) ==="
             cd "${MOBILE_FRONTEND_DIR}"
-            npx prettier --check "**/*.{js,jsx,ts,tsx,json,html,css,md}"
+            npx prettier --plugin-search-dir=. --check "**/*.{js,jsx,ts,tsx,json,html,css,md}"
           else
             echo "No package.json in ${MOBILE_FRONTEND_DIR}, skipping Prettier check"
           fi
