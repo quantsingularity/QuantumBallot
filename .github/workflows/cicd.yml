@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      BACKEND_DIR: code
+      BACKEND_DIR: backend-api
       WEB_FRONTEND_DIR: web-frontend
       MOBILE_FRONTEND_DIR: mobile-frontend
 
@@ -22,41 +22,6 @@ jobs:
       # -------------------------------
       - name: Checkout Repository
         uses: actions/checkout@v4
-
-      # -------------------------------
-      # Python Setup + Formatting
-      # -------------------------------
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Install Python Formatters
-        run: |
-          pip install autoflake black
-
-      - name: Run Python Formatting Checks
-        working-directory: ${{ env.BACKEND_DIR }}
-        run: |
-          echo "=== Running autoflake (diff mode) ==="
-          cp -r . /tmp/python_copy
-
-          autoflake \
-            --remove-all-unused-imports \
-            --remove-unused-variables \
-            --recursive \
-            --ignore-init-module-imports \
-            --in-place \
-            /tmp/python_copy
-
-          echo "Comparing files..."
-          diff -r . /tmp/python_copy > /dev/null || {
-            echo "autoflake found issues."
-            exit 1
-          }
-
-          echo "=== Running black ==="
-          black . --check
 
       # -------------------------------
       # Node + Prettier Setup
@@ -70,6 +35,13 @@ jobs:
       - name: Install Node Dependencies
         working-directory: .
         run: npm ci
+
+      # Prettier: backend
+      - name: Run Prettier Checks (backend-api)
+        working-directory: .
+        run: |
+          echo "=== Running Prettier (backend-api) ==="
+          ./node_modules/.bin/prettier --check "backend-api/**/*.{js,jsx,ts,tsx,json,html,css,md}"
 
       # Prettier: web-frontend
       - name: Run Prettier Checks (web-frontend)
