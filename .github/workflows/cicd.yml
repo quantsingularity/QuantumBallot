@@ -29,33 +29,37 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20'
 
-      # Install Node dependencies (root)
+      # Install dependencies from root package.json
       - name: Install Node Dependencies
-        working-directory: .
-        run: npm install
+        run: npm ci
 
-      # Prettier: backend
+      # -------------------------------
+      # Prettier: backend (with Solidity)
+      # -------------------------------
       - name: Run Prettier Checks (backend-api)
-        working-directory: .
         run: |
           echo "=== Running Prettier (backend-api) ==="
-          ./node_modules/.bin/prettier --check "backend-api/**/*.{js,jsx,ts,tsx,json,html,css,md}"
+          npx prettier \
+            --plugin=prettier-plugin-solidity \
+            --check "$BACKEND_DIR/**/*.{js,jsx,ts,tsx,sol,json,html,css,md}"
 
+      # -------------------------------
       # Prettier: web-frontend
+      # -------------------------------
       - name: Run Prettier Checks (web-frontend)
-        working-directory: .
         run: |
           echo "=== Running Prettier (web-frontend) ==="
-          ./node_modules/.bin/prettier --check "web-frontend/**/*.{js,jsx,ts,tsx,json,html,css,md}"
+          npx prettier --check "$WEB_FRONTEND_DIR/**/*.{js,jsx,ts,tsx,json,html,css,md}"
 
+      # -------------------------------
       # Prettier: mobile-frontend
+      # -------------------------------
       - name: Run Prettier Checks (mobile-frontend)
-        working-directory: .
         run: |
           echo "=== Running Prettier (mobile-frontend) ==="
-          ./node_modules/.bin/prettier --check "mobile-frontend/**/*.{js,jsx,ts,tsx,json,html,css,md}"
+          npx prettier --check "$MOBILE_FRONTEND_DIR/**/*.{js,jsx,ts,tsx,json,html,css,md}"
 
       # -------------------------------
       # Done
