@@ -33,7 +33,7 @@ jobs:
 
       # Install dependencies from root package.json
       - name: Install Node Dependencies
-        run: npm ci
+        run: npm install
 
       # -------------------------------
       # Prettier: backend (with Solidity)
