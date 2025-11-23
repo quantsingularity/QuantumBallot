@@ -34,7 +34,7 @@ jobs:
       # Install Node dependencies (root)
       - name: Install Node Dependencies
         working-directory: .
-        run: npm ci
+        run: npm Install
 
       # Prettier: backend
       - name: Run Prettier Checks (backend-api)
