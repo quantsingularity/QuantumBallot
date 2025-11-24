@@ -1,12 +1,19 @@
 /* Custom cursor styles */
 body {
-  cursor: url('/images/cursor-gold.svg'), auto;
+  cursor: url("/images/cursor-gold.svg"), auto;
 }
 
-a, button, [role="button"], input[type="submit"], input[type="button"], input[type="reset"] {
-  cursor: url('/images/cursor-pointer-gold.svg'), pointer;
+a,
+button,
+[role="button"],
+input[type="submit"],
+input[type="button"],
+input[type="reset"] {
+  cursor: url("/images/cursor-pointer-gold.svg"), pointer;
 }
 
-input, textarea, select {
-  cursor: url('/images/cursor-text-gold.svg'), text;
+input,
+textarea,
+select {
+  cursor: url("/images/cursor-text-gold.svg"), text;
 }
