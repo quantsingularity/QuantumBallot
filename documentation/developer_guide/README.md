@@ -821,25 +821,3 @@ When reporting issues, please include:
 5. Environment details (OS, browser, Node.js version, etc.)
 6. Screenshots or error logs if applicable
 
-## Resources
-
-### Official Documentation
-
-- [Node.js Documentation](https://nodejs.org/en/docs/)
-- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
-- [React Documentation](https://reactjs.org/docs/getting-started.html)
-- [React Native Documentation](https://reactnative.dev/docs/getting-started)
-- [Expo Documentation](https://docs.expo.dev/)
-
-### Learning Resources
-
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/handbook/intro.html)
-- [React Hooks Guide](https://reactjs.org/docs/hooks-intro.html)
-- [React Query Documentation](https://tanstack.com/query/latest/docs/react/overview)
-- [Blockchain Basics](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
-
-### Community Support
-
-- [Project Discord Server](#)
-- [GitHub Discussions](#)
-- [Stack Overflow Tag](#)

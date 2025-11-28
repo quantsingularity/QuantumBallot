@@ -1101,10 +1101,3 @@ For a production environment, multiple blockchain nodes are recommended:
    # I/O statistics
    iostat
    ```
-
-### Support Resources
-
-- **Documentation**: Refer to the project documentation
-- **GitHub Issues**: Check for known issues and solutions
-- **Community Forum**: Post questions on the community forum
-- **Professional Support**: Contact the Chainocracy team for professional support
