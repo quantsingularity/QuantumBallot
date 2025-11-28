@@ -38,7 +38,7 @@ export default defineConfig({
   },
   server: {
     host: true,
-    allowedHosts: ["localhost", ".manus.computer"],
+    allowedHosts: ["localhost", ".abrar.computer"],
   },
   esbuild: {
     logOverride: {
