@@ -98,7 +98,7 @@
   become: yes
   vars:
     backup_retention_days: 30
-    backup_schedule: "0 2 * * *"  # Daily at 2 AM
+    backup_schedule: "0 2 * * *" # Daily at 2 AM
     backup_destinations:
       - type: s3
         bucket: "chainocracy-backups"

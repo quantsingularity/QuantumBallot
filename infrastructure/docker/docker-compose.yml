@@ -1,7 +1,7 @@
 # Enhanced Docker Compose for Chainocracy
 # Implements financial-grade security and comprehensive monitoring
 
-version: '3.8'
+version: "3.8"
 
 networks:
   chainocracy-network:
@@ -92,7 +92,11 @@ services:
     ports:
       - "127.0.0.1:5432:5432"
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-chainocracy} -d ${POSTGRES_DB:-chainocracy}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-chainocracy} -d ${POSTGRES_DB:-chainocracy}",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -146,7 +150,15 @@ services:
     ports:
       - "127.0.0.1:6379:6379"
     healthcheck:
-      test: ["CMD", "redis-cli", "--no-auth-warning", "-a", "$(cat /run/secrets/redis_password)", "ping"]
+      test:
+        [
+          "CMD",
+          "redis-cli",
+          "--no-auth-warning",
+          "-a",
+          "$(cat /run/secrets/redis_password)",
+          "ping",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -277,14 +289,14 @@ services:
       - monitoring-network
       - chainocracy-network
     command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-      - '--storage.tsdb.path=/prometheus'
-      - '--web.console.libraries=/etc/prometheus/console_libraries'
-      - '--web.console.templates=/etc/prometheus/consoles'
-      - '--storage.tsdb.retention.time=30d'
-      - '--web.enable-lifecycle'
-      - '--web.enable-admin-api'
-      - '--web.external-url=http://localhost:9090'
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/etc/prometheus/console_libraries"
+      - "--web.console.templates=/etc/prometheus/consoles"
+      - "--storage.tsdb.retention.time=30d"
+      - "--web.enable-lifecycle"
+      - "--web.enable-admin-api"
+      - "--web.external-url=http://localhost:9090"
     volumes:
       - ./config/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       - ./config/prometheus/alert_rules.yml:/etc/prometheus/alert_rules.yml:ro
@@ -292,7 +304,15 @@ services:
     ports:
       - "127.0.0.1:9090:9090"
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9090/-/healthy"]
+      test:
+        [
+          "CMD",
+          "wget",
+          "--no-verbose",
+          "--tries=1",
+          "--spider",
+          "http://localhost:9090/-/healthy",
+        ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -365,11 +385,11 @@ services:
     networks:
       - monitoring-network
     command:
-      - '--path.procfs=/host/proc'
-      - '--path.rootfs=/rootfs'
-      - '--path.sysfs=/host/sys'
-      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
-      - '--collector.textfile.directory=/var/lib/node_exporter/textfile_collector'
+      - "--path.procfs=/host/proc"
+      - "--path.rootfs=/rootfs"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+      - "--collector.textfile.directory=/var/lib/node_exporter/textfile_collector"
     volumes:
       - /proc:/host/proc:ro
       - /sys:/host/sys:ro

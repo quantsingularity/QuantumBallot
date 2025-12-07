@@ -12,24 +12,24 @@ spec:
   template:
     spec:
       containers:
-      - name: backend
-        resources:
-          # Set higher resource requests and limits for production
-          requests:
-            cpu: "500m"
-            memory: "1024Mi"
-          limits:
-            cpu: "1000m"
-            memory: "2048Mi"
-        env:
-        - name: NODE_ENV
-          value: "production"
-        - name: LOG_LEVEL
-          value: "warn"
-        # Add production-specific environment variables (use Secrets/ConfigMaps)
-        # Example:
-        # - name: DATABASE_URL
-        #   valueFrom:
-        #     secretKeyRef:
-        #       name: backend-secrets-prod
-        #       key: database_url
+        - name: backend
+          resources:
+            # Set higher resource requests and limits for production
+            requests:
+              cpu: "500m"
+              memory: "1024Mi"
+            limits:
+              cpu: "1000m"
+              memory: "2048Mi"
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: LOG_LEVEL
+              value: "warn"
+          # Add production-specific environment variables (use Secrets/ConfigMaps)
+          # Example:
+          # - name: DATABASE_URL
+          #   valueFrom:
+          #     secretKeyRef:
+          #       name: backend-secrets-prod
+          #       key: database_url

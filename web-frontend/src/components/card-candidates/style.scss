@@ -12,8 +12,7 @@
     /* "glass" tube */
     inset 0 0 0 2px rgba(0, 0, 0, 0.15),
     0 0 0 2px rgba(0, 0, 0, 0.15),
-    /* glow */
-    inset 0 0 var(--box-blur) var(--glow),
+    /* glow */ inset 0 0 var(--box-blur) var(--glow),
     0 0 var(--box-blur) var(--glow);
   color: var(--color, white);
   width: var(--size);
@@ -47,7 +46,7 @@
     --blur: 1.75rem;
   }
   25% {
-    --blur: 1.50rem;
+    --blur: 1.5rem;
   }
   50% {
     --blur: 1.25rem;
@@ -73,8 +72,7 @@
     /* "glass" tube */
     inset 0 0 0 4px rgba(0, 0, 0, 0.15),
     0 0 0 2px rgba(0, 0, 0, 0.15),
-    /* glow */
-    inset 0 0 var(--box-blur) var(--glow),
+    /* glow */ inset 0 0 var(--box-blur) var(--glow),
     0 0 var(--box-blur) var(--glow);
   color: var(--color, white);
   width: var(--size);

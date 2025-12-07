@@ -7,7 +7,6 @@
 - name: Placeholder for backend deployment tasks
   ansible.builtin.debug:
     msg: "Ansible tasks for backend deployment/management would go here (e.g., triggering ECS deployment, database migrations)."
-
 # Example: Trigger ECS service update (requires AWS CLI configured or credentials)
 # - name: Update ECS Service with new task definition
 #   community.aws.ecs_service:

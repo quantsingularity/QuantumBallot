@@ -10,15 +10,15 @@ metadata:
     # kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
-  - http:
-      paths:
-      - path: / # Serve frontend from the root path
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend-web-service
-            port:
-              number: 80 # Match the Service port
+    - http:
+        paths:
+          - path: / # Serve frontend from the root path
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-web-service
+                port:
+                  number: 80 # Match the Service port
   # tls:
   # - hosts:
   #   - chainocracy-dev.example.com # Replace with actual domain

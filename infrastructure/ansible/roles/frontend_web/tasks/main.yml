@@ -6,7 +6,6 @@
 - name: Placeholder for frontend build and deployment tasks
   ansible.builtin.debug:
     msg: "Ansible tasks for frontend build and S3 sync would go here."
-
 # Example tasks that might run on a build agent:
 # - name: Ensure build directory exists
 #   ansible.builtin.file:

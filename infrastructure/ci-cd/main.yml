@@ -3,9 +3,9 @@ name: Main CI/CD Workflow
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   detect-changes:
@@ -17,23 +17,23 @@ jobs:
       docs: ${{ steps.filter.outputs.docs }}
 
     steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
-    - name: Check for file changes
-      uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          backend:
-            - 'backend-api/**'
-          web-frontend:
-            - 'web-frontend/**'
-          mobile-frontend:
-            - 'mobile-frontend/**'
-          docs:
-            - 'docs/**'
+      - name: Check for file changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            backend:
+              - 'backend-api/**'
+            web-frontend:
+              - 'web-frontend/**'
+            mobile-frontend:
+              - 'mobile-frontend/**'
+            docs:
+              - 'docs/**'
 
   trigger-workflows:
     needs: detect-changes

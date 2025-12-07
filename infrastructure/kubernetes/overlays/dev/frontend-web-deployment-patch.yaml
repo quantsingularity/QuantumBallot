@@ -9,9 +9,9 @@ spec:
   template:
     spec:
       containers:
-      - name: frontend-web
-        env:
-        - name: NODE_ENV
-          value: "development"
-        - name: VITE_API_URL
-          value: "/api" # Assuming ingress routes /api to backend
+        - name: frontend-web
+          env:
+            - name: NODE_ENV
+              value: "development"
+            - name: VITE_API_URL
+              value: "/api" # Assuming ingress routes /api to backend

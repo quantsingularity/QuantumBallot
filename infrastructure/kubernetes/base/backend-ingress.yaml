@@ -10,15 +10,15 @@ metadata:
     # alb.ingress.kubernetes.io/target-type: ip
 spec:
   rules:
-  - http:
-      paths:
-      - path: /api # Expose backend under /api path
-        pathType: Prefix
-        backend:
-          service:
-            name: backend-service
-            port:
-              number: 80 # Match the Service port
+    - http:
+        paths:
+          - path: /api # Expose backend under /api path
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 80 # Match the Service port
   # tls:
   # - hosts:
   #   - chainocracy-dev.example.com # Replace with actual domain

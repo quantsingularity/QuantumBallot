@@ -3,13 +3,13 @@ name: Web Frontend CI/CD
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'web-frontend/**'
+      - "web-frontend/**"
   pull_request:
-    branches: [ main ]
+    branches: [main]
     paths:
-      - 'web-frontend/**'
+      - "web-frontend/**"
 
 jobs:
   test:
@@ -19,23 +19,23 @@ jobs:
         working-directory: ./web-frontend
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Use Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18.x'
-        cache: 'npm'
-        cache-dependency-path: './web-frontend/package-lock.json'
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          cache: "npm"
+          cache-dependency-path: "./web-frontend/package-lock.json"
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Run tests
-      run: npm test
+      - name: Run tests
+        run: npm test
 
-    - name: Run linting
-      run: npm run lint
+      - name: Run linting
+        run: npm run lint
 
   build:
     runs-on: ubuntu-latest
@@ -46,26 +46,26 @@ jobs:
         working-directory: ./web-frontend
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Use Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18.x'
-        cache: 'npm'
-        cache-dependency-path: './web-frontend/package-lock.json'
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18.x"
+          cache: "npm"
+          cache-dependency-path: "./web-frontend/package-lock.json"
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Build
-      run: npm run build
+      - name: Build
+        run: npm run build
 
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
-      with:
-        name: web-frontend-build
-        path: ./web-frontend/dist
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: web-frontend-build
+          path: ./web-frontend/dist
 
   deploy:
     runs-on: ubuntu-latest
@@ -74,27 +74,27 @@ jobs:
     environment: production
 
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Download build artifacts
-      uses: actions/download-artifact@v3
-      with:
-        name: web-frontend-build
-        path: ./web-frontend/dist
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: web-frontend-build
+          path: ./web-frontend/dist
 
-    - name: Set up SSH
-      uses: webfactory/ssh-agent@v0.7.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.7.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Deploy to production server
-      run: |
-        # Add host key verification
-        mkdir -p ~/.ssh
-        ssh-keyscan -H ${{ secrets.PRODUCTION_HOST }} >> ~/.ssh/known_hosts
+      - name: Deploy to production server
+        run: |
+          # Add host key verification
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.PRODUCTION_HOST }} >> ~/.ssh/known_hosts
 
-        # Deploy using rsync
-        rsync -avz --delete ./web-frontend/dist/ ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }}:${{ secrets.PRODUCTION_PATH }}/web-frontend/
+          # Deploy using rsync
+          rsync -avz --delete ./web-frontend/dist/ ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }}:${{ secrets.PRODUCTION_PATH }}/web-frontend/
 
-        # Update nginx configuration if needed
-        ssh ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} "sudo systemctl reload nginx || true"
+          # Update nginx configuration if needed
+          ssh ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} "sudo systemctl reload nginx || true"

@@ -13,17 +13,17 @@ metadata:
     # external-dns.alpha.kubernetes.io/hostname: chainocracy.example.com # Replace with actual domain
 spec:
   rules:
-  - host: chainocracy.example.com # Replace with actual production domain
-    http:
-      paths:
-      - path: / # Serve frontend from root
-        pathType: Prefix
-        backend:
-          service:
-            name: frontend-web-service
-            port:
-              number: 80
+    - host: chainocracy.example.com # Replace with actual production domain
+      http:
+        paths:
+          - path: / # Serve frontend from root
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend-web-service
+                port:
+                  number: 80
   tls:
-  - hosts:
-    - chainocracy.example.com # Replace with actual production domain
-    secretName: chainocracy-prod-tls-secret # Use a production-specific TLS secret (managed by cert-manager or manually)
+    - hosts:
+        - chainocracy.example.com # Replace with actual production domain
+      secretName: chainocracy-prod-tls-secret # Use a production-specific TLS secret (managed by cert-manager or manually)
