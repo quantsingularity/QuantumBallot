@@ -3,252 +3,708 @@
 use std::fmt;
 use std::env;
 use std::fs;
-use std::collections::HashMap;
-use serde::Deserialize;
+use std::collections::{HashMap, HashSet};
+use serde::{Deserialize, Serialize};
 use reqwest::Error;
+use std::time::{SystemTime, UNIX_EPOCH};
+use std::sync::{Arc, Mutex};
+use log::{info, warn, error};
+use thiserror::Error;
 
+// Custom error types for better error handling
+#[derive(Error, Debug)]
+pub enum ContractError {
+    #[error("Access denied: {0}")]
+    AccessDenied(String),
 
-#[derive(Clone)]
-#[derive(Debug)]
-#[derive(Deserialize)]
-struct Candidate {
-    name: String,
-    num_votes: u64,
-    code: u64,
+    #[error("Invalid input: {0}")]
+    InvalidInput(String),
+
+    #[error("Operation failed: {0}")]
+    OperationFailed(String),
+
+    #[error("State error: {0}")]
+    StateError(String),
+
+    #[error("External resource error: {0}")]
+    ExternalResourceError(String),
+
+    #[error("Database error: {0}")]
+    DatabaseError(String),
 }
 
-#[derive(Clone)]
-#[derive(Debug)]
-#[derive(Deserialize)]
-struct Voter {
-    identifier: String,
-    choice_code: u64,
+// Result type alias for contract operations
+type ContractResult<T> = Result<T, ContractError>;
+
+// Role-based access control
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+pub enum Role {
+    Admin,
+    Voter,
+    Observer,
 }
 
-enum ElectionState {
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct User {
+    pub identifier: String,
+    pub roles: Vec<Role>,
+    pub reputation_score: u64, // For Sybil resistance
+    pub verified: bool,        // For Sybil resistance
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Candidate {
+    pub name: String,
+    pub num_votes: u64,
+    pub code: u64,
+    pub description: String,
+    pub created_at: u64,
+    pub created_by: String,
+}
+
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Voter {
+    pub identifier: String,
+    pub choice_code: u64,
+    pub has_voted: bool,       // Explicit tracking of voting status
+    pub voting_power: f64,     // For quadratic voting
+    pub last_vote_time: u64,   // For rate limiting
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Deserialize, Serialize)]
+pub enum ElectionState {
     Announced,
     Started,
     Happening,
     Ended,
 }
 
+// Event system for tracking important state changes
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct Event {
+    pub event_type: String,
+    pub timestamp: u64,
+    pub data: String,
+    pub emitted_by: String,
+}
+
 impl fmt::Display for Candidate {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {}, {})", self.name, self.num_votes, self.code)
+        write!(f, "({}, {}, {}, {})", self.name, self.num_votes, self.code, self.description)
     }
 }
 
 impl fmt::Display for Voter {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "({}, {})", self.identifier, self.choice_code)
+        write!(f, "({}, {}, voted: {})", self.identifier, self.choice_code, self.has_voted)
     }
 }
 
-fn create_voter(identifier: String, choice_code: u64) -> Voter {
-    Voter {
-        identifier,
-        choice_code,
-    }
+// Contract state container with thread-safe access
+pub struct ElectionContract {
+    state: Arc<Mutex<ElectionState>>,
+    admin: Arc<Mutex<String>>,
+    voters: Arc<Mutex<HashMap<String, Voter>>>,
+    candidates: Arc<Mutex<HashMap<u64, Candidate>>>,
+    events: Arc<Mutex<Vec<Event>>>,
+    voted_addresses: Arc<Mutex<HashSet<String>>>, // For double-voting prevention
+    config: Arc<Mutex<ContractConfig>>,
 }
 
-fn create_candidate(name: String, num_votes: u64, code: u64) -> Candidate {
-    Candidate {
-        name,
-        num_votes,
-        code,
-    }
+// Configuration for the contract
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct ContractConfig {
+    pub candidate_data_url: String,
+    pub voter_data_url: String,
+    pub min_reputation_score: u64,
+    pub max_votes_per_period: u64,
+    pub voting_period_seconds: u64,
+    pub emergency_stop: bool,
 }
 
-fn announce_election(state: &mut ElectionState) {
-    *state = ElectionState::Announced;
-}
-
-fn add_candidate(candidate: Candidate, hash_candidates: &mut HashMap<u64, Candidate>) {
-    hash_candidates.insert(candidate.code, candidate.clone());
-}
-
-fn add_voter(voter: Voter, state: &mut ElectionState, hash_voters: &mut HashMap<String, u64>, array_voters: &mut Vec<Voter>) {
-    array_voters.push(voter.clone());
-    hash_voters.insert(voter.identifier.clone(), voter.choice_code);
-    *state = ElectionState::Happening;
-}
-
-fn start_election(state: &mut ElectionState) {
-    *state = ElectionState::Started;
-}
-
-fn end_election(state: &mut ElectionState) {
-    *state = ElectionState::Ended;
-}
-
-fn give_right_to_vote() {
-    // Implementation goes here
-}
-
-fn place_vote(voter: &Voter, hash_voters: &HashMap<String, u64>, hash_candidates: &mut HashMap<u64, Candidate>) {
-    assert!(!has_voted(voter), "Voter already voted.");
-    assert!(exists_voter(voter, hash_voters), "Voter does not exist.");
-    if let Some(candidate) = hash_candidates.get_mut(&voter.choice_code) {
-        candidate.num_votes += 1;
-        // Mark as already voted
-    }
-}
-
-fn winning_candidate(hash_candidates: &HashMap<u64, Candidate>) -> Option<Candidate> {
-    let mut winner_candidate: Option<Candidate> = None;
-    for (_, val) in hash_candidates.iter() {
-        match winner_candidate {
-            None => winner_candidate = Some(val.clone()),
-            Some(ref x) => {
-                if val.num_votes > x.num_votes {
-                    winner_candidate = Some(val.clone());
-                }
-            }
+impl Default for ContractConfig {
+    fn default() -> Self {
+        ContractConfig {
+            candidate_data_url: "https://example.com/candidates.json".to_string(),
+            voter_data_url: "https://example.com/voters.json".to_string(),
+            min_reputation_score: 10,
+            max_votes_per_period: 5,
+            voting_period_seconds: 86400, // 24 hours
+            emergency_stop: false,
         }
     }
-    winner_candidate
 }
 
-fn exists_voter(voter: &Voter, hash_voters: &HashMap<String, u64>) -> bool {
-    hash_voters.contains_key(&voter.identifier)
-}
+impl ElectionContract {
+    // Constructor with default configuration
+    pub fn new(admin_address: String) -> Self {
+        ElectionContract {
+            state: Arc::new(Mutex::new(ElectionState::Announced)),
+            admin: Arc::new(Mutex::new(admin_address)),
+            voters: Arc::new(Mutex::new(HashMap::new())),
+            candidates: Arc::new(Mutex::new(HashMap::new())),
+            events: Arc::new(Mutex::new(Vec::new())),
+            voted_addresses: Arc::new(Mutex::new(HashSet::new())),
+            config: Arc::new(Mutex::new(ContractConfig::default())),
+        }
+    }
 
-fn has_voted(voter: &Voter) -> bool {
-    voter.choice_code <= 0
-}
+    // Constructor with custom configuration
+    pub fn with_config(admin_address: String, config: ContractConfig) -> Self {
+        ElectionContract {
+            state: Arc::new(Mutex::new(ElectionState::Announced)),
+            admin: Arc::new(Mutex::new(admin_address)),
+            voters: Arc::new(Mutex::new(HashMap::new())),
+            candidates: Arc::new(Mutex::new(HashMap::new())),
+            events: Arc::new(Mutex::new(Vec::new())),
+            voted_addresses: Arc::new(Mutex::new(HashSet::new())),
+            config: Arc::new(Mutex::new(config)),
+        }
+    }
 
-fn test() {
-    let voter1 = create_voter("1234".to_string(), 2);
-    let candidate1 = create_candidate("Abrar Ahmed".to_string(), 100, 3);
+    // Helper function to check if caller is admin
+    fn is_admin(&self, caller: &str) -> bool {
+        let admin = self.admin.lock().unwrap();
+        *admin == caller
+    }
 
-    println!("{}", voter1);
-    println!("{}", candidate1);
-}
+    // Helper function to emit events
+    fn emit_event(&self, event_type: &str, data: &str, emitted_by: &str) {
+        let timestamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
 
+        let event = Event {
+            event_type: event_type.to_string(),
+            timestamp,
+            data: data.to_string(),
+            emitted_by: emitted_by.to_string(),
+        };
 
-fn parse_candidate(line: &str) -> Option<Candidate> {
-    let parts: Vec<&str> = line.split(',').collect();
-    if parts.len() == 3 {
-        let name = String::from(parts[0].trim());
-        let num_votes = parts[1].trim().parse::<u64>().ok()?;
-        let code = parts[2].trim().parse::<u64>().ok()?;
-        Some(create_candidate(name, num_votes, code))
-    } else {
-        None
+        let mut events = self.events.lock().unwrap();
+        events.push(event);
+
+        // Log the event
+        info!("Event: {} - {} by {}", event_type, data, emitted_by);
+    }
+
+    // Emergency stop function (circuit breaker pattern)
+    pub fn emergency_stop(&self, caller: &str) -> ContractResult<()> {
+        if !self.is_admin(caller) {
+            return Err(ContractError::AccessDenied(
+                "Only admin can trigger emergency stop".to_string()
+            ));
+        }
+
+        let mut config = self.config.lock().unwrap();
+        config.emergency_stop = true;
+
+        self.emit_event("EmergencyStop", "Contract operations suspended", caller);
+
+        Ok(())
+    }
+
+    // Resume operations after emergency stop
+    pub fn resume_operations(&self, caller: &str) -> ContractResult<()> {
+        if !self.is_admin(caller) {
+            return Err(ContractError::AccessDenied(
+                "Only admin can resume operations".to_string()
+            ));
+        }
+
+        let mut config = self.config.lock().unwrap();
+        config.emergency_stop = false;
+
+        self.emit_event("ResumeOperations", "Contract operations resumed", caller);
+
+        Ok(())
+    }
+
+    // Check if emergency stop is active
+    fn check_emergency_stop(&self) -> ContractResult<()> {
+        let config = self.config.lock().unwrap();
+        if config.emergency_stop {
+            return Err(ContractError::StateError(
+                "Contract is in emergency stop mode".to_string()
+            ));
+        }
+        Ok(())
+    }
+
+    // Announce election with access control
+    pub fn announce_election(&self, caller: &str) -> ContractResult<()> {
+        self.check_emergency_stop()?;
+
+        if !self.is_admin(caller) {
+            return Err(ContractError::AccessDenied(
+                "Only admin can announce elections".to_string()
+            ));
+        }
+
+        let mut state = self.state.lock().unwrap();
+        *state = ElectionState::Announced;
+
+        self.emit_event("ElectionAnnounced", "Election has been announced", caller);
+
+        Ok(())
+    }
+
+    // Start election with access control
+    pub fn start_election(&self, caller: &str) -> ContractResult<()> {
+        self.check_emergency_stop()?;
+
+        if !self.is_admin(caller) {
+            return Err(ContractError::AccessDenied(
+                "Only admin can start elections".to_string()
+            ));
+        }
+
+        let mut state = self.state.lock().unwrap();
+
+        if *state != ElectionState::Announced {
+            return Err(ContractError::StateError(
+                "Election must be in Announced state to start".to_string()
+            ));
+        }
+
+        *state = ElectionState::Started;
+
+        self.emit_event("ElectionStarted", "Election has been started", caller);
+
+        Ok(())
+    }
+
+    // End election with access control
+    pub fn end_election(&self, caller: &str) -> ContractResult<()> {
+        self.check_emergency_stop()?;
+
+        if !self.is_admin(caller) {
+            return Err(ContractError::AccessDenied(
+                "Only admin can end elections".to_string()
+            ));
+        }
+
+        let mut state = self.state.lock().unwrap();
+
+        if *state != ElectionState::Started && *state != ElectionState::Happening {
+            return Err(ContractError::StateError(
+                "Election must be in Started or Happening state to end".to_string()
+            ));
+        }
+
+        *state = ElectionState::Ended;
+
+        self.emit_event("ElectionEnded", "Election has been ended", caller);
+
+        Ok(())
+    }
+
+    // Add candidate with validation and access control
+    pub fn add_candidate(&self, caller: &str, name: &str, code: u64, description: &str) -> ContractResult<()> {
+        self.check_emergency_stop()?;
+
+        if !self.is_admin(caller) {
+            return Err(ContractError::AccessDenied(
+                "Only admin can add candidates".to_string()
+            ));
+        }
+
+        let state = self.state.lock().unwrap();
+        if *state != ElectionState::Announced {
+            return Err(ContractError::StateError(
+                "Candidates can only be added in Announced state".to_string()
+            ));
+        }
+
+        // Input validation
+        if name.trim().is_empty() {
+            return Err(ContractError::InvalidInput(
+                "Candidate name cannot be empty".to_string()
+            ));
+        }
+
+        let mut candidates = self.candidates.lock().unwrap();
+
+        // Check for duplicate candidate code
+        if candidates.contains_key(&code) {
+            return Err(ContractError::InvalidInput(
+                format!("Candidate with code {} already exists", code)
+            ));
+        }
+
+        let timestamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+
+        let candidate = Candidate {
+            name: name.to_string(),
+            num_votes: 0,
+            code,
+            description: description.to_string(),
+            created_at: timestamp,
+            created_by: caller.to_string(),
+        };
+
+        candidates.insert(code, candidate.clone());
+
+        self.emit_event(
+            "CandidateAdded",
+            &format!("Candidate {} added with code {}", name, code),
+            caller
+        );
+
+        Ok(())
+    }
+
+    // Register voter with validation and Sybil resistance
+    pub fn register_voter(&self, caller: &str, voter_id: &str, reputation_score: u64) -> ContractResult<()> {
+        self.check_emergency_stop()?;
+
+        if !self.is_admin(caller) {
+            return Err(ContractError::AccessDenied(
+                "Only admin can register voters".to_string()
+            ));
+        }
+
+        let state = self.state.lock().unwrap();
+        if *state != ElectionState::Announced && *state != ElectionState::Started {
+            return Err(ContractError::StateError(
+                "Voters can only be registered in Announced or Started state".to_string()
+            ));
+        }
+
+        // Input validation
+        if voter_id.trim().is_empty() {
+            return Err(ContractError::InvalidInput(
+                "Voter ID cannot be empty".to_string()
+            ));
+        }
+
+        let config = self.config.lock().unwrap();
+
+        // Sybil resistance check
+        if reputation_score < config.min_reputation_score {
+            return Err(ContractError::InvalidInput(
+                format!("Reputation score too low, minimum required: {}", config.min_reputation_score)
+            ));
+        }
+
+        let mut voters = self.voters.lock().unwrap();
+
+        // Check for duplicate voter
+        if voters.contains_key(voter_id) {
+            return Err(ContractError::InvalidInput(
+                format!("Voter with ID {} already registered", voter_id)
+            ));
+        }
+
+        // Calculate voting power based on reputation (quadratic voting)
+        let voting_power = (reputation_score as f64).sqrt();
+
+        let timestamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+
+        let voter = Voter {
+            identifier: voter_id.to_string(),
+            choice_code: 0, // No choice yet
+            has_voted: false,
+            voting_power,
+            last_vote_time: 0, // Has not voted yet
+        };
+
+        voters.insert(voter_id.to_string(), voter);
+
+        self.emit_event(
+            "VoterRegistered",
+            &format!("Voter {} registered with voting power {:.2}", voter_id, voting_power),
+            caller
+        );
+
+        if *state == ElectionState::Started {
+            let mut state = self.state.lock().unwrap();
+            *state = ElectionState::Happening;
+
+            self.emit_event(
+                "ElectionStateChanged",
+                "Election state changed to Happening",
+                caller
+            );
+        }
+
+        Ok(())
+    }
+
+    // Place vote with comprehensive validation and quadratic voting
+    pub fn place_vote(&self, voter_id: &str, candidate_code: u64) -> ContractResult<()> {
+        self.check_emergency_stop()?;
+
+        let state = self.state.lock().unwrap();
+        if *state != ElectionState::Started && *state != ElectionState::Happening {
+            return Err(ContractError::StateError(
+                "Voting is only allowed in Started or Happening state".to_string()
+            ));
+        }
+
+        // Check if voter exists and hasn't voted
+        let mut voters = self.voters.lock().unwrap();
+        let voter = match voters.get_mut(voter_id) {
+            Some(v) => v,
+            None => return Err(ContractError::InvalidInput(
+                format!("Voter with ID {} does not exist", voter_id)
+            )),
+        };
+
+        if voter.has_voted {
+            return Err(ContractError::InvalidInput(
+                format!("Voter {} has already voted", voter_id)
+            ));
+        }
+
+        // Rate limiting check
+        let current_time = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .unwrap()
+            .as_secs();
+
+        let config = self.config.lock().unwrap();
+
+        if current_time - voter.last_vote_time < config.voting_period_seconds {
+            return Err(ContractError::OperationFailed(
+                format!("Rate limit exceeded, please try again later")
+            ));
+        }
+
+        // Check if candidate exists
+        let mut candidates = self.candidates.lock().unwrap();
+        let candidate = match candidates.get_mut(&candidate_code) {
+            Some(c) => c,
+            None => return Err(ContractError::InvalidInput(
+                format!("Candidate with code {} does not exist", candidate_code)
+            )),
+        };
+
+        // Apply quadratic voting - votes are weighted by the square root of reputation
+        let vote_weight = voter.voting_power.round() as u64;
+        if vote_weight == 0 {
+            return Err(ContractError::OperationFailed(
+                "Voting power too low to cast a vote".to_string()
+            ));
+        }
+
+        // Update candidate vote count with overflow protection
+        match candidate.num_votes.checked_add(vote_weight) {
+            Some(new_count) => candidate.num_votes = new_count,
+            None => return Err(ContractError::OperationFailed(
+                "Vote count overflow".to_string()
+            )),
+        }
+
+        // Mark voter as having voted
+        voter.has_voted = true;
+        voter.choice_code = candidate_code;
+        voter.last_vote_time = current_time;
+
+        // Record the vote in the voted_addresses set for double-voting prevention
+        let mut voted_addresses = self.voted_addresses.lock().unwrap();
+        voted_addresses.insert(voter_id.to_string());
+
+        self.emit_event(
+            "VoteCast",
+            &format!("Voter {} cast vote for candidate {} with weight {}", voter_id, candidate_code, vote_weight),
+            voter_id
+        );
+
+        Ok(())
+    }
+
+    // Get winning candidate with proper error handling
+    pub fn winning_candidate(&self) -> ContractResult<Option<Candidate>> {
+        let state = self.state.lock().unwrap();
+        if *state != ElectionState::Ended {
+            return Err(ContractError::StateError(
+                "Winner can only be determined after election has ended".to_string()
+            ));
+        }
+
+        let candidates = self.candidates.lock().unwrap();
+        if candidates.is_empty() {
+            return Ok(None);
+        }
+
+        let mut winner: Option<Candidate> = None;
+        let mut max_votes = 0;
+
+        for (_, candidate) in candidates.iter() {
+            if candidate.num_votes > max_votes {
+                max_votes = candidate.num_votes;
+                winner = Some(candidate.clone());
+            }
+        }
+
+        Ok(winner)
+    }
+
+    // Get all candidates
+    pub fn get_all_candidates(&self) -> ContractResult<Vec<Candidate>> {
+        let candidates = self.candidates.lock().unwrap();
+        let result: Vec<Candidate> = candidates.values().cloned().collect();
+        Ok(result)
+    }
+
+    // Get all voters
+    pub fn get_all_voters(&self) -> ContractResult<Vec<Voter>> {
+        let voters = self.voters.lock().unwrap();
+        let result: Vec<Voter> = voters.values().cloned().collect();
+        Ok(result)
+    }
+
+    // Get current election state
+    pub fn get_election_state(&self) -> ContractResult<ElectionState> {
+        let state = self.state.lock().unwrap();
+        Ok(state.clone())
+    }
+
+    // Get all events
+    pub fn get_events(&self) -> ContractResult<Vec<Event>> {
+        let events = self.events.lock().unwrap();
+        Ok(events.clone())
+    }
+
+    // Load candidate data from external source with proper error handling
+    pub async fn load_candidate_data(&self, caller: &str) -> Result<(), Error> {
+        if !self.is_admin(caller) {
+            error!("Access denied: Only admin can load candidate data");
+            return Ok(());
+        }
+
+        let config = self.config.lock().unwrap();
+        let file_url = config.candidate_data_url.clone();
+
+        info!("Loading candidate data from {}", file_url);
+
+        let response = reqwest::get(&file_url).await?;
+
+        if !response.status().is_success() {
+            error!("Failed to fetch candidate data: {}", response.status());
+            return Ok(());
+        }
+
+        let candidates: Vec<Candidate> = match response.json().await {
+            Ok(data) => data,
+            Err(e) => {
+                error!("Failed to parse candidate data: {}", e);
+                return Ok(());
+            }
+        };
+
+        let mut candidates_map = self.candidates.lock().unwrap();
+
+        for candidate in &candidates {
+            candidates_map.insert(candidate.code, candidate.clone());
+        }
+
+        self.emit_event(
+            "CandidatesLoaded",
+            &format!("Loaded {} candidates from external source", candidates.len()),
+            caller
+        );
+
+        Ok(())
+    }
+
+    // Load voter data from external source with proper error handling
+    pub async fn load_voter_data(&self, caller: &str) -> Result<(), Error> {
+        if !self.is_admin(caller) {
+            error!("Access denied: Only admin can load voter data");
+            return Ok(());
+        }
+
+        let config = self.config.lock().unwrap();
+        let file_url = config.voter_data_url.clone();
+
+        info!("Loading voter data from {}", file_url);
+
+        let response = reqwest::get(&file_url).await?;
+
+        if !response.status().is_success() {
+            error!("Failed to fetch voter data: {}", response.status());
+            return Ok(());
+        }
+
+        let voters: Vec<Voter> = match response.json().await {
+            Ok(data) => data,
+            Err(e) => {
+                error!("Failed to parse voter data: {}", e);
+                return Ok(());
+            }
+        };
+
+        let mut voters_map = self.voters.lock().unwrap();
+
+        for voter in &voters {
+            voters_map.insert(voter.identifier.clone(), voter.clone());
+        }
+
+        self.emit_event(
+            "VotersLoaded",
+            &format!("Loaded {} voters from external source", voters.len()),
+            caller
+        );
+
+        Ok(())
     }
 }
 
-fn parse_voters(line: &str) -> Option<Voter> {
-    let parts: Vec<&str> = line.split(',').collect();
-    if parts.len() == 2 {
-        let identifier = String::from(parts[0].trim());
-        let choice_code = parts[1].trim().parse::<u64>().ok()?;
-        Some(create_voter(identifier, choice_code))
-    } else {
-        None
-    }
-}
-
-fn display_voters(hash_voters: &HashMap<String, u64>) {
-    println!("Voters: ");
-    for (key, val) in hash_voters.iter() {
-        println!("{}: {}", key, val);
-    }
-}
-
-fn display_candidates(hash_candidates: &HashMap<u64, Candidate>) {
-    println!("Candidates: ");
-    for (_, val) in hash_candidates.iter() {
-        println!("{}", val);
-    }
-}
-
-async fn reading_file_candidates(hash_candidates: &mut HashMap<u64, Candidate>) -> Result<Vec<Candidate>, reqwest::Error> {
-    let file_url = "https://raw.githubusercontent.com/CodeTyperPro/rust-getting-started/integration-leveldb/smart-contract/test-immutable-file-candidate.json";
-    let response = reqwest::get(file_url).await?;
-
-    if !response.status().is_success() {
-        println!("Failed to fetch data: {}", response.status());
-    }
-
-    let candidates: Vec<Candidate> = response.json().await?;
-    //println!("{:?}", candidates);
-
-    for candidate in &candidates {
-        hash_candidates.insert(candidate.code, candidate.clone());
-    }
-
-    Ok(candidates)
-}
-
-async fn reading_file_voters(hash_voters: &mut HashMap<String, u64>) -> Result<Vec<Voter>, reqwest::Error> {
-    let file_url = "https://raw.githubusercontent.com/CodeTyperPro/rust-getting-started/integration-leveldb/smart-contract/test-immutable-file-voter.json";
-    let response = reqwest::get(file_url).await?;
-
-    if !response.status().is_success() {
-        println!("Failed to fetch data: {}", response.status());
-    }
-
-    let voters: Vec<Voter> = response.json().await?;
-    //println!("{:?}", voters);
-
-    for voter in &voters {
-        hash_voters.insert(voter.identifier.clone(), voter.choice_code);
-    }
-
-    Ok(voters)
-}
-
-
-async fn get_json_file_from_url() -> Result<Vec<Candidate>, reqwest::Error> {
-    let file_url = "https://github.com/CodeTyperPro/rust-getting-started/blob/integration-leveldb/smart-contract/test-immutable-file.json";
-    let response = reqwest::get(file_url).await?;
-
-    if !response.status().is_success() {
-        println!("Failed to fetch data: {}", response.status());
-    }
-
-    let candidates: Vec<Candidate> = response.json().await?;
-    println!("{:?}", candidates);
-
-    Ok(candidates)
-}
-
-fn load_data() {
-    let file_url = "test-immutable-file.txt";
-    let file_git = "https://github.com/CodeTyperPro/rust-getting-started/blob/main/smart-contract/file_candidates.txt";
-    use rusty_leveldb::{DB, DBIterator, LdbIterator, Options};
-
-    let mut opt = Options::default();
-    opt.create_if_missing = true;
-
-    let mut db = DB::open(file_url, opt).unwrap();
-
-    db.put(b"Hello", b"World").unwrap();
-    assert_eq!(b"World", db.get(b"Hello").unwrap().as_slice());
-
-    let mut iter = db.new_iter().unwrap();
-    // Note: For efficiency reasons, it's recommended to use advance() and current() instead of
-    // next() when iterating over many elements.
-    assert_eq!((b"Hello".to_vec(), b"World".to_vec()), iter.next().unwrap());
-
-    // db.delete(b"Hello").unwrap();
-    db.flush().unwrap();
-}
-
+// Example usage
 #[tokio::main]
 async fn main() {
+    // Initialize the contract with an admin address
+    let contract = ElectionContract::new("admin_address".to_string());
 
-    let mut state: ElectionState = ElectionState::Announced;
-    let mut hash_voters: HashMap<String, u64> = HashMap::new();
-    let mut array_voters: Vec<Voter> = Vec::new();
-    let mut hash_candidates: HashMap<u64, Candidate> = HashMap::new();
+    // Announce the election
+    match contract.announce_election("admin_address") {
+        Ok(_) => println!("Election announced successfully"),
+        Err(e) => println!("Error announcing election: {}", e),
+    }
 
-    let _ = reading_file_candidates(&mut hash_candidates).await;
-    let _ = reading_file_voters(&mut hash_voters).await;
+    // Add a candidate
+    match contract.add_candidate("admin_address", "Candidate 1", 1, "Description for Candidate 1") {
+        Ok(_) => println!("Candidate added successfully"),
+        Err(e) => println!("Error adding candidate: {}", e),
+    }
 
-    winning_candidate(&hash_candidates);
-    display_voters(&hash_voters);
-    println!("");
-    display_candidates(&hash_candidates);
+    // Register a voter with Sybil resistance
+    match contract.register_voter("admin_address", "voter1", 100) {
+        Ok(_) => println!("Voter registered successfully"),
+        Err(e) => println!("Error registering voter: {}", e),
+    }
+
+    // Start the election
+    match contract.start_election("admin_address") {
+        Ok(_) => println!("Election started successfully"),
+        Err(e) => println!("Error starting election: {}", e),
+    }
+
+    // Place a vote with quadratic voting
+    match contract.place_vote("voter1", 1) {
+        Ok(_) => println!("Vote placed successfully"),
+        Err(e) => println!("Error placing vote: {}", e),
+    }
+
+    // End the election
+    match contract.end_election("admin_address") {
+        Ok(_) => println!("Election ended successfully"),
+        Err(e) => println!("Error ending election: {}", e),
+    }
+
+    // Get the winning candidate
+    match contract.winning_candidate() {
+        Ok(Some(winner)) => println!("Winner: {}", winner),
+        Ok(None) => println!("No winner determined"),
+        Err(e) => println!("Error getting winner: {}", e),
+    }
 }
