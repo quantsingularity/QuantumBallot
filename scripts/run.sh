@@ -11,7 +11,7 @@ echo "----------------------------------------"
 
 # --- Configuration ---
 COMPONENTS=(
-  "backend-api"
+  "backend"
   "web-frontend"
   "mobile-frontend"
 )
@@ -43,7 +43,7 @@ start_component() {
 mkdir -p logs
 
 # Start all components
-start_component "backend-api" "dev" # Assuming 'npm run dev' for backend
+start_component "backend" "dev" # Assuming 'npm run dev' for backend
 start_component "web-frontend" "dev" # Assuming 'npm run dev' for web frontend
 start_component "mobile-frontend" "start" # Assuming 'npm run start' for mobile (e.g., Expo)
 

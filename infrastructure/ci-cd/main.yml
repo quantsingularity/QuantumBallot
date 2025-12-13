@@ -27,7 +27,7 @@ jobs:
         with:
           filters: |
             backend:
-              - 'backend-api/**'
+              - 'backend/**'
             web-frontend:
               - 'web-frontend/**'
             mobile-frontend:

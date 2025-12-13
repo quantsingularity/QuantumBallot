@@ -2,7 +2,7 @@
 
 ## Executive Summary
 
-This security audit was conducted on the QuantumBallot project's smart contract implementation, which is written in Rust. The audit focused on identifying potential vulnerabilities, security risks, and areas for improvement in the codebase. The primary contract file audited was `backend-api/src/smart_contract/smart_contract.rs`.
+This security audit was conducted on the QuantumBallot project's smart contract implementation, which is written in Rust. The audit focused on identifying potential vulnerabilities, security risks, and areas for improvement in the codebase. The primary contract file audited was `backend/src/smart_contract/smart_contract.rs`.
 
 ## Scope
 

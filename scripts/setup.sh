@@ -11,7 +11,7 @@ echo "----------------------------------------"
 
 # --- Configuration ---
 COMPONENTS=(
-  "backend-api"
+  "backend"
   "web-frontend"
   "mobile-frontend"
   "smart_contract"

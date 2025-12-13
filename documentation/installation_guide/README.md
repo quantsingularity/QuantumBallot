@@ -25,7 +25,7 @@ cd QuantumBallot
 
 ```bash
 # Navigate to the backend directory
-cd backend-api
+cd backend
 
 # Install dependencies
 npm install

@@ -44,7 +44,7 @@ The project is organized into several main components:
 
 ```
 QuantumBallot/
-├── backend-api/           # Node.js/Express backend with blockchain implementation
+├── backend/           # Node.js/Express backend with blockchain implementation
 ├── docs/                  # Technical documentation and API references
 ├── mobile-frontend/       # React Native mobile application for voters
 ├── web-frontend/          # React web application for committee members
@@ -188,7 +188,7 @@ Comprehensive documentation using Sphinx, including:
 ```bash
 # Clone the repository
 git clone https://github.com/abrar2030/QuantumBallot.git
-cd QuantumBallot/backend-api
+cd QuantumBallot/backend
 
 # Install dependencies
 npm install
@@ -219,7 +219,7 @@ The project maintains comprehensive test coverage across all components to ensur
 
 ```bash
 # Run backend tests
-cd backend-api
+cd backend
 npm test
 
 # Run web frontend tests

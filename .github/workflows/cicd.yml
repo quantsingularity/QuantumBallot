@@ -12,13 +12,14 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      BACKEND_DIR: backend-api
+      BACKEND_DIR: backend
       WEB_FRONTEND_DIR: web-frontend
       MOBILE_FRONTEND_DIR: mobile-frontend
+      INFRASTRUCTURE_DIR: infrastructure
 
     steps:
       # -------------------------------
-      # Checkout
+      # Checkout Repository
       # -------------------------------
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -34,7 +35,7 @@ jobs:
       # -------------------------------
       # Install deps per-project (if package.json exists)
       # -------------------------------
-      - name: Install Node Dependencies (backend-api)
+      - name: Install Node Dependencies (backend)
         run: |
           if [ -f "${BACKEND_DIR}/package.json" ]; then
             echo "Installing node dependencies in ${BACKEND_DIR}"
@@ -67,10 +68,10 @@ jobs:
       # -------------------------------
       # Prettier: backend (with Solidity plugin from root)
       # -------------------------------
-      - name: Run Prettier Checks (backend-api)
+      - name: Run Prettier Checks (backend)
         run: |
           if [ -f "${BACKEND_DIR}/package.json" ]; then
-            echo "=== Running Prettier (backend-api) ==="
+            echo "=== Running Prettier (backend) ==="
             cd "${BACKEND_DIR}"
             npx prettier --plugin-search-dir=. --check "**/*.{js,jsx,ts,tsx,sol,json,html,css,md}"
           else
@@ -101,6 +102,32 @@ jobs:
             npx prettier --plugin-search-dir=. --check "**/*.{js,jsx,ts,tsx,json,html,css,md}"
           else
             echo "No package.json in ${MOBILE_FRONTEND_DIR}, skipping Prettier check"
+          fi
+
+      # -------------------------------
+      # New: Repository-wide Markdown check (ALL .md files)
+      # -------------------------------
+      - name: Run Prettier Checks (all .md files in repo)
+        run: |
+          echo "=== Running Prettier (all .md files) ==="
+          npx prettier --plugin-search-dir=. --check "**/*.md" --ignore-path .prettierignore || {
+            echo "Prettier formatting issues detected in markdown files across the repo."
+            exit 1
+          }
+
+      # -------------------------------
+      # New: Infrastructure directory YAML/YML check (infrastructure/*.yml, *.yaml)
+      # -------------------------------
+      - name: Run Prettier Checks (infrastructure YAML/YML files)
+        run: |
+          if [ -n "${INFRASTRUCTURE_DIR}" ] && [ -d "${INFRASTRUCTURE_DIR}" ]; then
+            echo "=== Running Prettier (infrastructure YAML/YML files) in ${INFRASTRUCTURE_DIR} ==="
+            npx prettier --plugin-search-dir=. --check "${INFRASTRUCTURE_DIR}/**/*.{yml,yaml}" --ignore-path .prettierignore || {
+              echo "Prettier formatting issues detected in ${INFRASTRUCTURE_DIR} YAML/YML files."
+              exit 1
+            }
+          else
+            echo "No infrastructure directory '${INFRASTRUCTURE_DIR}' found — skipping infra YAML/YML checks."
           fi
 
       # -------------------------------

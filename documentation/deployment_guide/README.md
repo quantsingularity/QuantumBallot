@@ -6,7 +6,7 @@ This guide provides detailed instructions for deploying the QuantumBallot blockc
 
 1. [Deployment Overview](#deployment-overview)
 2. [Prerequisites](#prerequisites)
-3. [Backend API Deployment](#backend-api-deployment)
+3. [Backend API Deployment](#backend-deployment)
    - [Traditional Server Deployment](#traditional-server-deployment)
    - [Docker Deployment](#docker-deployment)
    - [Cloud Platform Deployment](#cloud-platform-deployment)
@@ -88,7 +88,7 @@ Before deploying, ensure you have:
    ```bash
    # Clone the repository or copy the files
    git clone https://github.com/abrar2030/QuantumBallot.git /tmp/QuantumBallot
-   cp -R /tmp/QuantumBallot/backend-api/* /opt/QuantumBallot/backend/
+   cp -R /tmp/QuantumBallot/backend/* /opt/QuantumBallot/backend/
    cd /opt/QuantumBallot/backend
 
    # Install dependencies
@@ -201,7 +201,7 @@ Before deploying, ensure you have:
    services:
      backend:
        build:
-         context: ./backend-api
+         context: ./backend
          dockerfile: Dockerfile
        restart: always
        ports:
@@ -225,7 +225,7 @@ Before deploying, ensure you have:
    ```bash
    # Clone the repository
    git clone https://github.com/abrar2030/QuantumBallot.git /tmp/QuantumBallot
-   cp -R /tmp/QuantumBallot/backend-api /opt/QuantumBallot/
+   cp -R /tmp/QuantumBallot/backend /opt/QuantumBallot/
 
    # Start the containers
    cd /opt/QuantumBallot
@@ -249,13 +249,13 @@ Before deploying, ensure you have:
    Create a `.ebextensions` directory in the project root:
 
    ```bash
-   mkdir -p backend-api/.ebextensions
+   mkdir -p backend/.ebextensions
    ```
 
    Create a configuration file:
 
    ```bash
-   nano backend-api/.ebextensions/nodecommand.config
+   nano backend/.ebextensions/nodecommand.config
    ```
 
    Add the following content:
@@ -272,7 +272,7 @@ Before deploying, ensure you have:
 3. **Initialize and deploy the application**:
 
    ```bash
-   cd backend-api
+   cd backend
    eb init
    # Follow the prompts to configure your application
    eb create QuantumBallot-backend-prod
@@ -293,7 +293,7 @@ Before deploying, ensure you have:
 2. **Build and push the Docker image**:
 
    ```bash
-   cd backend-api
+   cd backend
    gcloud builds submit --tag gcr.io/your-project-id/QuantumBallot-backend
    ```
 

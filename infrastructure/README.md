@@ -116,6 +116,6 @@ When working with the infrastructure code:
 
 ## Related Resources
 
-- For application-specific configuration, refer to the `backend-api` and `web-frontend` directories
+- For application-specific configuration, refer to the `backend` and `web-frontend` directories
 - For deployment scripts, check the `scripts` directory at the root of the repository
 - For detailed system architecture, consult the documentation in the `docs` directory

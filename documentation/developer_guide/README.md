@@ -27,7 +27,7 @@ The QuantumBallot repository is organized into the following main directories:
 
 ```
 QuantumBallot/
-├── backend-api/        # Backend API server
+├── backend/        # Backend API server
 ├── web-frontend/       # Web application for committee members
 ├── mobile-frontend/    # Mobile application for voters
 ├── docs/               # Project documentation
@@ -140,7 +140,7 @@ Types:
 We use Jest for backend testing:
 
 ```bash
-cd backend-api
+cd backend
 npm test
 ```
 
@@ -683,7 +683,7 @@ To debug the backend:
 1. Start the server in debug mode:
 
    ```bash
-   cd backend-api
+   cd backend
    npm run debug
    ```
 

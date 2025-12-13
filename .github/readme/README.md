@@ -33,14 +33,14 @@ The main workflow serves as an orchestrator that detects changes in specific dir
 
 - Requires `GITHUB_TOKEN` with workflow dispatch permissions
 
-### Backend API Workflow (`backend-api.yml`)
+### Backend API Workflow (`backend.yml`)
 
 This workflow handles the CI/CD pipeline for the Node.js backend API.
 
 **Triggers:**
 
-- Push to `main` branch with changes in the `backend-api/` directory
-- Pull requests targeting `main` branch with changes in the `backend-api/` directory
+- Push to `main` branch with changes in the `backend/` directory
+- Pull requests targeting `main` branch with changes in the `backend/` directory
 - Manual trigger from the main workflow
 
 **Key Jobs:**

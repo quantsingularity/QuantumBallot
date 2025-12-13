@@ -11,7 +11,7 @@ echo "----------------------------------------"
 
 # --- Configuration ---
 COMPONENTS=(
-  "backend-api"
+  "backend"
   "web-frontend"
   "mobile-frontend"
 )
@@ -43,7 +43,7 @@ build_component() {
 }
 
 # Build all components
-build_component "backend-api"
+build_component "backend"
 build_component "web-frontend"
 build_component "mobile-frontend"
 
