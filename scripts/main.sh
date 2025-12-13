@@ -1,7 +1,7 @@
 #!/bin/bash
 # main.sh
 #
-# Main entry point for Chainocracy automation scripts
+# Main entry point for QuantumBallot automation scripts
 # This script provides a unified interface to all automation scripts
 #
 # Usage: ./main.sh <command> [options]
@@ -25,7 +25,7 @@ section() {
 
 # Function to display help message
 show_help() {
-    echo "Chainocracy Automation Scripts"
+    echo "QuantumBallot Automation Scripts"
     echo ""
     echo "Usage: ./main.sh <command> [options]"
     echo ""

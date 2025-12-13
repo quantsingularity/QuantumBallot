@@ -2,12 +2,12 @@
 
 # S3 bucket for storing static website files
 resource "aws_s3_bucket" "frontend_bucket" {
-  bucket = "${var.environment_name}-chainocracy-frontend-bucket"
+  bucket = "${var.environment_name}-QuantumBallot-frontend-bucket"
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-frontend-bucket"
+    Name        = "${var.environment_name}-QuantumBallot-frontend-bucket"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -44,14 +44,14 @@ resource "aws_s3_bucket_policy" "frontend_bucket_policy" {
 
 # CloudFront Origin Access Identity (OAI) for restricting S3 access
 resource "aws_cloudfront_origin_access_identity" "oai" {
-  comment = "OAI for ${var.environment_name}-chainocracy-frontend-bucket"
+  comment = "OAI for ${var.environment_name}-QuantumBallot-frontend-bucket"
 }
 
 # CloudFront distribution
 resource "aws_cloudfront_distribution" "frontend_distribution" {
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = "${var.environment_name} Chainocracy Frontend Distribution"
+  comment             = "${var.environment_name} QuantumBallot Frontend Distribution"
   default_root_object = "index.html"
 
   origin {
@@ -115,9 +115,9 @@ resource "aws_cloudfront_distribution" "frontend_distribution" {
   aliases = var.domain_name != "" ? [var.domain_name] : []
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-frontend-cf"
+    Name        = "${var.environment_name}-QuantumBallot-frontend-cf"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 

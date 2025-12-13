@@ -1,13 +1,13 @@
-# Chainocracy
+# QuantumBallot
 
-![CI/CD Status](https://img.shields.io/github/actions/workflow/status/abrar2030/Chainocracy/cicd.yml?branch=main&label=CI/CD&logo=github)
-[![Test Coverage](https://img.shields.io/badge/coverage-87%25-brightgreen)](https://github.com/abrar2030/Chainocracy/actions)
+![CI/CD Status](https://img.shields.io/github/actions/workflow/status/abrar2030/QuantumBallot/cicd.yml?branch=main&label=CI/CD&logo=github)
+[![Test Coverage](https://img.shields.io/badge/coverage-87%25-brightgreen)](https://github.com/abrar2030/QuantumBallot/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A full-stack Web and Mobile application for American elections using Blockchain Technology. The system presents a user-friendly interface accessible via both web browsers and mobile platforms.
 
 <div align="center">
-  <img src="docs/images/Chainocracy_dashboard.bmp" alt="Chainocracy Election System" width="100%">
+  <img src="docs/images/QuantumBallot_dashboard.bmp" alt="QuantumBallot Election System" width="100%">
 </div>
 
 > **Note**: This Project is currently under active development. Features and functionalities are being added and improved continuously to enhance user experience.
@@ -29,7 +29,7 @@ A full-stack Web and Mobile application for American elections using Blockchain 
 
 ## Overview
 
-Chainocracy is a comprehensive election management system that leverages blockchain technology to ensure secure, transparent, and tamper-proof elections in America. The platform consists of multiple components:
+QuantumBallot is a comprehensive election management system that leverages blockchain technology to ensure secure, transparent, and tamper-proof elections in America. The platform consists of multiple components:
 
 - **Web Frontend**: For election committee members and administrators
 - **Mobile Frontend**: For voters to cast their votes securely
@@ -43,7 +43,7 @@ The system allows committee members to seamlessly access the application through
 The project is organized into several main components:
 
 ```
-chainocracy/
+QuantumBallot/
 ├── backend-api/           # Node.js/Express backend with blockchain implementation
 ├── docs/                  # Technical documentation and API references
 ├── mobile-frontend/       # React Native mobile application for voters
@@ -187,8 +187,8 @@ Comprehensive documentation using Sphinx, including:
 
 ```bash
 # Clone the repository
-git clone https://github.com/abrar2030/chainocracy.git
-cd chainocracy/backend-api
+git clone https://github.com/abrar2030/QuantumBallot.git
+cd QuantumBallot/backend-api
 
 # Install dependencies
 npm install

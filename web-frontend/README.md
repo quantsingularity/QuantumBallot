@@ -1,10 +1,10 @@
-# Chainocracy Web Frontend
+# QuantumBallot Web Frontend
 
-This directory contains the web application frontend for the Chainocracy project, a full-stack Web and Mobile application for American elections using Blockchain Technology. The web frontend is built using modern web technologies including React, TypeScript, Tailwind CSS, and Vite, providing a responsive and interactive user interface for committee members and administrators.
+This directory contains the web application frontend for the QuantumBallot project, a full-stack Web and Mobile application for American elections using Blockchain Technology. The web frontend is built using modern web technologies including React, TypeScript, Tailwind CSS, and Vite, providing a responsive and interactive user interface for committee members and administrators.
 
 ## Overview
 
-The Chainocracy web application serves as the primary interface for election committee members and system administrators. It provides a comprehensive dashboard with features for election management, real-time data visualization, blockchain monitoring, and administrative controls. The web interface is designed to be intuitive yet powerful, offering advanced functionality while maintaining accessibility and ease of use.
+The QuantumBallot web application serves as the primary interface for election committee members and system administrators. It provides a comprehensive dashboard with features for election management, real-time data visualization, blockchain monitoring, and administrative controls. The web interface is designed to be intuitive yet powerful, offering advanced functionality while maintaining accessibility and ease of use.
 
 ## Directory Structure
 

@@ -10,9 +10,9 @@ import {
 // Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyDummyKeyForDeployment123456789",
-  authDomain: "chainocracy-voter.firebaseapp.com",
-  projectId: "chainocracy-voter",
-  storageBucket: "chainocracy-voter.appspot.com",
+  authDomain: "QuantumBallot-voter.firebaseapp.com",
+  projectId: "QuantumBallot-voter",
+  storageBucket: "QuantumBallot-voter.appspot.com",
   messagingSenderId: "123456789012",
   appId: "1:123456789012:web:abcdef1234567890",
 };

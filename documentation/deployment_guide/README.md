@@ -1,6 +1,6 @@
 # Deployment Guide
 
-This guide provides detailed instructions for deploying the Chainocracy blockchain-based voting system to production environments.
+This guide provides detailed instructions for deploying the QuantumBallot blockchain-based voting system to production environments.
 
 ## Table of Contents
 
@@ -27,7 +27,7 @@ This guide provides detailed instructions for deploying the Chainocracy blockcha
 
 ## Deployment Overview
 
-The Chainocracy system consists of three main components that need to be deployed:
+The QuantumBallot system consists of three main components that need to be deployed:
 
 1. **Backend API**: Node.js/Express.js server that manages the blockchain and business logic
 2. **Web Frontend**: React application for election committee members
@@ -79,17 +79,17 @@ Before deploying, ensure you have:
 
    ```bash
    # Create application directory
-   sudo mkdir -p /opt/chainocracy/backend
-   sudo chown -R $USER:$USER /opt/chainocracy
+   sudo mkdir -p /opt/QuantumBallot/backend
+   sudo chown -R $USER:$USER /opt/QuantumBallot
    ```
 
 3. **Deploy the application code**:
 
    ```bash
    # Clone the repository or copy the files
-   git clone https://github.com/abrar2030/chainocracy.git /tmp/chainocracy
-   cp -R /tmp/chainocracy/backend-api/* /opt/chainocracy/backend/
-   cd /opt/chainocracy/backend
+   git clone https://github.com/abrar2030/QuantumBallot.git /tmp/QuantumBallot
+   cp -R /tmp/QuantumBallot/backend-api/* /opt/QuantumBallot/backend/
+   cd /opt/QuantumBallot/backend
 
    # Install dependencies
    npm install --production
@@ -115,7 +115,7 @@ Before deploying, ensure you have:
 
    ```bash
    # Start the application
-   pm2 start npm --name "chainocracy-backend" -- start
+   pm2 start npm --name "QuantumBallot-backend" -- start
 
    # Configure PM2 to start on boot
    pm2 startup
@@ -129,7 +129,7 @@ Before deploying, ensure you have:
    sudo apt install -y nginx
 
    # Configure Nginx
-   sudo nano /etc/nginx/sites-available/chainocracy-backend
+   sudo nano /etc/nginx/sites-available/QuantumBallot-backend
    ```
 
    Add the following configuration:
@@ -137,7 +137,7 @@ Before deploying, ensure you have:
    ```nginx
    server {
        listen 80;
-       server_name api.chainocracy.com;
+       server_name api.QuantumBallot.com;
 
        location / {
            proxy_pass http://localhost:3010;
@@ -156,7 +156,7 @@ Before deploying, ensure you have:
    Enable the site:
 
    ```bash
-   sudo ln -s /etc/nginx/sites-available/chainocracy-backend /etc/nginx/sites-enabled/
+   sudo ln -s /etc/nginx/sites-available/QuantumBallot-backend /etc/nginx/sites-enabled/
    sudo nginx -t
    sudo systemctl restart nginx
    ```
@@ -168,7 +168,7 @@ Before deploying, ensure you have:
    sudo apt install -y certbot python3-certbot-nginx
 
    # Obtain SSL certificate
-   sudo certbot --nginx -d api.chainocracy.com
+   sudo certbot --nginx -d api.QuantumBallot.com
    ```
 
 ### Docker Deployment
@@ -188,8 +188,8 @@ Before deploying, ensure you have:
 2. **Create Docker Compose file**:
 
    ```bash
-   mkdir -p /opt/chainocracy
-   cd /opt/chainocracy
+   mkdir -p /opt/QuantumBallot
+   cd /opt/QuantumBallot
    nano docker-compose.yml
    ```
 
@@ -212,7 +212,7 @@ Before deploying, ensure you have:
          - JWT_SECRET=your_jwt_secret
          - BLOCKCHAIN_NODE_ADDRESS=your_node_address
          - DATABASE_PATH=/app/data/blockchain
-         - CORS_ORIGIN=https://chainocracy.com
+         - CORS_ORIGIN=https://QuantumBallot.com
        volumes:
          - blockchain-data:/app/data
 
@@ -224,11 +224,11 @@ Before deploying, ensure you have:
 
    ```bash
    # Clone the repository
-   git clone https://github.com/abrar2030/chainocracy.git /tmp/chainocracy
-   cp -R /tmp/chainocracy/backend-api /opt/chainocracy/
+   git clone https://github.com/abrar2030/QuantumBallot.git /tmp/QuantumBallot
+   cp -R /tmp/QuantumBallot/backend-api /opt/QuantumBallot/
 
    # Start the containers
-   cd /opt/chainocracy
+   cd /opt/QuantumBallot
    docker-compose up -d
    ```
 
@@ -275,13 +275,13 @@ Before deploying, ensure you have:
    cd backend-api
    eb init
    # Follow the prompts to configure your application
-   eb create chainocracy-backend-prod
+   eb create QuantumBallot-backend-prod
    ```
 
 4. **Configure environment variables**:
 
    ```bash
-   eb setenv JWT_SECRET=your_jwt_secret BLOCKCHAIN_NODE_ADDRESS=your_node_address DATABASE_PATH=/var/app/current/data/blockchain CORS_ORIGIN=https://chainocracy.com
+   eb setenv JWT_SECRET=your_jwt_secret BLOCKCHAIN_NODE_ADDRESS=your_node_address DATABASE_PATH=/var/app/current/data/blockchain CORS_ORIGIN=https://QuantumBallot.com
    ```
 
 #### Google Cloud Run
@@ -294,18 +294,18 @@ Before deploying, ensure you have:
 
    ```bash
    cd backend-api
-   gcloud builds submit --tag gcr.io/your-project-id/chainocracy-backend
+   gcloud builds submit --tag gcr.io/your-project-id/QuantumBallot-backend
    ```
 
 3. **Deploy to Cloud Run**:
 
    ```bash
-   gcloud run deploy chainocracy-backend \
-     --image gcr.io/your-project-id/chainocracy-backend \
+   gcloud run deploy QuantumBallot-backend \
+     --image gcr.io/your-project-id/QuantumBallot-backend \
      --platform managed \
      --region us-central1 \
      --allow-unauthenticated \
-     --set-env-vars="NODE_ENV=production,JWT_SECRET=your_jwt_secret,BLOCKCHAIN_NODE_ADDRESS=your_node_address,CORS_ORIGIN=https://chainocracy.com"
+     --set-env-vars="NODE_ENV=production,JWT_SECRET=your_jwt_secret,BLOCKCHAIN_NODE_ADDRESS=your_node_address,CORS_ORIGIN=https://QuantumBallot.com"
    ```
 
 ## Web Frontend Deployment
@@ -329,13 +329,13 @@ This creates a `dist` directory with the built application.
 1. **Copy the built files to the server**:
 
    ```bash
-   scp -r dist/* user@your-server:/var/www/chainocracy-web/
+   scp -r dist/* user@your-server:/var/www/QuantumBallot-web/
    ```
 
 2. **Configure Nginx**:
 
    ```bash
-   sudo nano /etc/nginx/sites-available/chainocracy-web
+   sudo nano /etc/nginx/sites-available/QuantumBallot-web
    ```
 
    Add the following configuration:
@@ -343,8 +343,8 @@ This creates a `dist` directory with the built application.
    ```nginx
    server {
        listen 80;
-       server_name chainocracy.com www.chainocracy.com;
-       root /var/www/chainocracy-web;
+       server_name QuantumBallot.com www.QuantumBallot.com;
+       root /var/www/QuantumBallot-web;
        index index.html;
 
        location / {
@@ -362,7 +362,7 @@ This creates a `dist` directory with the built application.
    Enable the site:
 
    ```bash
-   sudo ln -s /etc/nginx/sites-available/chainocracy-web /etc/nginx/sites-enabled/
+   sudo ln -s /etc/nginx/sites-available/QuantumBallot-web /etc/nginx/sites-enabled/
    sudo nginx -t
    sudo systemctl restart nginx
    ```
@@ -370,7 +370,7 @@ This creates a `dist` directory with the built application.
 3. **Set up SSL with Let's Encrypt**:
 
    ```bash
-   sudo certbot --nginx -d chainocracy.com -d www.chainocracy.com
+   sudo certbot --nginx -d QuantumBallot.com -d www.QuantumBallot.com
    ```
 
 #### Deploy to AWS S3 and CloudFront
@@ -378,25 +378,25 @@ This creates a `dist` directory with the built application.
 1. **Create an S3 bucket**:
 
    ```bash
-   aws s3 mb s3://chainocracy-web
+   aws s3 mb s3://QuantumBallot-web
    ```
 
 2. **Configure the bucket for static website hosting**:
 
    ```bash
-   aws s3 website s3://chainocracy-web --index-document index.html --error-document index.html
+   aws s3 website s3://QuantumBallot-web --index-document index.html --error-document index.html
    ```
 
 3. **Upload the built files**:
 
    ```bash
-   aws s3 sync dist/ s3://chainocracy-web/ --acl public-read
+   aws s3 sync dist/ s3://QuantumBallot-web/ --acl public-read
    ```
 
 4. **Create a CloudFront distribution**:
 
    ```bash
-   aws cloudfront create-distribution --origin-domain-name chainocracy-web.s3-website-us-east-1.amazonaws.com --default-root-object index.html
+   aws cloudfront create-distribution --origin-domain-name QuantumBallot-web.s3-website-us-east-1.amazonaws.com --default-root-object index.html
    ```
 
 5. **Configure your custom domain in CloudFront and set up SSL**
@@ -423,7 +423,7 @@ For improved SEO and performance, you can deploy the web frontend with server-si
 4. **Use PM2 for process management**:
 
    ```bash
-   pm2 start npm --name "chainocracy-web" -- start
+   pm2 start npm --name "QuantumBallot-web" -- start
    pm2 startup
    pm2 save
    ```
@@ -439,8 +439,8 @@ For improved SEO and performance, you can deploy the web frontend with server-si
    ```json
    {
      "expo": {
-       "name": "Chainocracy Voter",
-       "slug": "chainocracy-voter",
+       "name": "QuantumBallot Voter",
+       "slug": "QuantumBallot-voter",
        "version": "1.0.0",
        "orientation": "portrait",
        "icon": "./assets/icon.png",
@@ -455,7 +455,7 @@ For improved SEO and performance, you can deploy the web frontend with server-si
        "assetBundlePatterns": ["**/*"],
        "ios": {
          "supportsTablet": true,
-         "bundleIdentifier": "com.chainocracy.voter",
+         "bundleIdentifier": "com.QuantumBallot.voter",
          "buildNumber": "1.0.0"
        }
      }
@@ -482,8 +482,8 @@ For improved SEO and performance, you can deploy the web frontend with server-si
    ```json
    {
      "expo": {
-       "name": "Chainocracy Voter",
-       "slug": "chainocracy-voter",
+       "name": "QuantumBallot Voter",
+       "slug": "QuantumBallot-voter",
        "version": "1.0.0",
        "orientation": "portrait",
        "icon": "./assets/icon.png",
@@ -501,7 +501,7 @@ For improved SEO and performance, you can deploy the web frontend with server-si
            "foregroundImage": "./assets/adaptive-icon.png",
            "backgroundColor": "#FFFFFF"
          },
-         "package": "com.chainocracy.voter",
+         "package": "com.QuantumBallot.voter",
          "versionCode": 1
        }
      }
@@ -534,7 +534,7 @@ For enterprise distribution without using app stores:
    {
      "expo": {
        "ios": {
-         "bundleIdentifier": "com.yourcompany.chainocracy",
+         "bundleIdentifier": "com.yourcompany.QuantumBallot",
          "buildNumber": "1.0.0",
          "supportsTablet": true,
          "config": {
@@ -561,7 +561,7 @@ For enterprise distribution without using app stores:
    {
      "expo": {
        "android": {
-         "package": "com.yourcompany.chainocracy",
+         "package": "com.yourcompany.QuantumBallot",
          "versionCode": 1
        }
      }
@@ -578,15 +578,15 @@ For enterprise distribution without using app stores:
 
 ## Database Setup
 
-The Chainocracy system uses LevelDB for blockchain data storage. This is embedded in the application and doesn't require a separate database server. However, you should configure proper data persistence:
+The QuantumBallot system uses LevelDB for blockchain data storage. This is embedded in the application and doesn't require a separate database server. However, you should configure proper data persistence:
 
 ### Data Directory Configuration
 
 1. **Create a dedicated data directory**:
 
    ```bash
-   sudo mkdir -p /var/chainocracy/data
-   sudo chown -R $USER:$USER /var/chainocracy
+   sudo mkdir -p /var/QuantumBallot/data
+   sudo chown -R $USER:$USER /var/QuantumBallot
    ```
 
 2. **Configure the application to use this directory**:
@@ -594,7 +594,7 @@ The Chainocracy system uses LevelDB for blockchain data storage. This is embedde
    In your `.env` file:
 
    ```
-   DATABASE_PATH=/var/chainocracy/data/blockchain
+   DATABASE_PATH=/var/QuantumBallot/data/blockchain
    ```
 
 ### Backup Strategy
@@ -602,7 +602,7 @@ The Chainocracy system uses LevelDB for blockchain data storage. This is embedde
 1. **Create a backup script**:
 
    ```bash
-   nano /opt/chainocracy/backup.sh
+   nano /opt/QuantumBallot/backup.sh
    ```
 
    Add the following content:
@@ -610,17 +610,17 @@ The Chainocracy system uses LevelDB for blockchain data storage. This is embedde
    ```bash
    #!/bin/bash
    TIMESTAMP=$(date +"%Y%m%d%H%M%S")
-   BACKUP_DIR=/var/backups/chainocracy
+   BACKUP_DIR=/var/backups/QuantumBallot
    mkdir -p $BACKUP_DIR
 
    # Stop the application temporarily
-   pm2 stop chainocracy-backend
+   pm2 stop QuantumBallot-backend
 
    # Create a backup
-   tar -czf $BACKUP_DIR/blockchain-$TIMESTAMP.tar.gz /var/chainocracy/data
+   tar -czf $BACKUP_DIR/blockchain-$TIMESTAMP.tar.gz /var/QuantumBallot/data
 
    # Restart the application
-   pm2 start chainocracy-backend
+   pm2 start QuantumBallot-backend
 
    # Remove backups older than 30 days
    find $BACKUP_DIR -name "blockchain-*.tar.gz" -mtime +30 -delete
@@ -629,7 +629,7 @@ The Chainocracy system uses LevelDB for blockchain data storage. This is embedde
 2. **Make the script executable**:
 
    ```bash
-   chmod +x /opt/chainocracy/backup.sh
+   chmod +x /opt/QuantumBallot/backup.sh
    ```
 
 3. **Schedule regular backups with cron**:
@@ -641,7 +641,7 @@ The Chainocracy system uses LevelDB for blockchain data storage. This is embedde
    Add the following line to run the backup daily at 2 AM:
 
    ```
-   0 2 * * * /opt/chainocracy/backup.sh
+   0 2 * * * /opt/QuantumBallot/backup.sh
    ```
 
 ## Blockchain Node Configuration
@@ -664,18 +664,18 @@ For a production environment, multiple blockchain nodes are recommended:
 1. **Set up the main node**:
 
    ```
-   BLOCKCHAIN_NODE_ADDRESS=http://main-node.chainocracy.com
+   BLOCKCHAIN_NODE_ADDRESS=http://main-node.QuantumBallot.com
    IS_MAIN_NODE=true
-   NODE_PEERS=http://node2.chainocracy.com,http://node3.chainocracy.com
+   NODE_PEERS=http://node2.QuantumBallot.com,http://node3.QuantumBallot.com
    ```
 
 2. **Set up secondary nodes**:
 
    ```
-   BLOCKCHAIN_NODE_ADDRESS=http://node2.chainocracy.com
+   BLOCKCHAIN_NODE_ADDRESS=http://node2.QuantumBallot.com
    IS_MAIN_NODE=false
-   MAIN_NODE_ADDRESS=http://main-node.chainocracy.com
-   NODE_PEERS=http://main-node.chainocracy.com,http://node3.chainocracy.com
+   MAIN_NODE_ADDRESS=http://main-node.QuantumBallot.com
+   NODE_PEERS=http://main-node.QuantumBallot.com,http://node3.QuantumBallot.com
    ```
 
 3. **Configure node synchronization**:
@@ -683,7 +683,7 @@ For a production environment, multiple blockchain nodes are recommended:
    The nodes will automatically synchronize the blockchain. You can verify this by checking the logs:
 
    ```bash
-   pm2 logs chainocracy-backend
+   pm2 logs QuantumBallot-backend
    ```
 
 ## Security Considerations
@@ -798,7 +798,7 @@ For a production environment, multiple blockchain nodes are recommended:
        static_configs:
          - targets: ["localhost:9100"]
 
-     - job_name: "chainocracy-backend"
+     - job_name: "QuantumBallot-backend"
        static_configs:
          - targets: ["localhost:3010"]
    ```
@@ -864,7 +864,7 @@ For a production environment, multiple blockchain nodes are recommended:
    const logger = winston.createLogger({
      level: "info",
      format: winston.format.json(),
-     defaultMeta: { service: "chainocracy-backend" },
+     defaultMeta: { service: "QuantumBallot-backend" },
      transports: [
        new winston.transports.File({ filename: "error.log", level: "error" }),
        new winston.transports.File({ filename: "combined.log" }),
@@ -884,13 +884,13 @@ For a production environment, multiple blockchain nodes are recommended:
 
    ```bash
    sudo apt install -y logrotate
-   sudo nano /etc/logrotate.d/chainocracy
+   sudo nano /etc/logrotate.d/QuantumBallot
    ```
 
    Add the following configuration:
 
    ```
-   /opt/chainocracy/backend/logs/*.log {
+   /opt/QuantumBallot/backend/logs/*.log {
      daily
      missingok
      rotate 14
@@ -900,7 +900,7 @@ For a production environment, multiple blockchain nodes are recommended:
      create 0640 ubuntu ubuntu
      sharedscripts
      postrotate
-       pm2 reload chainocracy-backend
+       pm2 reload QuantumBallot-backend
      endscript
    }
    ```
@@ -919,7 +919,7 @@ For a production environment, multiple blockchain nodes are recommended:
    aws configure
 
    # Create backup script
-   nano /opt/chainocracy/s3-backup.sh
+   nano /opt/QuantumBallot/s3-backup.sh
    ```
 
    Add the following content:
@@ -927,11 +927,11 @@ For a production environment, multiple blockchain nodes are recommended:
    ```bash
    #!/bin/bash
    TIMESTAMP=$(date +"%Y%m%d%H%M%S")
-   BACKUP_DIR=/var/backups/chainocracy
-   S3_BUCKET=s3://chainocracy-backups
+   BACKUP_DIR=/var/backups/QuantumBallot
+   S3_BUCKET=s3://QuantumBallot-backups
 
    # Create local backup
-   /opt/chainocracy/backup.sh
+   /opt/QuantumBallot/backup.sh
 
    # Upload to S3
    aws s3 cp $BACKUP_DIR/blockchain-$TIMESTAMP.tar.gz $S3_BUCKET/
@@ -946,7 +946,7 @@ For a production environment, multiple blockchain nodes are recommended:
    Add the following line:
 
    ```
-   0 3 * * * /opt/chainocracy/s3-backup.sh
+   0 3 * * * /opt/QuantumBallot/s3-backup.sh
    ```
 
 ### Disaster Recovery
@@ -954,7 +954,7 @@ For a production environment, multiple blockchain nodes are recommended:
 1. **Create a recovery script**:
 
    ```bash
-   nano /opt/chainocracy/recover.sh
+   nano /opt/QuantumBallot/recover.sh
    ```
 
    Add the following content:
@@ -970,20 +970,20 @@ For a production environment, multiple blockchain nodes are recommended:
    BACKUP_FILE=$1
 
    # Stop the application
-   pm2 stop chainocracy-backend
+   pm2 stop QuantumBallot-backend
 
    # Backup current data
    TIMESTAMP=$(date +"%Y%m%d%H%M%S")
-   tar -czf /var/backups/chainocracy/pre-recovery-$TIMESTAMP.tar.gz /var/chainocracy/data
+   tar -czf /var/backups/QuantumBallot/pre-recovery-$TIMESTAMP.tar.gz /var/QuantumBallot/data
 
    # Remove current data
-   rm -rf /var/chainocracy/data/*
+   rm -rf /var/QuantumBallot/data/*
 
    # Restore from backup
    tar -xzf $BACKUP_FILE -C /
 
    # Restart the application
-   pm2 start chainocracy-backend
+   pm2 start QuantumBallot-backend
 
    echo "Recovery completed successfully"
    ```
@@ -991,13 +991,13 @@ For a production environment, multiple blockchain nodes are recommended:
 2. **Make the script executable**:
 
    ```bash
-   chmod +x /opt/chainocracy/recover.sh
+   chmod +x /opt/QuantumBallot/recover.sh
    ```
 
 3. **Test the recovery process**:
 
    ```bash
-   /opt/chainocracy/recover.sh /var/backups/chainocracy/blockchain-20230101000000.tar.gz
+   /opt/QuantumBallot/recover.sh /var/backups/QuantumBallot/blockchain-20230101000000.tar.gz
    ```
 
 ## Scaling Strategies
@@ -1024,8 +1024,8 @@ For a production environment, multiple blockchain nodes are recommended:
 
    backend http_back
      balance roundrobin
-     server backend1 backend1.chainocracy.com:3010 check
-     server backend2 backend2.chainocracy.com:3010 check
+     server backend1 backend1.QuantumBallot.com:3010 check
+     server backend2 backend2.QuantumBallot.com:3010 check
    ```
 
 2. **Configure session persistence**:
@@ -1034,8 +1034,8 @@ For a production environment, multiple blockchain nodes are recommended:
    backend http_back
      balance roundrobin
      cookie SERVERID insert indirect nocache
-     server backend1 backend1.chainocracy.com:3010 check cookie backend1
-     server backend2 backend2.chainocracy.com:3010 check cookie backend2
+     server backend1 backend1.QuantumBallot.com:3010 check cookie backend1
+     server backend2 backend2.QuantumBallot.com:3010 check cookie backend2
    ```
 
 ### Vertical Scaling
@@ -1054,7 +1054,7 @@ For a production environment, multiple blockchain nodes are recommended:
 ### Common Issues
 
 1. **Application won't start**:
-   - Check logs: `pm2 logs chainocracy-backend`
+   - Check logs: `pm2 logs QuantumBallot-backend`
    - Verify environment variables
    - Check for port conflicts: `sudo netstat -tulpn | grep 3010`
 
@@ -1074,19 +1074,19 @@ For a production environment, multiple blockchain nodes are recommended:
 
    ```bash
    # Update environment variables
-   pm2 stop chainocracy-backend
-   export DEBUG=chainocracy:*
-   pm2 start chainocracy-backend
+   pm2 stop QuantumBallot-backend
+   export DEBUG=QuantumBallot:*
+   pm2 start QuantumBallot-backend
    ```
 
 2. **Analyze application logs**:
 
    ```bash
    # View real-time logs
-   pm2 logs chainocracy-backend
+   pm2 logs QuantumBallot-backend
 
    # Search for specific errors
-   grep "Error" /opt/chainocracy/backend/logs/combined.log
+   grep "Error" /opt/QuantumBallot/backend/logs/combined.log
    ```
 
 3. **Check system resources**:

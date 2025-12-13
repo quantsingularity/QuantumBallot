@@ -1,7 +1,7 @@
 #!/bin/bash
 # setup_environment.sh
 #
-# This script automates the setup of the development environment for Chainocracy project
+# This script automates the setup of the development environment for QuantumBallot project
 # It installs all necessary dependencies and configures the environment for all components
 #
 # Usage: ./setup_environment.sh [--component <component>]
@@ -191,7 +191,7 @@ setup_mobile_frontend() {
 
 # Main execution
 main() {
-    section "Chainocracy Environment Setup"
+    section "QuantumBallot Environment Setup"
     echo "Setting up environment for component: $COMPONENT"
 
     # Install common dependencies
@@ -224,7 +224,7 @@ main() {
     esac
 
     section "Setup Complete"
-    echo -e "${GREEN}Chainocracy environment setup completed successfully!${NC}"
+    echo -e "${GREEN}QuantumBallot environment setup completed successfully!${NC}"
 }
 
 # Run the main function

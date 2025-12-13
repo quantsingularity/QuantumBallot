@@ -1,4 +1,4 @@
-# Enhanced Dockerfile for Chainocracy Backend API
+# Enhanced Dockerfile for QuantumBallot Backend API
 # Implements financial-grade security best practices and compliance requirements
 
 # Use specific version with security patches
@@ -10,13 +10,13 @@ ARG VCS_REF
 ARG VERSION
 
 # Add metadata labels for compliance
-LABEL maintainer="Chainocracy Security Team" \
-      org.opencontainers.image.title="Chainocracy Backend API" \
-      org.opencontainers.image.description="Secure backend API for Chainocracy election platform" \
+LABEL maintainer="QuantumBallot Security Team" \
+      org.opencontainers.image.title="QuantumBallot Backend API" \
+      org.opencontainers.image.description="Secure backend API for QuantumBallot election platform" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.created="${BUILD_DATE}" \
       org.opencontainers.image.revision="${VCS_REF}" \
-      org.opencontainers.image.vendor="Chainocracy" \
+      org.opencontainers.image.vendor="QuantumBallot" \
       security.scan.required="true" \
       compliance.level="financial-grade"
 
@@ -86,9 +86,9 @@ RUN npm run lint && \
 FROM node:20.11.1-alpine3.19
 
 # Add metadata labels
-LABEL maintainer="Chainocracy Security Team" \
-      org.opencontainers.image.title="Chainocracy Backend API" \
-      org.opencontainers.image.description="Secure backend API for Chainocracy election platform" \
+LABEL maintainer="QuantumBallot Security Team" \
+      org.opencontainers.image.title="QuantumBallot Backend API" \
+      org.opencontainers.image.description="Secure backend API for QuantumBallot election platform" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.created="${BUILD_DATE}" \
       org.opencontainers.image.revision="${VCS_REF}" \

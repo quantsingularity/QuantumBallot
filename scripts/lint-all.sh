@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Optimized Linting and Fixing Script for Chainocracy Project (TypeScript, React, YAML)
+# Optimized Linting and Fixing Script for QuantumBallot Project (TypeScript, React, YAML)
 # This script prioritizes local dependencies and virtual environments for security and reproducibility.
 
 set -euo pipefail # Exit on error, exit on unset variable, fail on pipe error
 
 echo "----------------------------------------"
-echo "Starting optimized linting and fixing process for Chainocracy..."
+echo "Starting optimized linting and fixing process for QuantumBallot..."
 echo "----------------------------------------"
 
 # --- Configuration ---
@@ -91,5 +91,5 @@ else
 fi
 
 echo "----------------------------------------"
-echo "Optimized linting and fixing process for Chainocracy completed!"
+echo "Optimized linting and fixing process for QuantumBallot completed!"
 echo "----------------------------------------"

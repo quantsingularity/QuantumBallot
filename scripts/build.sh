@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Project Build Script for Chainocracy
+# Project Build Script for QuantumBallot
 # Provides a unified entry point to build the application components for production.
 
 set -euo pipefail # Exit on error, exit on unset variable, fail on pipe error
 
 echo "----------------------------------------"
-echo "Starting Chainocracy Project Build..."
+echo "Starting QuantumBallot Project Build..."
 echo "----------------------------------------"
 
 # --- Configuration ---
@@ -48,5 +48,5 @@ build_component "web-frontend"
 build_component "mobile-frontend"
 
 echo "----------------------------------------"
-echo "Chainocracy Project Build completed successfully!"
+echo "QuantumBallot Project Build completed successfully!"
 echo "----------------------------------------"

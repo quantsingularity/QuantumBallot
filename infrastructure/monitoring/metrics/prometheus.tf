@@ -3,7 +3,7 @@
 
 # EKS Cluster for Monitoring Stack
 resource "aws_eks_cluster" "monitoring" {
-  name     = "${var.environment}-chainocracy-monitoring"
+  name     = "${var.environment}-QuantumBallot-monitoring"
   role_arn = var.eks_cluster_role_arn
   version  = var.kubernetes_version
 
@@ -31,7 +31,7 @@ resource "aws_eks_cluster" "monitoring" {
   ]
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-monitoring-cluster"
+    Name = "${var.environment}-QuantumBallot-monitoring-cluster"
     Environment = var.environment
     Purpose = "monitoring"
   })
@@ -39,12 +39,12 @@ resource "aws_eks_cluster" "monitoring" {
 
 # CloudWatch Log Group for EKS Cluster
 resource "aws_cloudwatch_log_group" "monitoring_cluster" {
-  name              = "/aws/eks/${var.environment}-chainocracy-monitoring/cluster"
+  name              = "/aws/eks/${var.environment}-QuantumBallot-monitoring/cluster"
   retention_in_days = var.log_retention_days
   kms_key_id        = var.kms_logs_key_id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-monitoring-cluster-logs"
+    Name = "${var.environment}-QuantumBallot-monitoring-cluster-logs"
     Environment = var.environment
   })
 }
@@ -52,7 +52,7 @@ resource "aws_cloudwatch_log_group" "monitoring_cluster" {
 # EKS Node Group for Monitoring
 resource "aws_eks_node_group" "monitoring" {
   cluster_name    = aws_eks_cluster.monitoring.name
-  node_group_name = "${var.environment}-chainocracy-monitoring-nodes"
+  node_group_name = "${var.environment}-QuantumBallot-monitoring-nodes"
   node_role_arn   = var.eks_node_group_role_arn
   subnet_ids      = var.private_subnet_ids
 
@@ -81,14 +81,14 @@ resource "aws_eks_node_group" "monitoring" {
   ]
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-monitoring-node-group"
+    Name = "${var.environment}-QuantumBallot-monitoring-node-group"
     Environment = var.environment
   })
 }
 
 # Launch Template for Monitoring Nodes
 resource "aws_launch_template" "monitoring_nodes" {
-  name_prefix   = "${var.environment}-chainocracy-monitoring-"
+  name_prefix   = "${var.environment}-QuantumBallot-monitoring-"
   image_id      = var.eks_optimized_ami_id
   instance_type = var.monitoring_instance_types[0]
 
@@ -113,13 +113,13 @@ resource "aws_launch_template" "monitoring_nodes" {
   tag_specifications {
     resource_type = "instance"
     tags = merge(var.common_tags, {
-      Name = "${var.environment}-chainocracy-monitoring-node"
+      Name = "${var.environment}-QuantumBallot-monitoring-node"
       Environment = var.environment
     })
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-monitoring-launch-template"
+    Name = "${var.environment}-QuantumBallot-monitoring-launch-template"
     Environment = var.environment
   })
 }

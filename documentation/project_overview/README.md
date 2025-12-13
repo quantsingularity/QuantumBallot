@@ -1,8 +1,8 @@
-# Chainocracy - Blockchain-Based Voting System
+# QuantumBallot - Blockchain-Based Voting System
 
 ## Project Overview
 
-Chainocracy is a comprehensive blockchain-based voting system designed to provide secure, transparent, and verifiable elections. The system leverages blockchain technology to ensure the integrity and immutability of votes, while providing a user-friendly experience for both election administrators and voters.
+QuantumBallot is a comprehensive blockchain-based voting system designed to provide secure, transparent, and verifiable elections. The system leverages blockchain technology to ensure the integrity and immutability of votes, while providing a user-friendly experience for both election administrators and voters.
 
 The project consists of three main components:
 

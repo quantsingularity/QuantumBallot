@@ -33,7 +33,7 @@ function Login() {
       <footer className="bg-gray-100 text-gray-400 text-center py-2 w-screen">
         <div>
           <span>
-            &copy; {new Date().getFullYear()} Chainocracy, Abrar Ahmed. All
+            &copy; {new Date().getFullYear()} QuantumBallot, Abrar Ahmed. All
             rights reserved.
           </span>
         </div>

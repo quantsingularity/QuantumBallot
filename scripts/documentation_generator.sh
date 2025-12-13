@@ -1,7 +1,7 @@
 #!/bin/bash
 # documentation_generator.sh
 #
-# This script automates the generation of documentation for the Chainocracy project
+# This script automates the generation of documentation for the QuantumBallot project
 # It can generate API documentation, user guides, and developer documentation
 #
 # Usage: ./documentation_generator.sh <type>
@@ -124,13 +124,13 @@ generate_user_docs() {
 
         # Create template user documentation
         cat > docs/user_guide/index.md << EOF
-# Chainocracy User Guide
+# QuantumBallot User Guide
 
 ## Introduction
-This is the user guide for the Chainocracy blockchain-based voting system.
+This is the user guide for the QuantumBallot blockchain-based voting system.
 
 ## Getting Started
-Instructions for getting started with the Chainocracy system.
+Instructions for getting started with the QuantumBallot system.
 
 ## Voter Guide
 Instructions for voters on how to use the mobile application.
@@ -168,7 +168,7 @@ generate_developer_docs() {
 
         # Create template developer documentation
         cat > docs/developer_guide/index.md << EOF
-# Chainocracy Developer Guide
+# QuantumBallot Developer Guide
 
 ## Project Setup
 Instructions for setting up the development environment.
@@ -198,7 +198,7 @@ EOF
 }
 
 # Main execution
-section "Chainocracy Documentation Generator"
+section "QuantumBallot Documentation Generator"
 echo "Generating documentation type: $DOC_TYPE"
 
 # Install dependencies
@@ -223,4 +223,4 @@ case $DOC_TYPE in
 esac
 
 section "Documentation Generation Complete"
-echo -e "${GREEN}Chainocracy documentation generation completed successfully!${NC}"
+echo -e "${GREEN}QuantumBallot documentation generation completed successfully!${NC}"

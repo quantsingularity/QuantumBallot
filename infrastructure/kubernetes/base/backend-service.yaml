@@ -3,10 +3,10 @@ kind: Service
 metadata:
   name: backend-service
   labels:
-    app: chainocracy-backend
+    app: QuantumBallot-backend
 spec:
   selector:
-    app: chainocracy-backend
+    app: QuantumBallot-backend
   ports:
     - protocol: TCP
       port: 80 # Service port

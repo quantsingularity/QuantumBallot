@@ -7,7 +7,7 @@ data "aws_region" "current" {}
 
 # Primary KMS Key for Application Data
 resource "aws_kms_key" "application_data" {
-  description             = "KMS key for ${var.environment} Chainocracy application data encryption"
+  description             = "KMS key for ${var.environment} QuantumBallot application data encryption"
   deletion_window_in_days = var.kms_deletion_window
   enable_key_rotation     = true
   multi_region           = var.enable_multi_region_keys
@@ -109,7 +109,7 @@ resource "aws_kms_key" "application_data" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-application-data-key"
+    Name = "${var.environment}-QuantumBallot-application-data-key"
     Environment = var.environment
     Purpose = "application-data"
   })
@@ -117,13 +117,13 @@ resource "aws_kms_key" "application_data" {
 
 # KMS Key Alias for Application Data
 resource "aws_kms_alias" "application_data" {
-  name          = "alias/${var.environment}-chainocracy-application-data"
+  name          = "alias/${var.environment}-QuantumBallot-application-data"
   target_key_id = aws_kms_key.application_data.key_id
 }
 
 # KMS Key for Database Encryption
 resource "aws_kms_key" "database" {
-  description             = "KMS key for ${var.environment} Chainocracy database encryption"
+  description             = "KMS key for ${var.environment} QuantumBallot database encryption"
   deletion_window_in_days = var.kms_deletion_window
   enable_key_rotation     = true
   multi_region           = var.enable_multi_region_keys
@@ -188,7 +188,7 @@ resource "aws_kms_key" "database" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-database-key"
+    Name = "${var.environment}-QuantumBallot-database-key"
     Environment = var.environment
     Purpose = "database"
   })
@@ -196,13 +196,13 @@ resource "aws_kms_key" "database" {
 
 # KMS Key Alias for Database
 resource "aws_kms_alias" "database" {
-  name          = "alias/${var.environment}-chainocracy-database"
+  name          = "alias/${var.environment}-QuantumBallot-database"
   target_key_id = aws_kms_key.database.key_id
 }
 
 # KMS Key for Secrets Manager
 resource "aws_kms_key" "secrets" {
-  description             = "KMS key for ${var.environment} Chainocracy secrets encryption"
+  description             = "KMS key for ${var.environment} QuantumBallot secrets encryption"
   deletion_window_in_days = var.kms_deletion_window
   enable_key_rotation     = true
   multi_region           = var.enable_multi_region_keys
@@ -250,7 +250,7 @@ resource "aws_kms_key" "secrets" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-secrets-key"
+    Name = "${var.environment}-QuantumBallot-secrets-key"
     Environment = var.environment
     Purpose = "secrets"
   })
@@ -258,13 +258,13 @@ resource "aws_kms_key" "secrets" {
 
 # KMS Key Alias for Secrets
 resource "aws_kms_alias" "secrets" {
-  name          = "alias/${var.environment}-chainocracy-secrets"
+  name          = "alias/${var.environment}-QuantumBallot-secrets"
   target_key_id = aws_kms_key.secrets.key_id
 }
 
 # KMS Key for S3 Bucket Encryption
 resource "aws_kms_key" "s3" {
-  description             = "KMS key for ${var.environment} Chainocracy S3 bucket encryption"
+  description             = "KMS key for ${var.environment} QuantumBallot S3 bucket encryption"
   deletion_window_in_days = var.kms_deletion_window
   enable_key_rotation     = true
   multi_region           = var.enable_multi_region_keys
@@ -330,7 +330,7 @@ resource "aws_kms_key" "s3" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-s3-key"
+    Name = "${var.environment}-QuantumBallot-s3-key"
     Environment = var.environment
     Purpose = "s3"
   })
@@ -338,13 +338,13 @@ resource "aws_kms_key" "s3" {
 
 # KMS Key Alias for S3
 resource "aws_kms_alias" "s3" {
-  name          = "alias/${var.environment}-chainocracy-s3"
+  name          = "alias/${var.environment}-QuantumBallot-s3"
   target_key_id = aws_kms_key.s3.key_id
 }
 
 # KMS Key for EBS Volume Encryption
 resource "aws_kms_key" "ebs" {
-  description             = "KMS key for ${var.environment} Chainocracy EBS volume encryption"
+  description             = "KMS key for ${var.environment} QuantumBallot EBS volume encryption"
   deletion_window_in_days = var.kms_deletion_window
   enable_key_rotation     = true
   multi_region           = var.enable_multi_region_keys
@@ -402,7 +402,7 @@ resource "aws_kms_key" "ebs" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-ebs-key"
+    Name = "${var.environment}-QuantumBallot-ebs-key"
     Environment = var.environment
     Purpose = "ebs"
   })
@@ -410,13 +410,13 @@ resource "aws_kms_key" "ebs" {
 
 # KMS Key Alias for EBS
 resource "aws_kms_alias" "ebs" {
-  name          = "alias/${var.environment}-chainocracy-ebs"
+  name          = "alias/${var.environment}-QuantumBallot-ebs"
   target_key_id = aws_kms_key.ebs.key_id
 }
 
 # KMS Key for CloudWatch Logs
 resource "aws_kms_key" "logs" {
-  description             = "KMS key for ${var.environment} Chainocracy CloudWatch logs encryption"
+  description             = "KMS key for ${var.environment} QuantumBallot CloudWatch logs encryption"
   deletion_window_in_days = var.kms_deletion_window
   enable_key_rotation     = true
   multi_region           = var.enable_multi_region_keys
@@ -457,7 +457,7 @@ resource "aws_kms_key" "logs" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-logs-key"
+    Name = "${var.environment}-QuantumBallot-logs-key"
     Environment = var.environment
     Purpose = "logs"
   })
@@ -465,13 +465,13 @@ resource "aws_kms_key" "logs" {
 
 # KMS Key Alias for Logs
 resource "aws_kms_alias" "logs" {
-  name          = "alias/${var.environment}-chainocracy-logs"
+  name          = "alias/${var.environment}-QuantumBallot-logs"
   target_key_id = aws_kms_key.logs.key_id
 }
 
 # KMS Key for SNS Topic Encryption
 resource "aws_kms_key" "sns" {
-  description             = "KMS key for ${var.environment} Chainocracy SNS topic encryption"
+  description             = "KMS key for ${var.environment} QuantumBallot SNS topic encryption"
   deletion_window_in_days = var.kms_deletion_window
   enable_key_rotation     = true
   multi_region           = var.enable_multi_region_keys
@@ -522,7 +522,7 @@ resource "aws_kms_key" "sns" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-sns-key"
+    Name = "${var.environment}-QuantumBallot-sns-key"
     Environment = var.environment
     Purpose = "sns"
   })
@@ -530,7 +530,7 @@ resource "aws_kms_key" "sns" {
 
 # KMS Key Alias for SNS
 resource "aws_kms_alias" "sns" {
-  name          = "alias/${var.environment}-chainocracy-sns"
+  name          = "alias/${var.environment}-QuantumBallot-sns"
   target_key_id = aws_kms_key.sns.key_id
 }
 
@@ -546,7 +546,7 @@ resource "aws_cloudwatch_metric_alarm" "kms_key_usage" {
     sns             = aws_kms_key.sns.key_id
   }
 
-  alarm_name          = "${var.environment}-chainocracy-kms-${each.key}-usage"
+  alarm_name          = "${var.environment}-QuantumBallot-kms-${each.key}-usage"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
   metric_name         = "NumberOfRequestsExceeded"
@@ -562,34 +562,34 @@ resource "aws_cloudwatch_metric_alarm" "kms_key_usage" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-kms-${each.key}-usage-alarm"
+    Name = "${var.environment}-QuantumBallot-kms-${each.key}-usage-alarm"
     Environment = var.environment
   })
 }
 
 # KMS Key Grants for Cross-Service Access
 resource "aws_kms_grant" "rds_grant" {
-  name              = "${var.environment}-chainocracy-rds-grant"
+  name              = "${var.environment}-QuantumBallot-rds-grant"
   key_id            = aws_kms_key.database.key_id
   grantee_principal = "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/rds.amazonaws.com/AWSServiceRoleForRDS"
   operations        = ["Encrypt", "Decrypt", "ReEncryptFrom", "ReEncryptTo", "GenerateDataKey", "GenerateDataKeyWithoutPlaintext", "DescribeKey", "CreateGrant"]
 
   constraints {
     encryption_context_equals = {
-      "aws:rds:db-cluster-id" = "${var.environment}-chainocracy-cluster"
+      "aws:rds:db-cluster-id" = "${var.environment}-QuantumBallot-cluster"
     }
   }
 }
 
 resource "aws_kms_grant" "backup_grant" {
-  name              = "${var.environment}-chainocracy-backup-grant"
+  name              = "${var.environment}-QuantumBallot-backup-grant"
   key_id            = aws_kms_key.database.key_id
   grantee_principal = aws_iam_role.backup_role.arn
   operations        = ["Encrypt", "Decrypt", "ReEncryptFrom", "ReEncryptTo", "GenerateDataKey", "GenerateDataKeyWithoutPlaintext", "DescribeKey", "CreateGrant"]
 
   constraints {
     encryption_context_subset = {
-      "aws:backup:source-resource" = "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster:${var.environment}-chainocracy-cluster"
+      "aws:backup:source-resource" = "arn:aws:rds:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:cluster:${var.environment}-QuantumBallot-cluster"
     }
   }
 }

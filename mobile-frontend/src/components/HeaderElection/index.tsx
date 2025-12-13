@@ -9,7 +9,7 @@ export function HeaderElection() {
         <View style={styles.flagStripe2}></View>
         <View style={styles.flagStripe3}></View>
       </View>
-      <Text style={styles.title}>Chainocracy</Text>
+      <Text style={styles.title}>QuantumBallot</Text>
       <Text style={styles.subtitle}>Blockchain-based Voting System</Text>
     </View>
   );

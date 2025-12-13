@@ -1,7 +1,7 @@
 #!/bin/bash
 # ci_cd_helper.sh
 #
-# This script helps manage CI/CD workflows for the Chainocracy project
+# This script helps manage CI/CD workflows for the QuantumBallot project
 # It can validate workflows, run local CI checks, and manage GitHub Actions
 #
 # Usage: ./ci_cd_helper.sh <command> [options]
@@ -31,7 +31,7 @@ section() {
 
 # Function to display help message
 show_help() {
-    echo "Chainocracy CI/CD Helper"
+    echo "QuantumBallot CI/CD Helper"
     echo ""
     echo "Usage: ./ci_cd_helper.sh <command> [options]"
     echo ""

@@ -15,9 +15,9 @@ resource "aws_vpc" "main" {
   enable_dns_hostnames = true
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-vpc"
+    Name        = "${var.environment_name}-QuantumBallot-vpc"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -30,9 +30,9 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-public-subnet-${count.index}"
+    Name        = "${var.environment_name}-QuantumBallot-public-subnet-${count.index}"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -41,9 +41,9 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-igw"
+    Name        = "${var.environment_name}-QuantumBallot-igw"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -57,9 +57,9 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-public-rt"
+    Name        = "${var.environment_name}-QuantumBallot-public-rt"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -83,7 +83,7 @@ module "backend" {
   subnet_ids       = aws_subnet.public[*].id
   backend_port     = var.backend_port
   # Construct ECR image URI
-  docker_image_uri = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.environment_name}/chainocracy-backend:${var.backend_docker_image_tag}"
+  docker_image_uri = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.environment_name}/QuantumBallot-backend:${var.backend_docker_image_tag}"
 
   # Pass other backend variables if needed
 }

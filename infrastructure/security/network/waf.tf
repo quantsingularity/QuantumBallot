@@ -3,7 +3,7 @@
 
 # WAF Web ACL for comprehensive protection
 resource "aws_wafv2_web_acl" "main" {
-  name  = "${var.environment}-chainocracy-waf"
+  name  = "${var.environment}-QuantumBallot-waf"
   scope = "REGIONAL"
 
   default_action {
@@ -311,13 +311,13 @@ resource "aws_wafv2_web_acl" "main" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-waf"
+    Name = "${var.environment}-QuantumBallot-waf"
     Environment = var.environment
   })
 
   visibility_config {
     cloudwatch_metrics_enabled = true
-    metric_name                = "ChainocracyWAF"
+    metric_name                = "QuantumBallotWAF"
     sampled_requests_enabled   = true
   }
 }
@@ -330,12 +330,12 @@ resource "aws_wafv2_web_acl_association" "main" {
 
 # CloudWatch Log Group for WAF Logs
 resource "aws_cloudwatch_log_group" "waf_log_group" {
-  name              = "/aws/wafv2/${var.environment}-chainocracy"
+  name              = "/aws/wafv2/${var.environment}-QuantumBallot"
   retention_in_days = var.log_retention_days
   kms_key_id        = var.kms_key_arn
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-waf-logs"
+    Name = "${var.environment}-QuantumBallot-waf-logs"
     Environment = var.environment
   })
 }
@@ -390,7 +390,7 @@ resource "aws_wafv2_web_acl_logging_configuration" "main" {
 
 # Custom Rule Group for Application-Specific Rules
 resource "aws_wafv2_rule_group" "custom_rules" {
-  name     = "${var.environment}-chainocracy-custom-rules"
+  name     = "${var.environment}-QuantumBallot-custom-rules"
   scope    = "REGIONAL"
   capacity = 100
 
@@ -491,7 +491,7 @@ resource "aws_wafv2_rule_group" "custom_rules" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-custom-rules"
+    Name = "${var.environment}-QuantumBallot-custom-rules"
     Environment = var.environment
   })
 
@@ -504,33 +504,33 @@ resource "aws_wafv2_rule_group" "custom_rules" {
 
 # IP Set for Admin Whitelist
 resource "aws_wafv2_ip_set" "admin_whitelist" {
-  name               = "${var.environment}-chainocracy-admin-whitelist"
+  name               = "${var.environment}-QuantumBallot-admin-whitelist"
   scope              = "REGIONAL"
   ip_address_version = "IPV4"
   addresses          = var.admin_whitelist_ips
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-admin-whitelist"
+    Name = "${var.environment}-QuantumBallot-admin-whitelist"
     Environment = var.environment
   })
 }
 
 # IP Set for Known Bad IPs
 resource "aws_wafv2_ip_set" "bad_ips" {
-  name               = "${var.environment}-chainocracy-bad-ips"
+  name               = "${var.environment}-QuantumBallot-bad-ips"
   scope              = "REGIONAL"
   ip_address_version = "IPV4"
   addresses          = var.blocked_ips
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-bad-ips"
+    Name = "${var.environment}-QuantumBallot-bad-ips"
     Environment = var.environment
   })
 }
 
 # CloudWatch Alarms for WAF Metrics
 resource "aws_cloudwatch_metric_alarm" "waf_blocked_requests" {
-  alarm_name          = "${var.environment}-chainocracy-waf-blocked-requests"
+  alarm_name          = "${var.environment}-QuantumBallot-waf-blocked-requests"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
   metric_name         = "BlockedRequests"
@@ -547,13 +547,13 @@ resource "aws_cloudwatch_metric_alarm" "waf_blocked_requests" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-waf-blocked-requests-alarm"
+    Name = "${var.environment}-QuantumBallot-waf-blocked-requests-alarm"
     Environment = var.environment
   })
 }
 
 resource "aws_cloudwatch_metric_alarm" "waf_rate_limit_triggered" {
-  alarm_name          = "${var.environment}-chainocracy-waf-rate-limit"
+  alarm_name          = "${var.environment}-QuantumBallot-waf-rate-limit"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "1"
   metric_name         = "BlockedRequests"
@@ -571,7 +571,7 @@ resource "aws_cloudwatch_metric_alarm" "waf_rate_limit_triggered" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-waf-rate-limit-alarm"
+    Name = "${var.environment}-QuantumBallot-waf-rate-limit-alarm"
     Environment = var.environment
   })
 }

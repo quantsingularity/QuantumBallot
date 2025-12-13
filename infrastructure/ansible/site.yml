@@ -1,6 +1,6 @@
 ---
-# Main Ansible playbook for Chainocracy deployment
-# This playbook orchestrates the deployment of Chainocracy components across different environments
+# Main Ansible playbook for QuantumBallot deployment
+# This playbook orchestrates the deployment of QuantumBallot components across different environments
 
 - name: Apply common configuration to all hosts
   hosts: all
@@ -14,7 +14,7 @@
   hosts: backend_servers
   become: yes
   vars:
-    app_name: chainocracy-backend
+    app_name: QuantumBallot-backend
     app_port: 3000
     node_env: "{{ environment | default('production') }}"
     db_host: "{{ lookup('env', 'DB_HOST') }}"
@@ -31,9 +31,9 @@
   hosts: web_servers
   become: yes
   vars:
-    app_name: chainocracy-web
+    app_name: QuantumBallot-web
     app_port: 80
-    api_url: "{{ backend_api_url | default('https://api.chainocracy.io') }}"
+    api_url: "{{ backend_api_url | default('https://api.QuantumBallot.io') }}"
     node_env: "{{ environment | default('production') }}"
   roles:
     - role: frontend_web
@@ -45,8 +45,8 @@
   hosts: build_servers
   become: yes
   vars:
-    app_name: chainocracy-mobile
-    api_url: "{{ backend_api_url | default('https://api.chainocracy.io') }}"
+    app_name: QuantumBallot-mobile
+    api_url: "{{ backend_api_url | default('https://api.QuantumBallot.io') }}"
     build_type: "{{ build_type | default('release') }}"
   roles:
     - role: mobile_build
@@ -85,8 +85,8 @@
   vars:
     backend_servers: "{{ groups['backend_servers'] }}"
     web_servers: "{{ groups['web_servers'] }}"
-    ssl_cert_path: "/etc/ssl/certs/chainocracy.crt"
-    ssl_key_path: "/etc/ssl/private/chainocracy.key"
+    ssl_cert_path: "/etc/ssl/certs/QuantumBallot.crt"
+    ssl_key_path: "/etc/ssl/private/QuantumBallot.key"
   roles:
     - role: load_balancer
       tags:
@@ -101,7 +101,7 @@
     backup_schedule: "0 2 * * *" # Daily at 2 AM
     backup_destinations:
       - type: s3
-        bucket: "chainocracy-backups"
+        bucket: "QuantumBallot-backups"
         region: "us-west-2"
   roles:
     - role: backup

@@ -364,7 +364,7 @@ describe("Committee", () => {
       const otp = committee.generateOtp();
 
       expect(speakeasy.generateSecret).toHaveBeenCalledWith({
-        name: "Election Chainocracy",
+        name: "Election QuantumBallot",
         length: 6,
         step: 300,
       });

@@ -1,6 +1,6 @@
-# Chainocracy Automation Scripts
+# QuantumBallot Automation Scripts
 
-This directory contains automation scripts for the Chainocracy project. These scripts are designed to streamline development, testing, deployment, and documentation processes.
+This directory contains automation scripts for the QuantumBallot project. These scripts are designed to streamline development, testing, deployment, and documentation processes.
 
 ## Scripts Overview
 
@@ -65,7 +65,7 @@ All scripts can be accessed through the main script:
 
 ## Installation
 
-1. Extract the scripts to your Chainocracy project root directory
+1. Extract the scripts to your QuantumBallot project root directory
 2. Make the scripts executable:
    ```bash
    chmod +x scripts/*.sh

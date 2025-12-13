@@ -1,6 +1,6 @@
 # API Documentation
 
-This document provides detailed information about the Chainocracy backend API endpoints, request/response formats, and authentication requirements.
+This document provides detailed information about the QuantumBallot backend API endpoints, request/response formats, and authentication requirements.
 
 ## Base URL
 
@@ -897,4 +897,4 @@ With the following request body:
 }
 ```
 
-Webhook payloads are signed using HMAC-SHA256 with your secret. Verify the signature in the X-Chainocracy-Signature header to ensure the webhook is authentic.
+Webhook payloads are signed using HMAC-SHA256 with your secret. Verify the signature in the X-QuantumBallot-Signature header to ensure the webhook is authentic.

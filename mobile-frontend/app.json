@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Chainocracy",
-    "slug": "chainocracy-voter",
+    "name": "QuantumBallot",
+    "slug": "QuantumBallot-voter",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",

@@ -1,6 +1,6 @@
 # Smart Contract Documentation
 
-This directory contains the smart contract implementations for the Chainocracy project.
+This directory contains the smart contract implementations for the QuantumBallot project.
 
 ## Contents
 
@@ -11,7 +11,7 @@ This directory contains the smart contract implementations for the Chainocracy p
 
 ## Purpose
 
-The smart contracts in this directory provide the core voting and governance functionality for the Chainocracy platform, including:
+The smart contracts in this directory provide the core voting and governance functionality for the QuantumBallot platform, including:
 
 1. Secure voting mechanisms
 2. Candidate registration and management

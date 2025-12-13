@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #"""
-#Comprehensive Security Testing Suite for Chainocracy Infrastructure
+#Comprehensive Security Testing Suite for QuantumBallot Infrastructure
 #Implements financial-grade security testing and vulnerability assessment
 #"""
 
@@ -28,7 +28,7 @@ from kubernetes import client, config
 
 
 class SecurityTestSuite:
-#    """Main security testing suite for Chainocracy infrastructure"""
+#    """Main security testing suite for QuantumBallot infrastructure"""
 #
 #    def __init__(self, environment: str = "test"):
 #        self.environment = environment
@@ -1164,7 +1164,7 @@ class SecurityTestSuite:
 #    """Main function to run security tests"""
     import argparse
 
-    parser = argparse.ArgumentParser(description="Chainocracy Security Test Suite")
+    parser = argparse.ArgumentParser(description="QuantumBallot Security Test Suite")
     parser.add_argument("--environment", default="test", help="Environment to test")
     parser.add_argument(
         "--test-type",

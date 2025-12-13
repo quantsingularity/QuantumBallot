@@ -11,7 +11,7 @@ terraform {
   # Configure backend for state management (e.g., S3)
   # backend "s3" {
   #   bucket         = "your-terraform-state-bucket-name"
-  #   key            = "chainocracy/terraform.tfstate"
+  #   key            = "QuantumBallot/terraform.tfstate"
   #   region         = "us-east-1"
   #   encrypt        = true
   #   dynamodb_table = "your-terraform-lock-table"

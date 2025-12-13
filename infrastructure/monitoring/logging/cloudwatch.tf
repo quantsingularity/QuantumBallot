@@ -3,84 +3,84 @@
 
 # CloudWatch Log Groups for Application Components
 resource "aws_cloudwatch_log_group" "application" {
-  name              = "/aws/application/${var.environment}-chainocracy"
+  name              = "/aws/application/${var.environment}-QuantumBallot"
   retention_in_days = var.application_log_retention_days
   kms_key_id        = var.kms_logs_key_id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-application-logs"
+    Name = "${var.environment}-QuantumBallot-application-logs"
     Environment = var.environment
     LogType = "application"
   })
 }
 
 resource "aws_cloudwatch_log_group" "api_gateway" {
-  name              = "/aws/apigateway/${var.environment}-chainocracy"
+  name              = "/aws/apigateway/${var.environment}-QuantumBallot"
   retention_in_days = var.api_log_retention_days
   kms_key_id        = var.kms_logs_key_id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-api-gateway-logs"
+    Name = "${var.environment}-QuantumBallot-api-gateway-logs"
     Environment = var.environment
     LogType = "api-gateway"
   })
 }
 
 resource "aws_cloudwatch_log_group" "lambda" {
-  name              = "/aws/lambda/${var.environment}-chainocracy"
+  name              = "/aws/lambda/${var.environment}-QuantumBallot"
   retention_in_days = var.lambda_log_retention_days
   kms_key_id        = var.kms_logs_key_id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-lambda-logs"
+    Name = "${var.environment}-QuantumBallot-lambda-logs"
     Environment = var.environment
     LogType = "lambda"
   })
 }
 
 resource "aws_cloudwatch_log_group" "ecs" {
-  name              = "/aws/ecs/${var.environment}-chainocracy"
+  name              = "/aws/ecs/${var.environment}-QuantumBallot"
   retention_in_days = var.ecs_log_retention_days
   kms_key_id        = var.kms_logs_key_id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-ecs-logs"
+    Name = "${var.environment}-QuantumBallot-ecs-logs"
     Environment = var.environment
     LogType = "ecs"
   })
 }
 
 resource "aws_cloudwatch_log_group" "rds" {
-  name              = "/aws/rds/instance/${var.environment}-chainocracy/postgresql"
+  name              = "/aws/rds/instance/${var.environment}-QuantumBallot/postgresql"
   retention_in_days = var.database_log_retention_days
   kms_key_id        = var.kms_logs_key_id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-rds-logs"
+    Name = "${var.environment}-QuantumBallot-rds-logs"
     Environment = var.environment
     LogType = "database"
   })
 }
 
 resource "aws_cloudwatch_log_group" "security" {
-  name              = "/aws/security/${var.environment}-chainocracy"
+  name              = "/aws/security/${var.environment}-QuantumBallot"
   retention_in_days = var.security_log_retention_days
   kms_key_id        = var.kms_logs_key_id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-security-logs"
+    Name = "${var.environment}-QuantumBallot-security-logs"
     Environment = var.environment
     LogType = "security"
   })
 }
 
 resource "aws_cloudwatch_log_group" "audit" {
-  name              = "/aws/audit/${var.environment}-chainocracy"
+  name              = "/aws/audit/${var.environment}-QuantumBallot"
   retention_in_days = var.audit_log_retention_days
   kms_key_id        = var.kms_logs_key_id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-audit-logs"
+    Name = "${var.environment}-QuantumBallot-audit-logs"
     Environment = var.environment
     LogType = "audit"
   })
@@ -104,52 +104,52 @@ resource "aws_cloudwatch_log_stream" "application_blockchain" {
 
 # CloudWatch Log Metric Filters for Security Events
 resource "aws_cloudwatch_log_metric_filter" "failed_logins" {
-  name           = "${var.environment}-chainocracy-failed-logins"
+  name           = "${var.environment}-QuantumBallot-failed-logins"
   log_group_name = aws_cloudwatch_log_group.application.name
   pattern        = "[timestamp, request_id, level=\"ERROR\", message=\"Authentication failed*\"]"
 
   metric_transformation {
     name      = "FailedLogins"
-    namespace = "Chainocracy/${var.environment}/Security"
+    namespace = "QuantumBallot/${var.environment}/Security"
     value     = "1"
     default_value = "0"
   }
 }
 
 resource "aws_cloudwatch_log_metric_filter" "suspicious_activity" {
-  name           = "${var.environment}-chainocracy-suspicious-activity"
+  name           = "${var.environment}-QuantumBallot-suspicious-activity"
   log_group_name = aws_cloudwatch_log_group.security.name
   pattern        = "[timestamp, request_id, level=\"WARN\", message=\"Suspicious activity detected*\"]"
 
   metric_transformation {
     name      = "SuspiciousActivity"
-    namespace = "Chainocracy/${var.environment}/Security"
+    namespace = "QuantumBallot/${var.environment}/Security"
     value     = "1"
     default_value = "0"
   }
 }
 
 resource "aws_cloudwatch_log_metric_filter" "privilege_escalation" {
-  name           = "${var.environment}-chainocracy-privilege-escalation"
+  name           = "${var.environment}-QuantumBallot-privilege-escalation"
   log_group_name = aws_cloudwatch_log_group.audit.name
   pattern        = "[timestamp, user, action=\"PRIVILEGE_ESCALATION\", resource, result]"
 
   metric_transformation {
     name      = "PrivilegeEscalation"
-    namespace = "Chainocracy/${var.environment}/Security"
+    namespace = "QuantumBallot/${var.environment}/Security"
     value     = "1"
     default_value = "0"
   }
 }
 
 resource "aws_cloudwatch_log_metric_filter" "data_access_violations" {
-  name           = "${var.environment}-chainocracy-data-access-violations"
+  name           = "${var.environment}-QuantumBallot-data-access-violations"
   log_group_name = aws_cloudwatch_log_group.audit.name
   pattern        = "[timestamp, user, action=\"DATA_ACCESS\", resource, result=\"DENIED\"]"
 
   metric_transformation {
     name      = "DataAccessViolations"
-    namespace = "Chainocracy/${var.environment}/Security"
+    namespace = "QuantumBallot/${var.environment}/Security"
     value     = "1"
     default_value = "0"
   }
@@ -157,39 +157,39 @@ resource "aws_cloudwatch_log_metric_filter" "data_access_violations" {
 
 # CloudWatch Log Metric Filters for Application Performance
 resource "aws_cloudwatch_log_metric_filter" "application_errors" {
-  name           = "${var.environment}-chainocracy-application-errors"
+  name           = "${var.environment}-QuantumBallot-application-errors"
   log_group_name = aws_cloudwatch_log_group.application.name
   pattern        = "[timestamp, request_id, level=\"ERROR\", ...]"
 
   metric_transformation {
     name      = "ApplicationErrors"
-    namespace = "Chainocracy/${var.environment}/Application"
+    namespace = "QuantumBallot/${var.environment}/Application"
     value     = "1"
     default_value = "0"
   }
 }
 
 resource "aws_cloudwatch_log_metric_filter" "slow_queries" {
-  name           = "${var.environment}-chainocracy-slow-queries"
+  name           = "${var.environment}-QuantumBallot-slow-queries"
   log_group_name = aws_cloudwatch_log_group.rds.name
   pattern        = "[timestamp, duration > 1000, query, ...]"
 
   metric_transformation {
     name      = "SlowQueries"
-    namespace = "Chainocracy/${var.environment}/Database"
+    namespace = "QuantumBallot/${var.environment}/Database"
     value     = "1"
     default_value = "0"
   }
 }
 
 resource "aws_cloudwatch_log_metric_filter" "api_response_time" {
-  name           = "${var.environment}-chainocracy-api-response-time"
+  name           = "${var.environment}-QuantumBallot-api-response-time"
   log_group_name = aws_cloudwatch_log_group.api_gateway.name
   pattern        = "[timestamp, request_id, method, path, status_code, response_time]"
 
   metric_transformation {
     name      = "APIResponseTime"
-    namespace = "Chainocracy/${var.environment}/API"
+    namespace = "QuantumBallot/${var.environment}/API"
     value     = "$response_time"
     default_value = "0"
   }
@@ -197,7 +197,7 @@ resource "aws_cloudwatch_log_metric_filter" "api_response_time" {
 
 # CloudWatch Log Insights Queries for Security Analysis
 resource "aws_cloudwatch_query_definition" "security_events" {
-  name = "${var.environment}-chainocracy-security-events"
+  name = "${var.environment}-QuantumBallot-security-events"
 
   log_group_names = [
     aws_cloudwatch_log_group.security.name,
@@ -213,7 +213,7 @@ EOF
 }
 
 resource "aws_cloudwatch_query_definition" "failed_authentication" {
-  name = "${var.environment}-chainocracy-failed-authentication"
+  name = "${var.environment}-QuantumBallot-failed-authentication"
 
   log_group_names = [
     aws_cloudwatch_log_group.application.name
@@ -228,7 +228,7 @@ EOF
 }
 
 resource "aws_cloudwatch_query_definition" "api_errors" {
-  name = "${var.environment}-chainocracy-api-errors"
+  name = "${var.environment}-QuantumBallot-api-errors"
 
   log_group_names = [
     aws_cloudwatch_log_group.api_gateway.name
@@ -244,19 +244,19 @@ EOF
 
 # CloudWatch Log Destination for Cross-Account Access
 resource "aws_cloudwatch_log_destination" "central_logging" {
-  name       = "${var.environment}-chainocracy-central-logging"
+  name       = "${var.environment}-QuantumBallot-central-logging"
   role_arn   = aws_iam_role.log_destination.arn
   target_arn = var.central_logging_stream_arn
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-central-logging-destination"
+    Name = "${var.environment}-QuantumBallot-central-logging-destination"
     Environment = var.environment
   })
 }
 
 # IAM Role for Log Destination
 resource "aws_iam_role" "log_destination" {
-  name = "${var.environment}-chainocracy-log-destination-role"
+  name = "${var.environment}-QuantumBallot-log-destination-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -272,14 +272,14 @@ resource "aws_iam_role" "log_destination" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-log-destination-role"
+    Name = "${var.environment}-QuantumBallot-log-destination-role"
     Environment = var.environment
   })
 }
 
 # IAM Policy for Log Destination
 resource "aws_iam_role_policy" "log_destination" {
-  name = "${var.environment}-chainocracy-log-destination-policy"
+  name = "${var.environment}-QuantumBallot-log-destination-policy"
   role = aws_iam_role.log_destination.id
 
   policy = jsonencode({
@@ -299,7 +299,7 @@ resource "aws_iam_role_policy" "log_destination" {
 
 # CloudWatch Log Subscription Filters for Real-time Processing
 resource "aws_cloudwatch_log_subscription_filter" "security_events" {
-  name            = "${var.environment}-chainocracy-security-events-filter"
+  name            = "${var.environment}-QuantumBallot-security-events-filter"
   log_group_name  = aws_cloudwatch_log_group.security.name
   filter_pattern  = "[timestamp, level=\"ERROR\" || level=\"WARN\", ...]"
   destination_arn = aws_lambda_function.log_processor.arn
@@ -308,7 +308,7 @@ resource "aws_cloudwatch_log_subscription_filter" "security_events" {
 }
 
 resource "aws_cloudwatch_log_subscription_filter" "audit_events" {
-  name            = "${var.environment}-chainocracy-audit-events-filter"
+  name            = "${var.environment}-QuantumBallot-audit-events-filter"
   log_group_name  = aws_cloudwatch_log_group.audit.name
   filter_pattern  = ""  # All audit events
   destination_arn = aws_lambda_function.log_processor.arn
@@ -319,7 +319,7 @@ resource "aws_cloudwatch_log_subscription_filter" "audit_events" {
 # Lambda Function for Log Processing
 resource "aws_lambda_function" "log_processor" {
   filename         = "log_processor.zip"
-  function_name    = "${var.environment}-chainocracy-log-processor"
+  function_name    = "${var.environment}-QuantumBallot-log-processor"
   role            = var.lambda_execution_role_arn
   handler         = "lambda_function.lambda_handler"
   source_code_hash = data.archive_file.log_processor_zip.output_base64sha256
@@ -335,7 +335,7 @@ resource "aws_lambda_function" "log_processor" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-log-processor"
+    Name = "${var.environment}-QuantumBallot-log-processor"
     Environment = var.environment
   })
 }
@@ -363,7 +363,7 @@ resource "aws_lambda_permission" "log_processor" {
 
 # CloudWatch Dashboard for Log Monitoring
 resource "aws_cloudwatch_dashboard" "logging" {
-  dashboard_name = "${var.environment}-chainocracy-logging"
+  dashboard_name = "${var.environment}-QuantumBallot-logging"
 
   dashboard_body = jsonencode({
     widgets = [
@@ -376,7 +376,7 @@ resource "aws_cloudwatch_dashboard" "logging" {
 
         properties = {
           metrics = [
-            ["Chainocracy/${var.environment}/Security", "FailedLogins"],
+            ["QuantumBallot/${var.environment}/Security", "FailedLogins"],
             [".", "SuspiciousActivity"],
             [".", "PrivilegeEscalation"],
             [".", "DataAccessViolations"]
@@ -397,9 +397,9 @@ resource "aws_cloudwatch_dashboard" "logging" {
 
         properties = {
           metrics = [
-            ["Chainocracy/${var.environment}/Application", "ApplicationErrors"],
-            ["Chainocracy/${var.environment}/Database", "SlowQueries"],
-            ["Chainocracy/${var.environment}/API", "APIResponseTime"]
+            ["QuantumBallot/${var.environment}/Application", "ApplicationErrors"],
+            ["QuantumBallot/${var.environment}/Database", "SlowQueries"],
+            ["QuantumBallot/${var.environment}/API", "APIResponseTime"]
           ]
           view    = "timeSeries"
           stacked = false
@@ -427,11 +427,11 @@ resource "aws_cloudwatch_dashboard" "logging" {
 
 # CloudWatch Alarms for Log-based Metrics
 resource "aws_cloudwatch_metric_alarm" "failed_logins_alarm" {
-  alarm_name          = "${var.environment}-chainocracy-failed-logins"
+  alarm_name          = "${var.environment}-QuantumBallot-failed-logins"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
   metric_name         = "FailedLogins"
-  namespace           = "Chainocracy/${var.environment}/Security"
+  namespace           = "QuantumBallot/${var.environment}/Security"
   period              = "300"
   statistic           = "Sum"
   threshold           = var.failed_logins_threshold
@@ -439,17 +439,17 @@ resource "aws_cloudwatch_metric_alarm" "failed_logins_alarm" {
   alarm_actions       = [var.security_sns_topic_arn]
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-failed-logins-alarm"
+    Name = "${var.environment}-QuantumBallot-failed-logins-alarm"
     Environment = var.environment
   })
 }
 
 resource "aws_cloudwatch_metric_alarm" "application_errors_alarm" {
-  alarm_name          = "${var.environment}-chainocracy-application-errors"
+  alarm_name          = "${var.environment}-QuantumBallot-application-errors"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
   metric_name         = "ApplicationErrors"
-  namespace           = "Chainocracy/${var.environment}/Application"
+  namespace           = "QuantumBallot/${var.environment}/Application"
   period              = "300"
   statistic           = "Sum"
   threshold           = var.application_errors_threshold
@@ -457,7 +457,7 @@ resource "aws_cloudwatch_metric_alarm" "application_errors_alarm" {
   alarm_actions       = [var.application_sns_topic_arn]
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-application-errors-alarm"
+    Name = "${var.environment}-QuantumBallot-application-errors-alarm"
     Environment = var.environment
   })
 }

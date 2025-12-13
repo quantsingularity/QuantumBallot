@@ -1,8 +1,8 @@
-# Smart Contract Security Audit Report for Chainocracy
+# Smart Contract Security Audit Report for QuantumBallot
 
 ## Executive Summary
 
-This security audit was conducted on the Chainocracy project's smart contract implementation, which is written in Rust. The audit focused on identifying potential vulnerabilities, security risks, and areas for improvement in the codebase. The primary contract file audited was `backend-api/src/smart_contract/smart_contract.rs`.
+This security audit was conducted on the QuantumBallot project's smart contract implementation, which is written in Rust. The audit focused on identifying potential vulnerabilities, security risks, and areas for improvement in the codebase. The primary contract file audited was `backend-api/src/smart_contract/smart_contract.rs`.
 
 ## Scope
 
@@ -173,6 +173,6 @@ The current implementation doesn't have mechanisms to prevent Sybil attacks, whe
 
 ## Conclusion
 
-The Chainocracy smart contract implementation has several security vulnerabilities that need to be addressed before it can be considered secure for production use. The most critical issues are the lack of access control, incomplete voter verification, and vulnerability to Sybil attacks.
+The QuantumBallot smart contract implementation has several security vulnerabilities that need to be addressed before it can be considered secure for production use. The most critical issues are the lack of access control, incomplete voter verification, and vulnerability to Sybil attacks.
 
 By implementing the recommended changes, the contract's security posture can be significantly improved, providing a more robust and trustworthy platform for decentralized governance.

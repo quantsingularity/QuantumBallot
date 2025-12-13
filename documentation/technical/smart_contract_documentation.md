@@ -1,12 +1,12 @@
-# Chainocracy Smart Contract Technical Documentation
+# QuantumBallot Smart Contract Technical Documentation
 
 ## Overview
 
-This document provides comprehensive technical documentation for the enhanced Chainocracy smart contract system. The system has been redesigned with a focus on security, robust voting mechanisms, and transparent governance. This documentation is intended for developers who need to understand, maintain, or extend the smart contract functionality.
+This document provides comprehensive technical documentation for the enhanced QuantumBallot smart contract system. The system has been redesigned with a focus on security, robust voting mechanisms, and transparent governance. This documentation is intended for developers who need to understand, maintain, or extend the smart contract functionality.
 
 ## Architecture
 
-The Chainocracy smart contract system is implemented in Rust and consists of several key components:
+The QuantumBallot smart contract system is implemented in Rust and consists of several key components:
 
 1. **Core Contract Structure**: The `ElectionContract` struct serves as the main container for the contract state, providing thread-safe access to all components.
 2. **State Management**: Election states are managed through a state machine pattern with clear transitions.
@@ -574,6 +574,6 @@ match contract.place_vote("user1", 1) {
 
 ## Conclusion
 
-The enhanced Chainocracy smart contract system provides a secure, transparent, and fair platform for decentralized governance. By implementing robust security measures, advanced voting mechanisms, and comprehensive Sybil resistance, the system ensures that governance decisions reflect the true will of the community while protecting against common vulnerabilities and attacks.
+The enhanced QuantumBallot smart contract system provides a secure, transparent, and fair platform for decentralized governance. By implementing robust security measures, advanced voting mechanisms, and comprehensive Sybil resistance, the system ensures that governance decisions reflect the true will of the community while protecting against common vulnerabilities and attacks.
 
-For further assistance or to report issues, please contact the Chainocracy development team.
+For further assistance or to report issues, please contact the QuantumBallot development team.

@@ -36,7 +36,7 @@ function Login() {
             children: [
               "\u00A9 ",
               new Date().getFullYear(),
-              " Chainocracy, Abrar Ahmed. All rights reserved.",
+              " QuantumBallot, Abrar Ahmed. All rights reserved.",
             ],
           }),
         }),

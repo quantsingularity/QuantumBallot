@@ -247,7 +247,7 @@ def send_to_elasticsearch(security_events):
         for event in security_events:
             index_action = {
                 "index": {
-                    "_index": f"chainocracy-security-{datetime.now().strftime('%Y-%m')}",
+                    "_index": f"QuantumBallot-security-{datetime.now().strftime('%Y-%m')}",
                     "_type": "_doc",
                 }
             }

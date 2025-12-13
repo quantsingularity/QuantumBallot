@@ -1,10 +1,10 @@
-# Chainocracy Mobile Frontend
+# QuantumBallot Mobile Frontend
 
-This directory contains the mobile application frontend for the Chainocracy project, a full-stack Web and Mobile application for American elections using Blockchain Technology. The mobile frontend is built using React Native with Expo, providing a cross-platform solution for both iOS and Android devices.
+This directory contains the mobile application frontend for the QuantumBallot project, a full-stack Web and Mobile application for American elections using Blockchain Technology. The mobile frontend is built using React Native with Expo, providing a cross-platform solution for both iOS and Android devices.
 
 ## Overview
 
-The Chainocracy mobile application serves as the primary interface for voters to participate in the election process. It provides a user-friendly experience with features such as authentication, QR code scanning, live election projections, data visualization, and blockchain interaction. The application is designed to be accessible and intuitive, ensuring that voters can easily navigate and participate in the democratic process.
+The QuantumBallot mobile application serves as the primary interface for voters to participate in the election process. It provides a user-friendly experience with features such as authentication, QR code scanning, live election projections, data visualization, and blockchain interaction. The application is designed to be accessible and intuitive, ensuring that voters can easily navigate and participate in the democratic process.
 
 ## Directory Structure
 

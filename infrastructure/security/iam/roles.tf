@@ -7,7 +7,7 @@ data "aws_region" "current" {}
 
 # EKS Cluster Service Role
 resource "aws_iam_role" "eks_cluster" {
-  name = "${var.environment}-chainocracy-eks-cluster-role"
+  name = "${var.environment}-QuantumBallot-eks-cluster-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -23,7 +23,7 @@ resource "aws_iam_role" "eks_cluster" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-eks-cluster-role"
+    Name = "${var.environment}-QuantumBallot-eks-cluster-role"
     Environment = var.environment
     Service = "eks"
   })
@@ -42,7 +42,7 @@ resource "aws_iam_role_policy_attachment" "eks_vpc_resource_controller" {
 
 # EKS Node Group Role
 resource "aws_iam_role" "eks_node_group" {
-  name = "${var.environment}-chainocracy-eks-node-group-role"
+  name = "${var.environment}-QuantumBallot-eks-node-group-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -58,7 +58,7 @@ resource "aws_iam_role" "eks_node_group" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-eks-node-group-role"
+    Name = "${var.environment}-QuantumBallot-eks-node-group-role"
     Environment = var.environment
     Service = "eks"
   })
@@ -82,7 +82,7 @@ resource "aws_iam_role_policy_attachment" "eks_container_registry_readonly" {
 
 # Application Service Role
 resource "aws_iam_role" "application" {
-  name = "${var.environment}-chainocracy-application-role"
+  name = "${var.environment}-QuantumBallot-application-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -112,7 +112,7 @@ resource "aws_iam_role" "application" {
   max_session_duration = 3600  # 1 hour
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-application-role"
+    Name = "${var.environment}-QuantumBallot-application-role"
     Environment = var.environment
     Service = "application"
   })
@@ -120,7 +120,7 @@ resource "aws_iam_role" "application" {
 
 # Application Role Custom Policy
 resource "aws_iam_role_policy" "application_policy" {
-  name = "${var.environment}-chainocracy-application-policy"
+  name = "${var.environment}-QuantumBallot-application-policy"
   role = aws_iam_role.application.id
 
   policy = jsonencode({
@@ -134,8 +134,8 @@ resource "aws_iam_role_policy" "application_policy" {
           "s3:DeleteObject"
         ]
         Resource = [
-          "arn:aws:s3:::${var.environment}-chainocracy-app-data/*",
-          "arn:aws:s3:::${var.environment}-chainocracy-uploads/*"
+          "arn:aws:s3:::${var.environment}-QuantumBallot-app-data/*",
+          "arn:aws:s3:::${var.environment}-QuantumBallot-uploads/*"
         ]
       },
       {
@@ -144,8 +144,8 @@ resource "aws_iam_role_policy" "application_policy" {
           "s3:ListBucket"
         ]
         Resource = [
-          "arn:aws:s3:::${var.environment}-chainocracy-app-data",
-          "arn:aws:s3:::${var.environment}-chainocracy-uploads"
+          "arn:aws:s3:::${var.environment}-QuantumBallot-app-data",
+          "arn:aws:s3:::${var.environment}-QuantumBallot-uploads"
         ]
       },
       {
@@ -154,8 +154,8 @@ resource "aws_iam_role_policy" "application_policy" {
           "secretsmanager:GetSecretValue"
         ]
         Resource = [
-          "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${var.environment}/chainocracy/database/*",
-          "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${var.environment}/chainocracy/api-keys/*"
+          "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${var.environment}/QuantumBallot/database/*",
+          "arn:aws:secretsmanager:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:secret:${var.environment}/QuantumBallot/api-keys/*"
         ]
       },
       {
@@ -175,7 +175,7 @@ resource "aws_iam_role_policy" "application_policy" {
           "logs:PutLogEvents"
         ]
         Resource = [
-          "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/application/${var.environment}-chainocracy:*"
+          "arn:aws:logs:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:log-group:/aws/application/${var.environment}-QuantumBallot:*"
         ]
       },
       {
@@ -186,7 +186,7 @@ resource "aws_iam_role_policy" "application_policy" {
         Resource = "*"
         Condition = {
           StringEquals = {
-            "cloudwatch:namespace" = "Chainocracy/${var.environment}"
+            "cloudwatch:namespace" = "QuantumBallot/${var.environment}"
           }
         }
       }
@@ -196,7 +196,7 @@ resource "aws_iam_role_policy" "application_policy" {
 
 # Database Service Role
 resource "aws_iam_role" "database" {
-  name = "${var.environment}-chainocracy-database-role"
+  name = "${var.environment}-QuantumBallot-database-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -212,7 +212,7 @@ resource "aws_iam_role" "database" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-database-role"
+    Name = "${var.environment}-QuantumBallot-database-role"
     Environment = var.environment
     Service = "database"
   })
@@ -220,7 +220,7 @@ resource "aws_iam_role" "database" {
 
 # Database Enhanced Monitoring Role
 resource "aws_iam_role" "rds_enhanced_monitoring" {
-  name = "${var.environment}-chainocracy-rds-monitoring-role"
+  name = "${var.environment}-QuantumBallot-rds-monitoring-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -236,7 +236,7 @@ resource "aws_iam_role" "rds_enhanced_monitoring" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-rds-monitoring-role"
+    Name = "${var.environment}-QuantumBallot-rds-monitoring-role"
     Environment = var.environment
     Service = "monitoring"
   })
@@ -249,7 +249,7 @@ resource "aws_iam_role_policy_attachment" "rds_enhanced_monitoring" {
 
 # Lambda Execution Role for Security Functions
 resource "aws_iam_role" "lambda_security" {
-  name = "${var.environment}-chainocracy-lambda-security-role"
+  name = "${var.environment}-QuantumBallot-lambda-security-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -265,7 +265,7 @@ resource "aws_iam_role" "lambda_security" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-lambda-security-role"
+    Name = "${var.environment}-QuantumBallot-lambda-security-role"
     Environment = var.environment
     Service = "security"
   })
@@ -273,7 +273,7 @@ resource "aws_iam_role" "lambda_security" {
 
 # Lambda Security Policy
 resource "aws_iam_role_policy" "lambda_security_policy" {
-  name = "${var.environment}-chainocracy-lambda-security-policy"
+  name = "${var.environment}-QuantumBallot-lambda-security-policy"
   role = aws_iam_role.lambda_security.id
 
   policy = jsonencode({
@@ -320,7 +320,7 @@ resource "aws_iam_role_policy" "lambda_security_policy" {
 
 # CloudWatch Events Role for Security Automation
 resource "aws_iam_role" "cloudwatch_events" {
-  name = "${var.environment}-chainocracy-events-role"
+  name = "${var.environment}-QuantumBallot-events-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -336,7 +336,7 @@ resource "aws_iam_role" "cloudwatch_events" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-events-role"
+    Name = "${var.environment}-QuantumBallot-events-role"
     Environment = var.environment
     Service = "automation"
   })
@@ -344,7 +344,7 @@ resource "aws_iam_role" "cloudwatch_events" {
 
 # CloudWatch Events Policy
 resource "aws_iam_role_policy" "cloudwatch_events_policy" {
-  name = "${var.environment}-chainocracy-events-policy"
+  name = "${var.environment}-QuantumBallot-events-policy"
   role = aws_iam_role.cloudwatch_events.id
 
   policy = jsonencode({
@@ -356,7 +356,7 @@ resource "aws_iam_role_policy" "cloudwatch_events_policy" {
           "lambda:InvokeFunction"
         ]
         Resource = [
-          "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:${var.environment}-chainocracy-security-*"
+          "arn:aws:lambda:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:function:${var.environment}-QuantumBallot-security-*"
         ]
       },
       {
@@ -372,7 +372,7 @@ resource "aws_iam_role_policy" "cloudwatch_events_policy" {
 
 # Backup Service Role
 resource "aws_iam_role" "backup" {
-  name = "${var.environment}-chainocracy-backup-role"
+  name = "${var.environment}-QuantumBallot-backup-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -388,7 +388,7 @@ resource "aws_iam_role" "backup" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-backup-role"
+    Name = "${var.environment}-QuantumBallot-backup-role"
     Environment = var.environment
     Service = "backup"
   })
@@ -406,7 +406,7 @@ resource "aws_iam_role_policy_attachment" "backup_restore_policy" {
 
 # Security Audit Role
 resource "aws_iam_role" "security_audit" {
-  name = "${var.environment}-chainocracy-security-audit-role"
+  name = "${var.environment}-QuantumBallot-security-audit-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -432,7 +432,7 @@ resource "aws_iam_role" "security_audit" {
   max_session_duration = 3600  # 1 hour
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-security-audit-role"
+    Name = "${var.environment}-QuantumBallot-security-audit-role"
     Environment = var.environment
     Service = "audit"
   })
@@ -440,7 +440,7 @@ resource "aws_iam_role" "security_audit" {
 
 # Security Audit Policy
 resource "aws_iam_role_policy" "security_audit_policy" {
-  name = "${var.environment}-chainocracy-security-audit-policy"
+  name = "${var.environment}-QuantumBallot-security-audit-policy"
   role = aws_iam_role.security_audit.id
 
   policy = jsonencode({
@@ -501,7 +501,7 @@ resource "aws_iam_role_policy" "security_audit_policy" {
 
 # Cross-Account Access Role for Disaster Recovery
 resource "aws_iam_role" "cross_account_dr" {
-  name = "${var.environment}-chainocracy-cross-account-dr-role"
+  name = "${var.environment}-QuantumBallot-cross-account-dr-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -524,7 +524,7 @@ resource "aws_iam_role" "cross_account_dr" {
   max_session_duration = 3600  # 1 hour
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-cross-account-dr-role"
+    Name = "${var.environment}-QuantumBallot-cross-account-dr-role"
     Environment = var.environment
     Service = "disaster-recovery"
   })
@@ -532,7 +532,7 @@ resource "aws_iam_role" "cross_account_dr" {
 
 # Cross-Account DR Policy
 resource "aws_iam_role_policy" "cross_account_dr_policy" {
-  name = "${var.environment}-chainocracy-cross-account-dr-policy"
+  name = "${var.environment}-QuantumBallot-cross-account-dr-policy"
   role = aws_iam_role.cross_account_dr.id
 
   policy = jsonencode({
@@ -545,8 +545,8 @@ resource "aws_iam_role_policy" "cross_account_dr_policy" {
           "s3:ListBucket"
         ]
         Resource = [
-          "arn:aws:s3:::${var.environment}-chainocracy-backups",
-          "arn:aws:s3:::${var.environment}-chainocracy-backups/*"
+          "arn:aws:s3:::${var.environment}-QuantumBallot-backups",
+          "arn:aws:s3:::${var.environment}-QuantumBallot-backups/*"
         ]
       },
       {
@@ -571,11 +571,11 @@ resource "aws_iam_role_policy" "cross_account_dr_policy" {
 
 # Instance Profile for EC2 Instances
 resource "aws_iam_instance_profile" "application" {
-  name = "${var.environment}-chainocracy-application-profile"
+  name = "${var.environment}-QuantumBallot-application-profile"
   role = aws_iam_role.application.name
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-application-profile"
+    Name = "${var.environment}-QuantumBallot-application-profile"
     Environment = var.environment
   })
 }

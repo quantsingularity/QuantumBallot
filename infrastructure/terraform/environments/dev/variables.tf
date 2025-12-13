@@ -31,7 +31,7 @@ variable "backend_port" {
 }
 
 variable "frontend_domain_name" {
-  description = "Domain name for the web frontend (e.g., chainocracy-dev.example.com)"
+  description = "Domain name for the web frontend (e.g., QuantumBallot-dev.example.com)"
   type        = string
   default     = "" # Set a domain name if you have one configured
 }

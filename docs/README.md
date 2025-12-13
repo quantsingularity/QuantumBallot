@@ -1,10 +1,10 @@
-# Chainocracy Documentation
+# QuantumBallot Documentation
 
-This directory contains the official documentation for the Chainocracy project, a full-stack Web and Mobile application for American elections using Blockchain Technology. The documentation is built using Sphinx, a powerful documentation generation tool that uses reStructuredText as its markup language.
+This directory contains the official documentation for the QuantumBallot project, a full-stack Web and Mobile application for American elections using Blockchain Technology. The documentation is built using Sphinx, a powerful documentation generation tool that uses reStructuredText as its markup language.
 
 ## Overview
 
-The documentation in this directory provides comprehensive information about the Chainocracy system, including setup instructions, configuration details, and usage guides. It is designed to be a central resource for developers, administrators, and users of the Chainocracy platform.
+The documentation in this directory provides comprehensive information about the QuantumBallot system, including setup instructions, configuration details, and usage guides. It is designed to be a central resource for developers, administrators, and users of the QuantumBallot platform.
 
 ## Structure
 
@@ -43,7 +43,7 @@ To build the documentation locally:
 
 ## Documentation Content
 
-The documentation covers several key aspects of the Chainocracy system:
+The documentation covers several key aspects of the QuantumBallot system:
 
 - System requirements and compatibility information for both mobile and web platforms
 - Network requirements for optimal performance
@@ -65,5 +65,5 @@ When contributing to the documentation:
 
 ## Related Resources
 
-- Video demonstrations of the system are available at: [Chainocracy YouTube Playlist](https://www.youtube.com/playlist?list=PL3FCe9r4avxF5OAZdxIAxMeC3--3c6OwU)
+- Video demonstrations of the system are available at: [QuantumBallot YouTube Playlist](https://www.youtube.com/playlist?list=PL3FCe9r4avxF5OAZdxIAxMeC3--3c6OwU)
 - For more detailed technical documentation, refer to the `documentation` directory at the root of the repository

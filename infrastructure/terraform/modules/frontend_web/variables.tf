@@ -1,7 +1,7 @@
 # Terraform variables for the web frontend module
 
 variable "domain_name" {
-  description = "Domain name for the web frontend (e.g., chainocracy-dev.example.com)"
+  description = "Domain name for the web frontend (e.g., QuantumBallot-dev.example.com)"
   type        = string
   default     = ""
 }

@@ -10,10 +10,10 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
     # alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:us-east-1:ACCOUNT_ID:certificate/CERT_ID # Replace with actual cert ARN
-    # external-dns.alpha.kubernetes.io/hostname: chainocracy.example.com # Replace with actual domain
+    # external-dns.alpha.kubernetes.io/hostname: QuantumBallot.example.com # Replace with actual domain
 spec:
   rules:
-    - host: chainocracy.example.com # Replace with actual production domain
+    - host: QuantumBallot.example.com # Replace with actual production domain
       http:
         paths:
           - path: / # Serve frontend from root
@@ -25,5 +25,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - chainocracy.example.com # Replace with actual production domain
-      secretName: chainocracy-prod-tls-secret # Use a production-specific TLS secret (managed by cert-manager or manually)
+        - QuantumBallot.example.com # Replace with actual production domain
+      secretName: QuantumBallot-prod-tls-secret # Use a production-specific TLS secret (managed by cert-manager or manually)

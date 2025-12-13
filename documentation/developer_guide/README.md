@@ -1,6 +1,6 @@
 # Developer Guide
 
-This guide provides comprehensive information for developers working on the Chainocracy blockchain-based voting system.
+This guide provides comprehensive information for developers working on the QuantumBallot blockchain-based voting system.
 
 ## Development Environment Setup
 
@@ -23,10 +23,10 @@ This guide provides comprehensive information for developers working on the Chai
 
 ### Repository Structure
 
-The Chainocracy repository is organized into the following main directories:
+The QuantumBallot repository is organized into the following main directories:
 
 ```
-chainocracy/
+QuantumBallot/
 ├── backend-api/        # Backend API server
 ├── web-frontend/       # Web application for committee members
 ├── mobile-frontend/    # Mobile application for voters
@@ -263,7 +263,7 @@ describe("Login Flow", () => {
 
 ### Understanding the Blockchain Implementation
 
-The Chainocracy blockchain is a custom implementation designed specifically for voting. Key components include:
+The QuantumBallot blockchain is a custom implementation designed specifically for voting. Key components include:
 
 - **Block**: Contains metadata and a list of transactions (votes)
 - **Transaction**: Represents a vote from a voter to a candidate

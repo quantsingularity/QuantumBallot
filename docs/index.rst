@@ -1,4 +1,4 @@
-.. Chainocracy documentation master file, created by
+.. QuantumBallot documentation master file, created by
    sphinx-quickstart on Fri Jan 31 18:18:40 2025.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
@@ -18,7 +18,7 @@
        </strong>
    </div>
 
-Chainocracy
+QuantumBallot
 =================
 A full-stack Web and Mobile application for the American election using Blockchain Technology behind the scenes. The system presents a user-friendly interface accessible via both mobile and web platforms.
 

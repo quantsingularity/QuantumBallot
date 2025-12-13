@@ -1,6 +1,6 @@
 # Security Documentation
 
-This directory contains security-related documentation for the Chainocracy project.
+This directory contains security-related documentation for the QuantumBallot project.
 
 ## Contents
 
@@ -10,7 +10,7 @@ This directory contains security-related documentation for the Chainocracy proje
 
 The security documentation aims to:
 
-1. Identify potential security vulnerabilities in the Chainocracy implementation
+1. Identify potential security vulnerabilities in the QuantumBallot implementation
 2. Provide clear recommendations for addressing identified issues
 3. Establish best practices for secure development
 4. Document security measures implemented in the project

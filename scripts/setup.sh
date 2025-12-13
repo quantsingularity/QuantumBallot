@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Project Setup Script for Chainocracy
+# Project Setup Script for QuantumBallot
 # Automates the installation of all dependencies for the project components.
 
 set -euo pipefail # Exit on error, exit on unset variable, fail on pipe error
 
 echo "----------------------------------------"
-echo "Starting Chainocracy Project Setup..."
+echo "Starting QuantumBallot Project Setup..."
 echo "----------------------------------------"
 
 # --- Configuration ---
@@ -51,5 +51,5 @@ for component in "${COMPONENTS[@]}"; do
 done
 
 echo "----------------------------------------"
-echo "Chainocracy Project Setup completed successfully!"
+echo "QuantumBallot Project Setup completed successfully!"
 echo "----------------------------------------"

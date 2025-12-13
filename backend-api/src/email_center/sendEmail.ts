@@ -22,7 +22,7 @@ const sendEmail = async (
   const mailOptions = {
     from: `"American Election Committee 2027" <${process.env.MAILER_USER}>`, // sender address
     to: to || "heiopo@inf.elte.hu", // list of receivers
-    subject: "Chainocracy Election Credentials", // Subject line
+    subject: "QuantumBallot Election Credentials", // Subject line
     text: textContent || "Hello, this is a test ...", // plain text body
     html: htmlContent || "<b>Hello world?</b>", // html body
   };

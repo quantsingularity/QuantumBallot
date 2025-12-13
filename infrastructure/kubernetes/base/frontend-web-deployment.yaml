@@ -3,12 +3,12 @@ kind: Deployment
 metadata:
   name: frontend-web-deployment
   labels:
-    app: chainocracy-frontend-web
+    app: QuantumBallot-frontend-web
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: chainocracy-frontend-web
+      app: QuantumBallot-frontend-web
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       labels:
-        app: chainocracy-frontend-web
+        app: QuantumBallot-frontend-web
       annotations:
         prometheus.io/scrape: "true"
         prometheus.io/port: "80"
@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
         - name: frontend-web
-          image: ${REGISTRY_URL}/chainocracy-frontend-web:${IMAGE_TAG}
+          image: ${REGISTRY_URL}/QuantumBallot-frontend-web:${IMAGE_TAG}
           imagePullPolicy: Always
           ports:
             - name: http
@@ -124,7 +124,7 @@ spec:
                     - key: app
                       operator: In
                       values:
-                        - chainocracy-frontend-web
+                        - QuantumBallot-frontend-web
                 topologyKey: kubernetes.io/hostname
       terminationGracePeriodSeconds: 30
 ---
@@ -133,10 +133,10 @@ kind: Service
 metadata:
   name: frontend-web-service
   labels:
-    app: chainocracy-frontend-web
+    app: QuantumBallot-frontend-web
 spec:
   selector:
-    app: chainocracy-frontend-web
+    app: QuantumBallot-frontend-web
   ports:
     - name: http
       port: 80
@@ -148,9 +148,9 @@ kind: ConfigMap
 metadata:
   name: frontend-config
 data:
-  api_url: "https://api.chainocracy.io"
+  api_url: "https://api.QuantumBallot.io"
   environment: "production"
-  blockchain_node_url: "https://node.chainocracy.io"
+  blockchain_node_url: "https://node.QuantumBallot.io"
 ---
 apiVersion: v1
 kind: ConfigMap

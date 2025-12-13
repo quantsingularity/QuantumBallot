@@ -101,4 +101,4 @@ jobs:
           rsync -avz --delete ./backend-api/build/ ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }}:${{ secrets.PRODUCTION_PATH }}/backend-api/
 
           # Restart the service
-          ssh ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} "cd ${{ secrets.PRODUCTION_PATH }}/backend-api && npm install --production && pm2 restart chainocracy-backend || pm2 start npm --name chainocracy-backend -- start"
+          ssh ${{ secrets.PRODUCTION_USER }}@${{ secrets.PRODUCTION_HOST }} "cd ${{ secrets.PRODUCTION_PATH }}/backend-api && npm install --production && pm2 restart QuantumBallot-backend || pm2 start npm --name QuantumBallot-backend -- start"

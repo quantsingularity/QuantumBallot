@@ -5,10 +5,10 @@ kind: Service
 metadata:
   name: frontend-web-service
   labels:
-    app: chainocracy-frontend-web
+    app: QuantumBallot-frontend-web
 spec:
   selector:
-    app: chainocracy-frontend-web
+    app: QuantumBallot-frontend-web
   ports:
     - protocol: TCP
       port: 80 # Service port

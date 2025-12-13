@@ -1,7 +1,7 @@
 #!/bin/bash
 # dev_workflow.sh
 #
-# This script automates common development workflow tasks for the Chainocracy project
+# This script automates common development workflow tasks for the QuantumBallot project
 # It provides commands for starting development servers, running tests, and more
 #
 # Usage: ./dev_workflow.sh <command> [options]
@@ -32,7 +32,7 @@ section() {
 
 # Function to display help message
 show_help() {
-    echo "Chainocracy Development Workflow Automation"
+    echo "QuantumBallot Development Workflow Automation"
     echo ""
     echo "Usage: ./dev_workflow.sh <command> [options]"
     echo ""

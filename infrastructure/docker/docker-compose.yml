@@ -1,16 +1,16 @@
-# Enhanced Docker Compose for Chainocracy
+# Enhanced Docker Compose for QuantumBallot
 # Implements financial-grade security and comprehensive monitoring
 
 version: "3.8"
 
 networks:
-  chainocracy-network:
+  QuantumBallot-network:
     driver: bridge
     ipam:
       config:
         - subnet: 172.20.0.0/16
     driver_opts:
-      com.docker.network.bridge.name: chainocracy-br0
+      com.docker.network.bridge.name: QuantumBallot-br0
       com.docker.network.bridge.enable_icc: "false"
       com.docker.network.bridge.enable_ip_masquerade: "true"
 
@@ -63,13 +63,13 @@ services:
   # Database Service
   postgres:
     image: postgres:16.1-alpine
-    container_name: chainocracy-postgres
+    container_name: QuantumBallot-postgres
     restart: unless-stopped
     networks:
-      - chainocracy-network
+      - QuantumBallot-network
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-chainocracy}
-      POSTGRES_USER: ${POSTGRES_USER:-chainocracy}
+      POSTGRES_DB: ${POSTGRES_DB:-QuantumBallot}
+      POSTGRES_USER: ${POSTGRES_USER:-QuantumBallot}
       POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
     secrets:
@@ -95,7 +95,7 @@ services:
       test:
         [
           "CMD-SHELL",
-          "pg_isready -U ${POSTGRES_USER:-chainocracy} -d ${POSTGRES_DB:-chainocracy}",
+          "pg_isready -U ${POSTGRES_USER:-QuantumBallot} -d ${POSTGRES_DB:-QuantumBallot}",
         ]
       interval: 30s
       timeout: 10s
@@ -123,10 +123,10 @@ services:
   # Cache Service
   redis:
     image: redis:7.2.4-alpine
-    container_name: chainocracy-redis
+    container_name: QuantumBallot-redis
     restart: unless-stopped
     networks:
-      - chainocracy-network
+      - QuantumBallot-network
     command: >
       redis-server
       --requirepass-file /run/secrets/redis_password
@@ -187,15 +187,15 @@ services:
         BUILD_DATE: ${BUILD_DATE}
         VCS_REF: ${VCS_REF}
         VERSION: ${VERSION:-latest}
-    container_name: chainocracy-backend
+    container_name: QuantumBallot-backend
     restart: unless-stopped
     networks:
-      - chainocracy-network
+      - QuantumBallot-network
     environment:
       NODE_ENV: ${NODE_ENV:-production}
       NODE_PORT: 3000
       SERVER_PORT: 3002
-      DATABASE_URL: postgresql://${POSTGRES_USER:-chainocracy}:$(cat /run/secrets/postgres_password)@postgres:5432/${POSTGRES_DB:-chainocracy}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-QuantumBallot}:$(cat /run/secrets/postgres_password)@postgres:5432/${POSTGRES_DB:-QuantumBallot}
       REDIS_URL: redis://:$(cat /run/secrets/redis_password)@redis:6379/0
       JWT_SECRET_FILE: /run/secrets/jwt_secret
       LOG_LEVEL: ${LOG_LEVEL:-info}
@@ -245,10 +245,10 @@ services:
         VCS_REF: ${VCS_REF}
         VERSION: ${VERSION:-latest}
         VITE_API_URL: ${VITE_API_URL:-/api}
-    container_name: chainocracy-frontend
+    container_name: QuantumBallot-frontend
     restart: unless-stopped
     networks:
-      - chainocracy-network
+      - QuantumBallot-network
     environment:
       NGINX_WORKER_PROCESSES: auto
       NGINX_WORKER_CONNECTIONS: 1024
@@ -283,11 +283,11 @@ services:
   # Prometheus Monitoring
   prometheus:
     image: prom/prometheus:v2.48.1
-    container_name: chainocracy-prometheus
+    container_name: QuantumBallot-prometheus
     restart: unless-stopped
     networks:
       - monitoring-network
-      - chainocracy-network
+      - QuantumBallot-network
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
@@ -332,7 +332,7 @@ services:
   # Grafana Dashboard
   grafana:
     image: grafana/grafana:10.2.3
-    container_name: chainocracy-grafana
+    container_name: QuantumBallot-grafana
     restart: unless-stopped
     networks:
       - monitoring-network
@@ -380,7 +380,7 @@ services:
   # Node Exporter for System Metrics
   node-exporter:
     image: prom/node-exporter:v1.7.0
-    container_name: chainocracy-node-exporter
+    container_name: QuantumBallot-node-exporter
     restart: unless-stopped
     networks:
       - monitoring-network
@@ -412,7 +412,7 @@ services:
   # cAdvisor for Container Metrics
   cadvisor:
     image: gcr.io/cadvisor/cadvisor:v0.47.2
-    container_name: chainocracy-cadvisor
+    container_name: QuantumBallot-cadvisor
     restart: unless-stopped
     networks:
       - monitoring-network
@@ -442,11 +442,11 @@ services:
   # Log Aggregator
   fluentd:
     image: fluent/fluentd:v1.16.2-debian-1.0
-    container_name: chainocracy-fluentd
+    container_name: QuantumBallot-fluentd
     restart: unless-stopped
     networks:
       - monitoring-network
-      - chainocracy-network
+      - QuantumBallot-network
     volumes:
       - ./config/fluentd/fluent.conf:/fluentd/etc/fluent.conf:ro
       - /var/log:/var/log:ro

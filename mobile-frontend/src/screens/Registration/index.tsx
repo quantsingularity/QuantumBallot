@@ -119,7 +119,7 @@ export default function Registration() {
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <View style={styles.container}>
         <Text style={styles.title}>Create Account</Text>
-        <Text style={styles.subtitle}>Join Chainocracy Voting System</Text>
+        <Text style={styles.subtitle}>Join QuantumBallot Voting System</Text>
 
         <View style={styles.formContainer}>
           <Text style={styles.label}>Full Name</Text>

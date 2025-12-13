@@ -1,12 +1,12 @@
 #!/bin/bash
 
-# Project Run Script for Chainocracy
+# Project Run Script for QuantumBallot
 # Provides a unified entry point to run the application components in development mode.
 
 set -euo pipefail # Exit on error, exit on unset variable, fail on pipe error
 
 echo "----------------------------------------"
-echo "Starting Chainocracy Application Components..."
+echo "Starting QuantumBallot Application Components..."
 echo "----------------------------------------"
 
 # --- Configuration ---
@@ -48,7 +48,7 @@ start_component "web-frontend" "dev" # Assuming 'npm run dev' for web frontend
 start_component "mobile-frontend" "start" # Assuming 'npm run start' for mobile (e.g., Expo)
 
 echo "----------------------------------------"
-echo "Chainocracy services are running in the background."
+echo "QuantumBallot services are running in the background."
 echo "Check 'logs/' directory for output."
 echo "Use 'jobs' to see running jobs."
 echo "To stop all services, use 'kill \$(jobs -p)'"

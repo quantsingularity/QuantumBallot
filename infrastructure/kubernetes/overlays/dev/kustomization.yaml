@@ -5,7 +5,7 @@ kind: Kustomization
 resources:
   - ../../base
 
-namespace: chainocracy-dev
+namespace: QuantumBallot-dev
 
 # Environment-specific patches or configurations
 patchesStrategicMerge:
@@ -19,11 +19,11 @@ commonLabels:
 
 # Override image tags for dev environment
 images:
-  - name: ${REGISTRY_URL}/chainocracy-backend
-    newName: ${REGISTRY_URL}/chainocracy-backend
+  - name: ${REGISTRY_URL}/QuantumBallot-backend
+    newName: ${REGISTRY_URL}/QuantumBallot-backend
     newTag: dev-${BUILD_ID}
-  - name: ${REGISTRY_URL}/chainocracy-frontend-web
-    newName: ${REGISTRY_URL}/chainocracy-frontend-web
+  - name: ${REGISTRY_URL}/QuantumBallot-frontend-web
+    newName: ${REGISTRY_URL}/QuantumBallot-frontend-web
     newTag: dev-${BUILD_ID}
 
 # Configure resource limits for dev environment
@@ -33,24 +33,24 @@ configMapGenerator:
     literals:
       - node_env=development
       - log_level=debug
-      - blockchain_node_url=http://blockchain-node-service.chainocracy-dev:26657
+      - blockchain_node_url=http://blockchain-node-service.QuantumBallot-dev:26657
 
   - name: frontend-config
     behavior: merge
     literals:
-      - api_url=https://dev-api.chainocracy.io
+      - api_url=https://dev-api.QuantumBallot.io
       - environment=development
-      - blockchain_node_url=https://dev-node.chainocracy.io
+      - blockchain_node_url=https://dev-node.QuantumBallot.io
 
 # Add dev-specific secrets (in a real environment, use a secret management solution)
 secretGenerator:
   - name: backend-secrets
     behavior: merge
     literals:
-      - db_host=dev-db.chainocracy.internal
+      - db_host=dev-db.QuantumBallot.internal
       - db_port=5432
-      - db_name=chainocracy_dev
-      - db_user=chainocracy_dev
+      - db_name=QuantumBallot_dev
+      - db_user=QuantumBallot_dev
       - db_password=dev_password_placeholder
       - jwt_secret=dev_jwt_secret_placeholder
 
@@ -58,9 +58,9 @@ secretGenerator:
     behavior: merge
     literals:
       - firebase_api_key=dev_firebase_api_key
-      - firebase_auth_domain=dev-chainocracy.firebaseapp.com
-      - firebase_project_id=dev-chainocracy
-      - firebase_storage_bucket=dev-chainocracy.appspot.com
+      - firebase_auth_domain=dev-QuantumBallot.firebaseapp.com
+      - firebase_project_id=dev-QuantumBallot
+      - firebase_storage_bucket=dev-QuantumBallot.appspot.com
       - firebase_messaging_sender_id=123456789
       - firebase_app_id=1:123456789:web:abcdef123456
 
@@ -69,7 +69,7 @@ patches:
   - path: resource-patch.yaml
     target:
       kind: Deployment
-      labelSelector: "app in (chainocracy-backend, chainocracy-frontend-web)"
+      labelSelector: "app in (QuantumBallot-backend, QuantumBallot-frontend-web)"
 
 # Configure replicas for dev environment
 replicas:

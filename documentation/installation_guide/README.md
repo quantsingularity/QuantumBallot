@@ -1,6 +1,6 @@
 # Installation Guide
 
-This guide provides step-by-step instructions for setting up the Chainocracy blockchain-based voting system in a development environment.
+This guide provides step-by-step instructions for setting up the QuantumBallot blockchain-based voting system in a development environment.
 
 ## Prerequisites
 
@@ -17,8 +17,8 @@ Before you begin, ensure you have the following installed on your system:
 
 ```bash
 # Clone the repository
-git clone https://github.com/abrar2030/chainocracy.git
-cd chainocracy
+git clone https://github.com/abrar2030/QuantumBallot.git
+cd QuantumBallot
 ```
 
 ### Install Backend Dependencies
@@ -170,7 +170,7 @@ eas build -p ios
 3. Start the mobile frontend
 4. Access the web application at http://localhost:5173
 5. Log in with the default committee credentials:
-   - Email: admin@chainocracy.com
+   - Email: admin@QuantumBallot.com
    - Password: admin123
 6. Create a test election
 7. Use the mobile app to register a voter account and participate in the election

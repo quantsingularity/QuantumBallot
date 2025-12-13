@@ -1,10 +1,10 @@
 # GitHub Workflows Documentation
 
-This document provides a comprehensive overview of the GitHub Actions workflows used in the Chainocracy project. These workflows automate the continuous integration and continuous deployment (CI/CD) processes for different components of the application.
+This document provides a comprehensive overview of the GitHub Actions workflows used in the QuantumBallot project. These workflows automate the continuous integration and continuous deployment (CI/CD) processes for different components of the application.
 
 ## Overview
 
-The Chainocracy project uses GitHub Actions to automate testing, building, and deployment processes across multiple components:
+The QuantumBallot project uses GitHub Actions to automate testing, building, and deployment processes across multiple components:
 
 - Backend API (Node.js)
 - Web Frontend
@@ -205,4 +205,4 @@ Common issues and their solutions:
 
 ## Conclusion
 
-The GitHub Actions workflows in the Chainocracy project provide a robust CI/CD pipeline that ensures code quality, automates testing, and streamlines deployment across multiple application components. By following the modular architecture pattern, the workflows maintain separation of concerns while efficiently utilizing GitHub Actions resources.
+The GitHub Actions workflows in the QuantumBallot project provide a robust CI/CD pipeline that ensures code quality, automates testing, and streamlines deployment across multiple application components. By following the modular architecture pattern, the workflows maintain separation of concerns while efficiently utilizing GitHub Actions resources.

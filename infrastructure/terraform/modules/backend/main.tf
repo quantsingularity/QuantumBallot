@@ -2,7 +2,7 @@
 
 # ECS Cluster for running the backend API
 resource "aws_ecs_cluster" "backend_cluster" {
-  name = "${var.environment_name}-chainocracy-backend-cluster"
+  name = "${var.environment_name}-QuantumBallot-backend-cluster"
 
   setting {
     name  = "containerInsights"
@@ -10,9 +10,9 @@ resource "aws_ecs_cluster" "backend_cluster" {
   }
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-backend-cluster"
+    Name        = "${var.environment_name}-QuantumBallot-backend-cluster"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -46,13 +46,13 @@ resource "aws_security_group" "backend_sg" {
   tags = {
     Name        = "${var.environment_name}-backend-sg"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
 # ECR Repository for the backend Docker image
 resource "aws_ecr_repository" "backend_ecr" {
-  name                 = "${var.environment_name}/chainocracy-backend"
+  name                 = "${var.environment_name}/QuantumBallot-backend"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -61,13 +61,13 @@ resource "aws_ecr_repository" "backend_ecr" {
 
   tags = {
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
 # IAM Role for ECS Task Execution
 resource "aws_iam_role" "ecs_task_execution_role" {
-  name = "${var.environment_name}-chainocracy-ecs-task-execution-role"
+  name = "${var.environment_name}-QuantumBallot-ecs-task-execution-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -84,7 +84,7 @@ resource "aws_iam_role" "ecs_task_execution_role" {
 
   tags = {
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -96,7 +96,7 @@ resource "aws_iam_role_policy_attachment" "ecs_task_execution_role_policy" {
 
 # ECS Task Definition for the backend service
 resource "aws_ecs_task_definition" "backend_task" {
-  family                   = "${var.environment_name}-chainocracy-backend"
+  family                   = "${var.environment_name}-QuantumBallot-backend"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "512"
@@ -105,7 +105,7 @@ resource "aws_ecs_task_definition" "backend_task" {
 
   container_definitions = jsonencode([
     {
-      name      = "chainocracy-backend"
+      name      = "QuantumBallot-backend"
       image     = var.docker_image_uri
       essential = true
       portMappings = [
@@ -132,7 +132,7 @@ resource "aws_ecs_task_definition" "backend_task" {
       logConfiguration = {
         logDriver = "awslogs"
         options = {
-          "awslogs-group"         = "/ecs/${var.environment_name}-chainocracy-backend"
+          "awslogs-group"         = "/ecs/${var.environment_name}-QuantumBallot-backend"
           "awslogs-region"        = data.aws_region.current.name
           "awslogs-stream-prefix" = "ecs"
         }
@@ -142,18 +142,18 @@ resource "aws_ecs_task_definition" "backend_task" {
 
   tags = {
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
 # CloudWatch Log Group for the backend service
 resource "aws_cloudwatch_log_group" "backend_logs" {
-  name              = "/ecs/${var.environment_name}-chainocracy-backend"
+  name              = "/ecs/${var.environment_name}-QuantumBallot-backend"
   retention_in_days = 30
 
   tags = {
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -169,7 +169,7 @@ resource "aws_lb" "backend_alb" {
 
   tags = {
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -195,7 +195,7 @@ resource "aws_lb_target_group" "backend_tg" {
 
   tags = {
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -219,7 +219,7 @@ resource "aws_lb_listener" "backend_listener" {
 
 # ECS Service
 resource "aws_ecs_service" "backend_service" {
-  name            = "${var.environment_name}-chainocracy-backend-service"
+  name            = "${var.environment_name}-QuantumBallot-backend-service"
   cluster         = aws_ecs_cluster.backend_cluster.id
   task_definition = aws_ecs_task_definition.backend_task.arn
   desired_count   = 2
@@ -233,7 +233,7 @@ resource "aws_ecs_service" "backend_service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.backend_tg.arn
-    container_name   = "chainocracy-backend"
+    container_name   = "QuantumBallot-backend"
     container_port   = var.backend_port
   }
 
@@ -241,7 +241,7 @@ resource "aws_ecs_service" "backend_service" {
 
   tags = {
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 

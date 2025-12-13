@@ -1,10 +1,10 @@
 # Architecture Documentation
 
-This document provides a comprehensive overview of the Chainocracy system architecture, including component interactions, data flow, and technical design decisions.
+This document provides a comprehensive overview of the QuantumBallot system architecture, including component interactions, data flow, and technical design decisions.
 
 ## System Overview
 
-Chainocracy is a blockchain-based voting system designed with a microservices architecture that consists of three main components:
+QuantumBallot is a blockchain-based voting system designed with a microservices architecture that consists of three main components:
 
 1. **Backend API**: Node.js/Express.js server that manages the blockchain, authentication, and business logic
 2. **Web Frontend**: React application for election committee members
@@ -125,7 +125,7 @@ The Mobile Frontend is built with React Native and Expo:
 
 ## Security Architecture
 
-Security is a critical aspect of the Chainocracy system and is implemented at multiple levels:
+Security is a critical aspect of the QuantumBallot system and is implemented at multiple levels:
 
 ### Authentication and Authorization
 
@@ -276,7 +276,7 @@ interface Voter {
 
 ## Scalability Considerations
 
-The Chainocracy architecture is designed with scalability in mind:
+The QuantumBallot architecture is designed with scalability in mind:
 
 1. **Horizontal Scaling**:
    - Stateless backend API allows for easy horizontal scaling

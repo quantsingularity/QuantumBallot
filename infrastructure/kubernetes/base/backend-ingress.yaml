@@ -21,5 +21,5 @@ spec:
                   number: 80 # Match the Service port
   # tls:
   # - hosts:
-  #   - chainocracy-dev.example.com # Replace with actual domain
-  #   secretName: chainocracy-tls-secret # Secret containing TLS cert
+  #   - QuantumBallot-dev.example.com # Replace with actual domain
+  #   secretName: QuantumBallot-tls-secret # Secret containing TLS cert

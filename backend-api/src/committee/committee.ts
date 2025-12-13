@@ -392,7 +392,7 @@ class Committee {
 
   private generateOtp(): Otp {
     const secret = speakeasy.generateSecret({
-      name: "Election Chainocracy",
+      name: "Election QuantumBallot",
       length: 6, // Length of the generated code
       step: 300, // Time step in seconds (5 minutes = 300 seconds)
     });

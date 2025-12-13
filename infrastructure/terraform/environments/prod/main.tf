@@ -15,9 +15,9 @@ resource "aws_vpc" "main" {
   enable_dns_hostnames = true
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-vpc"
+    Name        = "${var.environment_name}-QuantumBallot-vpc"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -30,9 +30,9 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-public-subnet-${count.index}"
+    Name        = "${var.environment_name}-QuantumBallot-public-subnet-${count.index}"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -44,9 +44,9 @@ resource "aws_subnet" "private" {
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-private-subnet-${count.index}"
+    Name        = "${var.environment_name}-QuantumBallot-private-subnet-${count.index}"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -55,9 +55,9 @@ resource "aws_internet_gateway" "gw" {
   vpc_id = aws_vpc.main.id
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-igw"
+    Name        = "${var.environment_name}-QuantumBallot-igw"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -67,9 +67,9 @@ resource "aws_eip" "nat" {
   domain = "vpc"
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-nat-eip-${count.index}"
+    Name        = "${var.environment_name}-QuantumBallot-nat-eip-${count.index}"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -80,9 +80,9 @@ resource "aws_nat_gateway" "nat" {
   subnet_id     = aws_subnet.public[count.index].id
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-nat-${count.index}"
+    Name        = "${var.environment_name}-QuantumBallot-nat-${count.index}"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 
   depends_on = [aws_internet_gateway.gw]
@@ -98,9 +98,9 @@ resource "aws_route_table" "public" {
   }
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-public-rt"
+    Name        = "${var.environment_name}-QuantumBallot-public-rt"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -115,9 +115,9 @@ resource "aws_route_table" "private" {
   }
 
   tags = {
-    Name        = "${var.environment_name}-chainocracy-private-rt-${count.index}"
+    Name        = "${var.environment_name}-QuantumBallot-private-rt-${count.index}"
     Environment = var.environment_name
-    Project     = "Chainocracy"
+    Project     = "QuantumBallot"
   }
 }
 
@@ -147,7 +147,7 @@ module "backend" {
   subnet_ids       = aws_subnet.private[*].id  # Use private subnets for production
   backend_port     = var.backend_port
   # Construct ECR image URI
-  docker_image_uri = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.environment_name}/chainocracy-backend:${var.backend_docker_image_tag}"
+  docker_image_uri = "${data.aws_caller_identity.current.account_id}.dkr.ecr.${var.aws_region}.amazonaws.com/${var.environment_name}/QuantumBallot-backend:${var.backend_docker_image_tag}"
 
   # Pass other backend variables if needed
 }

@@ -6,7 +6,7 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = "Chainocracy"
+project = "QuantumBallot"
 copyright = "2025, Abrar Ahmed"
 author = "Abrar Ahmed"
 

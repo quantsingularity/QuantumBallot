@@ -1,7 +1,7 @@
 #!/bin/bash
 # deployment.sh
 #
-# This script automates the deployment process for Chainocracy project components
+# This script automates the deployment process for QuantumBallot project components
 # It handles building, packaging, and deploying to different environments
 #
 # Usage: ./deployment.sh <environment> <component>
@@ -170,7 +170,7 @@ deploy_mobile() {
 }
 
 # Main execution
-section "Chainocracy Deployment"
+section "QuantumBallot Deployment"
 echo "Deploying $COMPONENT to $ENVIRONMENT environment"
 
 case $COMPONENT in
@@ -191,4 +191,4 @@ case $COMPONENT in
 esac
 
 section "Deployment Complete"
-echo -e "${GREEN}Chainocracy $COMPONENT deployment to $ENVIRONMENT completed successfully!${NC}"
+echo -e "${GREEN}QuantumBallot $COMPONENT deployment to $ENVIRONMENT completed successfully!${NC}"

@@ -12,7 +12,7 @@ app.use(express.json());
 
 // Basic route
 app.get("/", (req: Request, res: Response) => {
-  res.send("Chainocracy Backend API is running!");
+  res.send("QuantumBallot Backend API is running!");
 });
 
 // Assuming routes are imported and used here

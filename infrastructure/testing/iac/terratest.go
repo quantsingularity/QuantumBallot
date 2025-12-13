@@ -1,4 +1,4 @@
-// Comprehensive Infrastructure as Code Testing for Chainocracy
+// Comprehensive Infrastructure as Code Testing for QuantumBallot
 // Implements financial-grade testing with security and compliance validation
 
 package test
@@ -248,16 +248,16 @@ func TestDockerSecurity(t *testing.T) {
 	// Test backend Docker image
 	t.Run("Backend_Image_Security", func(t *testing.T) {
 		buildOptions := &docker.BuildOptions{
-			Tags: []string{"chainocracy-backend:test"},
+			Tags: []string{"QuantumBallot-backend:test"},
 		}
 
 		// Build the image
 		docker.Build(t, "../docker", buildOptions)
-		defer docker.RemoveImage(t, "chainocracy-backend:test")
+		defer docker.RemoveImage(t, "QuantumBallot-backend:test")
 
 		// Test image for vulnerabilities (would integrate with Trivy or similar)
 		// This is a placeholder for actual security scanning
-		imageInfo := docker.Inspect(t, "chainocracy-backend:test")
+		imageInfo := docker.Inspect(t, "QuantumBallot-backend:test")
 		assert.NotEmpty(t, imageInfo, "Image should be built successfully")
 
 		// Verify non-root user
@@ -274,13 +274,13 @@ func TestDockerSecurity(t *testing.T) {
 	// Test frontend Docker image
 	t.Run("Frontend_Image_Security", func(t *testing.T) {
 		buildOptions := &docker.BuildOptions{
-			Tags: []string{"chainocracy-frontend:test"},
+			Tags: []string{"QuantumBallot-frontend:test"},
 		}
 
 		docker.Build(t, "../docker", buildOptions)
-		defer docker.RemoveImage(t, "chainocracy-frontend:test")
+		defer docker.RemoveImage(t, "QuantumBallot-frontend:test")
 
-		imageInfo := docker.Inspect(t, "chainocracy-frontend:test")
+		imageInfo := docker.Inspect(t, "QuantumBallot-frontend:test")
 
 		// Verify Nginx security configuration
 		assert.Equal(t, "1001", imageInfo.Config.User, "Frontend should run as non-root user")
@@ -293,7 +293,7 @@ func TestEndToEndSecurity(t *testing.T) {
 	t.Parallel()
 
 	// This would typically test a deployed environment
-	baseURL := "https://test.chainocracy.com"
+	baseURL := "https://test.QuantumBallot.com"
 
 	// Test HTTPS configuration
 	t.Run("HTTPS_Security", func(t *testing.T) {
@@ -399,7 +399,7 @@ func extractRoleNameFromArn(arn string) string {
 func TestPerformance(t *testing.T) {
 	t.Parallel()
 
-	baseURL := "https://test.chainocracy.com"
+	baseURL := "https://test.QuantumBallot.com"
 
 	// Test response times
 	t.Run("Response_Times", func(t *testing.T) {

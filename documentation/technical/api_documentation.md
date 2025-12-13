@@ -1,8 +1,8 @@
-# API Documentation for Chainocracy Smart Contract
+# API Documentation for QuantumBallot Smart Contract
 
 ## Overview
 
-This document provides comprehensive API documentation for the enhanced Chainocracy smart contract system. It details all public functions, their parameters, return values, and potential errors to help developers integrate with and extend the system.
+This document provides comprehensive API documentation for the enhanced QuantumBallot smart contract system. It details all public functions, their parameters, return values, and potential errors to help developers integrate with and extend the system.
 
 ## Core API Functions
 
@@ -832,6 +832,6 @@ This allows for detailed error reporting and proper error handling in client cod
 
 ## Conclusion
 
-This API documentation provides a comprehensive reference for integrating with and extending the Chainocracy smart contract system. By following the examples and understanding the function signatures, parameters, and return values, developers can effectively build applications that interact with the governance platform.
+This API documentation provides a comprehensive reference for integrating with and extending the QuantumBallot smart contract system. By following the examples and understanding the function signatures, parameters, and return values, developers can effectively build applications that interact with the governance platform.
 
-For further assistance or to report issues, please contact the Chainocracy development team.
+For further assistance or to report issues, please contact the QuantumBallot development team.

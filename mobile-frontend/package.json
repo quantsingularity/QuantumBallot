@@ -1,7 +1,7 @@
 {
-  "name": "chainocracy-mobile-tests",
+  "name": "QuantumBallot-mobile-tests",
   "version": "1.0.0",
-  "description": "Comprehensive test suite for Chainocracy mobile frontend",
+  "description": "Comprehensive test suite for QuantumBallot mobile frontend",
   "main": "index.js",
   "scripts": {
     "test": "jest",

@@ -12,7 +12,7 @@ import { TextInput } from "react-native";
 export default function Login() {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Chainocracy</Text>
+      <Text style={styles.title}>QuantumBallot</Text>
       <Text style={styles.subtitle}>Blockchain-based Voting System</Text>
       <View style={styles.formContainer}>
         <TextInput

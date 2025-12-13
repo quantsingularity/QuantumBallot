@@ -7,7 +7,7 @@ resource "aws_network_acl" "public" {
   subnet_ids = var.public_subnet_ids
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-public-nacl"
+    Name = "${var.environment}-QuantumBallot-public-nacl"
     Tier = "public"
     Environment = var.environment
   })
@@ -19,7 +19,7 @@ resource "aws_network_acl" "private_app" {
   subnet_ids = var.private_app_subnet_ids
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-private-app-nacl"
+    Name = "${var.environment}-QuantumBallot-private-app-nacl"
     Tier = "application"
     Environment = var.environment
   })
@@ -31,7 +31,7 @@ resource "aws_network_acl" "private_db" {
   subnet_ids = var.private_db_subnet_ids
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-private-db-nacl"
+    Name = "${var.environment}-QuantumBallot-private-db-nacl"
     Tier = "database"
     Environment = var.environment
   })
@@ -43,7 +43,7 @@ resource "aws_network_acl" "isolated_mgmt" {
   subnet_ids = var.isolated_mgmt_subnet_ids
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-isolated-mgmt-nacl"
+    Name = "${var.environment}-QuantumBallot-isolated-mgmt-nacl"
     Tier = "management"
     Environment = var.environment
   })

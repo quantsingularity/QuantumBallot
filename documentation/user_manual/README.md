@@ -1,6 +1,6 @@
 # User Manual
 
-This manual provides instructions for using the Chainocracy blockchain-based voting system, covering both the web application (for election committee members) and the mobile application (for voters).
+This manual provides instructions for using the QuantumBallot blockchain-based voting system, covering both the web application (for election committee members) and the mobile application (for voters).
 
 ## Table of Contents
 
@@ -27,7 +27,7 @@ This manual provides instructions for using the Chainocracy blockchain-based vot
 
 ### Logging In
 
-1. Open your web browser and navigate to the Chainocracy web application URL.
+1. Open your web browser and navigate to the QuantumBallot web application URL.
 2. On the login screen, enter your committee member credentials:
    - Email address
    - Password
@@ -192,7 +192,7 @@ The Blockchain Explorer allows you to verify the integrity of the election:
 
 ### Installation
 
-1. Download the Chainocracy Voter App from:
+1. Download the QuantumBallot Voter App from:
    - Apple App Store (iOS)
    - Google Play Store (Android)
 2. Install the application on your device.
@@ -274,7 +274,7 @@ After casting your vote:
 
 ## Additional Help
 
-If you encounter any issues while using the Chainocracy system:
+If you encounter any issues while using the QuantumBallot system:
 
 - **Committee Members**: Contact the system administrator or refer to the technical documentation.
 - **Voters**: Use the "Help" section in the mobile app or contact the election support team through the provided contact information.

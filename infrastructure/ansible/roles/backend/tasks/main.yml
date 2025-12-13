@@ -11,9 +11,9 @@
 # - name: Update ECS Service with new task definition
 #   community.aws.ecs_service:
 #     state: present
-#     name: "{{ env }}-chainocracy-backend-service"
-#     cluster: "{{ env }}-chainocracy-backend-cluster"
-#     task_definition: "{{ env }}-chainocracy-backend:{{ new_task_definition_revision }}" # Variable needs to be passed
+#     name: "{{ env }}-QuantumBallot-backend-service"
+#     cluster: "{{ env }}-QuantumBallot-backend-cluster"
+#     task_definition: "{{ env }}-QuantumBallot-backend:{{ new_task_definition_revision }}" # Variable needs to be passed
 #     desired_count: "{{ backend_desired_count | default(2) }}"
 #     deployment_configuration:
 #       minimum_healthy_percent: 50

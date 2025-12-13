@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Chainocracy Project Setup Script
+# QuantumBallot Project Setup Script
 
 # Exit immediately if a command exits with a non-zero status.
 set -e
@@ -10,9 +10,9 @@ set -e
 # - npm (Node package manager)
 # - Potentially Python and pip if other components exist but are not clearly defined by dependency files.
 
-echo "Starting Chainocracy project setup..."
+echo "Starting QuantumBallot project setup..."
 
-PROJECT_DIR="/home/ubuntu/projects_extracted/Chainocracy"
+PROJECT_DIR="/home/ubuntu/projects_extracted/QuantumBallot"
 
 if [ ! -d "${PROJECT_DIR}" ]; then
   echo "Error: Project directory ${PROJECT_DIR} not found."
@@ -25,7 +25,7 @@ echo "Changed directory to $(pwd)"
 
 # --- Backend API Setup (Likely Node.js) ---
 echo ""
-echo "Setting up Chainocracy backend-api environment..."
+echo "Setting up QuantumBallot backend-api environment..."
 BACKEND_API_DIR="${PROJECT_DIR}/backend-api"
 
 if [ ! -d "${BACKEND_API_DIR}" ]; then
@@ -56,8 +56,8 @@ fi
 
 # --- General Instructions & Reminders ---
 echo ""
-echo "Chainocracy project setup script finished."
-echo "NOTE: This project (Chainocracy) was missing a README.md and key dependency files like a root-level requirements.txt or package.json, and package.json in backend-api."
+echo "QuantumBallot project setup script finished."
+echo "NOTE: This project (QuantumBallot) was missing a README.md and key dependency files like a root-level requirements.txt or package.json, and package.json in backend-api."
 echo "The setup script attempts to handle the 'backend-api' directory as a Node.js project if a package.json or node_modules is present."
 echo "Due to missing information, this script is less comprehensive than for other projects."
 echo "Please ensure all prerequisites are met (likely Node.js and npm)."

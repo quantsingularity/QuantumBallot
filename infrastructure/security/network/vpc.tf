@@ -28,7 +28,7 @@ resource "aws_vpc" "main" {
   enable_network_address_usage_metrics = true
 
   tags = merge(var.common_tags, {
-    Name                = "${var.environment}-chainocracy-vpc"
+    Name                = "${var.environment}-QuantumBallot-vpc"
     Environment         = var.environment
     SecurityLevel       = "high"
     ComplianceRequired  = "true"
@@ -41,7 +41,7 @@ resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-igw"
+    Name = "${var.environment}-QuantumBallot-igw"
     Environment = var.environment
   })
 }
@@ -56,7 +56,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = false  # Enhanced security - no auto-assign public IPs
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-public-${count.index + 1}"
+    Name = "${var.environment}-QuantumBallot-public-${count.index + 1}"
     Type = "public"
     Environment = var.environment
     Tier = "dmz"
@@ -72,7 +72,7 @@ resource "aws_subnet" "private_app" {
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-private-app-${count.index + 1}"
+    Name = "${var.environment}-QuantumBallot-private-app-${count.index + 1}"
     Type = "private"
     Tier = "application"
     Environment = var.environment
@@ -88,7 +88,7 @@ resource "aws_subnet" "private_db" {
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-private-db-${count.index + 1}"
+    Name = "${var.environment}-QuantumBallot-private-db-${count.index + 1}"
     Type = "private"
     Tier = "database"
     Environment = var.environment
@@ -104,7 +104,7 @@ resource "aws_subnet" "isolated_mgmt" {
   availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-isolated-mgmt-${count.index + 1}"
+    Name = "${var.environment}-QuantumBallot-isolated-mgmt-${count.index + 1}"
     Type = "isolated"
     Tier = "management"
     Environment = var.environment
@@ -120,7 +120,7 @@ resource "aws_eip" "nat" {
   depends_on = [aws_internet_gateway.main]
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-nat-eip-${count.index + 1}"
+    Name = "${var.environment}-QuantumBallot-nat-eip-${count.index + 1}"
     Environment = var.environment
   })
 }
@@ -133,7 +133,7 @@ resource "aws_nat_gateway" "main" {
   subnet_id     = aws_subnet.public[count.index].id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-nat-${count.index + 1}"
+    Name = "${var.environment}-QuantumBallot-nat-${count.index + 1}"
     Environment = var.environment
   })
 
@@ -150,7 +150,7 @@ resource "aws_route_table" "public" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-public-rt"
+    Name = "${var.environment}-QuantumBallot-public-rt"
     Type = "public"
     Environment = var.environment
   })
@@ -168,7 +168,7 @@ resource "aws_route_table" "private_app" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-private-app-rt-${count.index + 1}"
+    Name = "${var.environment}-QuantumBallot-private-app-rt-${count.index + 1}"
     Type = "private"
     Tier = "application"
     Environment = var.environment
@@ -182,7 +182,7 @@ resource "aws_route_table" "private_db" {
   vpc_id = aws_vpc.main.id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-private-db-rt-${count.index + 1}"
+    Name = "${var.environment}-QuantumBallot-private-db-rt-${count.index + 1}"
     Type = "private"
     Tier = "database"
     Environment = var.environment
@@ -196,7 +196,7 @@ resource "aws_route_table" "isolated_mgmt" {
   vpc_id = aws_vpc.main.id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-isolated-mgmt-rt-${count.index + 1}"
+    Name = "${var.environment}-QuantumBallot-isolated-mgmt-rt-${count.index + 1}"
     Type = "isolated"
     Tier = "management"
     Environment = var.environment
@@ -242,26 +242,26 @@ resource "aws_flow_log" "vpc_flow_log" {
   log_format = "$${version} $${account-id} $${interface-id} $${srcaddr} $${dstaddr} $${srcport} $${dstport} $${protocol} $${packets} $${bytes} $${windowstart} $${windowend} $${action} $${flowlogstatus} $${vpc-id} $${subnet-id} $${instance-id} $${tcp-flags} $${type} $${pkt-srcaddr} $${pkt-dstaddr} $${region} $${az-id} $${sublocation-type} $${sublocation-id}"
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-vpc-flow-log"
+    Name = "${var.environment}-QuantumBallot-vpc-flow-log"
     Environment = var.environment
   })
 }
 
 # CloudWatch Log Group for VPC Flow Logs
 resource "aws_cloudwatch_log_group" "vpc_flow_log" {
-  name              = "/aws/vpc/flowlogs/${var.environment}-chainocracy"
+  name              = "/aws/vpc/flowlogs/${var.environment}-QuantumBallot"
   retention_in_days = var.log_retention_days
   kms_key_id        = aws_kms_key.logs.arn
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-vpc-flow-log-group"
+    Name = "${var.environment}-QuantumBallot-vpc-flow-log-group"
     Environment = var.environment
   })
 }
 
 # IAM role for VPC Flow Logs
 resource "aws_iam_role" "flow_log" {
-  name = "${var.environment}-chainocracy-flow-log-role"
+  name = "${var.environment}-QuantumBallot-flow-log-role"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
@@ -277,14 +277,14 @@ resource "aws_iam_role" "flow_log" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-flow-log-role"
+    Name = "${var.environment}-QuantumBallot-flow-log-role"
     Environment = var.environment
   })
 }
 
 # IAM policy for VPC Flow Logs
 resource "aws_iam_role_policy" "flow_log" {
-  name = "${var.environment}-chainocracy-flow-log-policy"
+  name = "${var.environment}-QuantumBallot-flow-log-policy"
   role = aws_iam_role.flow_log.id
 
   policy = jsonencode({
@@ -307,7 +307,7 @@ resource "aws_iam_role_policy" "flow_log" {
 
 # KMS key for log encryption
 resource "aws_kms_key" "logs" {
-  description             = "KMS key for ${var.environment} Chainocracy log encryption"
+  description             = "KMS key for ${var.environment} QuantumBallot log encryption"
   deletion_window_in_days = var.kms_deletion_window
   enable_key_rotation     = true
 
@@ -342,14 +342,14 @@ resource "aws_kms_key" "logs" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-logs-kms-key"
+    Name = "${var.environment}-QuantumBallot-logs-kms-key"
     Environment = var.environment
   })
 }
 
 # KMS key alias
 resource "aws_kms_alias" "logs" {
-  name          = "alias/${var.environment}-chainocracy-logs"
+  name          = "alias/${var.environment}-QuantumBallot-logs"
   target_key_id = aws_kms_key.logs.key_id
 }
 
@@ -380,15 +380,15 @@ resource "aws_vpc_endpoint" "s3" {
           "s3:ListBucket"
         ]
         Resource = [
-          "arn:aws:s3:::${var.environment}-chainocracy-*",
-          "arn:aws:s3:::${var.environment}-chainocracy-*/*"
+          "arn:aws:s3:::${var.environment}-QuantumBallot-*",
+          "arn:aws:s3:::${var.environment}-QuantumBallot-*/*"
         ]
       }
     ]
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-s3-endpoint"
+    Name = "${var.environment}-QuantumBallot-s3-endpoint"
     Environment = var.environment
   })
 }
@@ -406,7 +406,7 @@ resource "aws_vpc_endpoint" "dynamodb" {
   )
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-dynamodb-endpoint"
+    Name = "${var.environment}-QuantumBallot-dynamodb-endpoint"
     Environment = var.environment
   })
 }

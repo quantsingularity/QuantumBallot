@@ -3,8 +3,8 @@
 
 # Database Master Password Secret
 resource "aws_secretsmanager_secret" "database_master_password" {
-  name                    = "${var.environment}/chainocracy/database/master-password"
-  description             = "Master password for ${var.environment} Chainocracy database"
+  name                    = "${var.environment}/QuantumBallot/database/master-password"
+  description             = "Master password for ${var.environment} QuantumBallot database"
   kms_key_id             = var.kms_secrets_key_id
   recovery_window_in_days = var.secret_recovery_window
 
@@ -14,7 +14,7 @@ resource "aws_secretsmanager_secret" "database_master_password" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-db-master-password"
+    Name = "${var.environment}-QuantumBallot-db-master-password"
     Environment = var.environment
     SecretType = "database-credential"
   })
@@ -44,8 +44,8 @@ resource "random_password" "database_master_password" {
 
 # Database Application User Secret
 resource "aws_secretsmanager_secret" "database_app_user" {
-  name                    = "${var.environment}/chainocracy/database/app-user"
-  description             = "Application user credentials for ${var.environment} Chainocracy database"
+  name                    = "${var.environment}/QuantumBallot/database/app-user"
+  description             = "Application user credentials for ${var.environment} QuantumBallot database"
   kms_key_id             = var.kms_secrets_key_id
   recovery_window_in_days = var.secret_recovery_window
 
@@ -55,7 +55,7 @@ resource "aws_secretsmanager_secret" "database_app_user" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-db-app-user"
+    Name = "${var.environment}-QuantumBallot-db-app-user"
     Environment = var.environment
     SecretType = "database-credential"
   })
@@ -88,8 +88,8 @@ resource "random_password" "database_app_password" {
 
 # Redis Authentication Token Secret
 resource "aws_secretsmanager_secret" "redis_auth_token" {
-  name                    = "${var.environment}/chainocracy/redis/auth-token"
-  description             = "Redis authentication token for ${var.environment} Chainocracy"
+  name                    = "${var.environment}/QuantumBallot/redis/auth-token"
+  description             = "Redis authentication token for ${var.environment} QuantumBallot"
   kms_key_id             = var.kms_secrets_key_id
   recovery_window_in_days = var.secret_recovery_window
 
@@ -99,7 +99,7 @@ resource "aws_secretsmanager_secret" "redis_auth_token" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-redis-auth-token"
+    Name = "${var.environment}-QuantumBallot-redis-auth-token"
     Environment = var.environment
     SecretType = "cache-credential"
   })
@@ -130,8 +130,8 @@ resource "random_password" "redis_auth_token" {
 
 # JWT Secret Key
 resource "aws_secretsmanager_secret" "jwt_secret" {
-  name                    = "${var.environment}/chainocracy/api-keys/jwt-secret"
-  description             = "JWT secret key for ${var.environment} Chainocracy application"
+  name                    = "${var.environment}/QuantumBallot/api-keys/jwt-secret"
+  description             = "JWT secret key for ${var.environment} QuantumBallot application"
   kms_key_id             = var.kms_secrets_key_id
   recovery_window_in_days = var.secret_recovery_window
 
@@ -141,7 +141,7 @@ resource "aws_secretsmanager_secret" "jwt_secret" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-jwt-secret"
+    Name = "${var.environment}-QuantumBallot-jwt-secret"
     Environment = var.environment
     SecretType = "api-key"
   })
@@ -172,8 +172,8 @@ resource "random_password" "jwt_secret" {
 
 # Blockchain Node Private Key
 resource "aws_secretsmanager_secret" "blockchain_private_key" {
-  name                    = "${var.environment}/chainocracy/blockchain/private-key"
-  description             = "Blockchain node private key for ${var.environment} Chainocracy"
+  name                    = "${var.environment}/QuantumBallot/blockchain/private-key"
+  description             = "Blockchain node private key for ${var.environment} QuantumBallot"
   kms_key_id             = var.kms_secrets_key_id
   recovery_window_in_days = var.secret_recovery_window
 
@@ -183,7 +183,7 @@ resource "aws_secretsmanager_secret" "blockchain_private_key" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-blockchain-private-key"
+    Name = "${var.environment}-QuantumBallot-blockchain-private-key"
     Environment = var.environment
     SecretType = "blockchain-credential"
   })
@@ -206,8 +206,8 @@ resource "aws_secretsmanager_secret_version" "blockchain_private_key" {
 
 # API Gateway API Key
 resource "aws_secretsmanager_secret" "api_gateway_key" {
-  name                    = "${var.environment}/chainocracy/api-keys/gateway-key"
-  description             = "API Gateway key for ${var.environment} Chainocracy"
+  name                    = "${var.environment}/QuantumBallot/api-keys/gateway-key"
+  description             = "API Gateway key for ${var.environment} QuantumBallot"
   kms_key_id             = var.kms_secrets_key_id
   recovery_window_in_days = var.secret_recovery_window
 
@@ -217,7 +217,7 @@ resource "aws_secretsmanager_secret" "api_gateway_key" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-api-gateway-key"
+    Name = "${var.environment}-QuantumBallot-api-gateway-key"
     Environment = var.environment
     SecretType = "api-key"
   })
@@ -228,8 +228,8 @@ resource "aws_secretsmanager_secret_version" "api_gateway_key" {
   secret_id = aws_secretsmanager_secret.api_gateway_key.id
   secret_string = jsonencode({
     api_key    = random_password.api_gateway_key.result
-    key_name   = "${var.environment}-chainocracy-api-key"
-    usage_plan = "${var.environment}-chainocracy-usage-plan"
+    key_name   = "${var.environment}-QuantumBallot-api-key"
+    usage_plan = "${var.environment}-QuantumBallot-usage-plan"
   })
 
   lifecycle {
@@ -248,8 +248,8 @@ resource "random_password" "api_gateway_key" {
 
 # Third-Party Service API Keys
 resource "aws_secretsmanager_secret" "third_party_apis" {
-  name                    = "${var.environment}/chainocracy/api-keys/third-party"
-  description             = "Third-party service API keys for ${var.environment} Chainocracy"
+  name                    = "${var.environment}/QuantumBallot/api-keys/third-party"
+  description             = "Third-party service API keys for ${var.environment} QuantumBallot"
   kms_key_id             = var.kms_secrets_key_id
   recovery_window_in_days = var.secret_recovery_window
 
@@ -259,7 +259,7 @@ resource "aws_secretsmanager_secret" "third_party_apis" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-third-party-apis"
+    Name = "${var.environment}-QuantumBallot-third-party-apis"
     Environment = var.environment
     SecretType = "api-key"
   })
@@ -283,8 +283,8 @@ resource "aws_secretsmanager_secret_version" "third_party_apis" {
 
 # SSL/TLS Certificate Private Key
 resource "aws_secretsmanager_secret" "ssl_private_key" {
-  name                    = "${var.environment}/chainocracy/ssl/private-key"
-  description             = "SSL/TLS certificate private key for ${var.environment} Chainocracy"
+  name                    = "${var.environment}/QuantumBallot/ssl/private-key"
+  description             = "SSL/TLS certificate private key for ${var.environment} QuantumBallot"
   kms_key_id             = var.kms_secrets_key_id
   recovery_window_in_days = var.secret_recovery_window
 
@@ -294,7 +294,7 @@ resource "aws_secretsmanager_secret" "ssl_private_key" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-ssl-private-key"
+    Name = "${var.environment}-QuantumBallot-ssl-private-key"
     Environment = var.environment
     SecretType = "ssl-certificate"
   })
@@ -341,7 +341,7 @@ resource "aws_secretsmanager_secret_rotation" "database_app_user" {
 # Lambda Function for Secret Rotation
 resource "aws_lambda_function" "secret_rotation" {
   filename         = "secret_rotation.zip"
-  function_name    = "${var.environment}-chainocracy-secret-rotation"
+  function_name    = "${var.environment}-QuantumBallot-secret-rotation"
   role            = var.lambda_execution_role_arn
   handler         = "lambda_function.lambda_handler"
   source_code_hash = data.archive_file.secret_rotation_zip.output_base64sha256
@@ -361,7 +361,7 @@ resource "aws_lambda_function" "secret_rotation" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-secret-rotation"
+    Name = "${var.environment}-QuantumBallot-secret-rotation"
     Environment = var.environment
   })
 }
@@ -393,7 +393,7 @@ resource "aws_cloudwatch_log_group" "secret_rotation" {
   kms_key_id        = var.kms_logs_key_id
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-secret-rotation-logs"
+    Name = "${var.environment}-QuantumBallot-secret-rotation-logs"
     Environment = var.environment
   })
 }
@@ -407,7 +407,7 @@ resource "aws_cloudwatch_metric_alarm" "secret_access_anomaly" {
     blockchain_key  = aws_secretsmanager_secret.blockchain_private_key.name
   }
 
-  alarm_name          = "${var.environment}-chainocracy-secret-access-${each.key}"
+  alarm_name          = "${var.environment}-QuantumBallot-secret-access-${each.key}"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = "2"
   metric_name         = "SuccessfulRequestLatency"
@@ -423,15 +423,15 @@ resource "aws_cloudwatch_metric_alarm" "secret_access_anomaly" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-secret-access-${each.key}-alarm"
+    Name = "${var.environment}-QuantumBallot-secret-access-${each.key}-alarm"
     Environment = var.environment
   })
 }
 
 # Secret Access Policy for Application Role
 resource "aws_iam_policy" "secret_access" {
-  name        = "${var.environment}-chainocracy-secret-access-policy"
-  description = "Policy for accessing Chainocracy secrets"
+  name        = "${var.environment}-QuantumBallot-secret-access-policy"
+  description = "Policy for accessing QuantumBallot secrets"
 
   policy = jsonencode({
     Version = "2012-10-17"
@@ -470,7 +470,7 @@ resource "aws_iam_policy" "secret_access" {
   })
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-secret-access-policy"
+    Name = "${var.environment}-QuantumBallot-secret-access-policy"
     Environment = var.environment
   })
 }

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #"""
-#Financial-Grade Compliance Validation Suite for Chainocracy
+#Financial-Grade Compliance Validation Suite for QuantumBallot
 #Implements comprehensive compliance checking for financial standards
 #"""
 
@@ -914,7 +914,7 @@ def main():
 #    """Main function"""
 #    import argparse
 #
-#    parser = argparse.ArgumentParser(description="Chainocracy Compliance Validator")
+#    parser = argparse.ArgumentParser(description="QuantumBallot Compliance Validator")
 #    parser.add_argument(
 #        "--environment", default="production", help="Environment to validate"
 #    )

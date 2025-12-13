@@ -9,7 +9,7 @@ metadata:
     # kubernetes.io/ingress.class: "nginx-dev"
 spec:
   rules:
-    - host: chainocracy-dev.example.com # Replace with actual dev domain
+    - host: QuantumBallot-dev.example.com # Replace with actual dev domain
       http:
         paths:
           - path: / # Serve frontend from root
@@ -21,5 +21,5 @@ spec:
                   number: 80
   tls:
     - hosts:
-        - chainocracy-dev.example.com # Replace with actual dev domain
-      secretName: chainocracy-dev-tls-secret # Use a dev-specific TLS secret
+        - QuantumBallot-dev.example.com # Replace with actual dev domain
+      secretName: QuantumBallot-dev-tls-secret # Use a dev-specific TLS secret

@@ -1,8 +1,8 @@
-# Comprehensive Test Suite for Chainocracy Backend
+# Comprehensive Test Suite for QuantumBallot Backend
 
 ## Overview
 
-This test suite provides comprehensive testing for the Chainocracy backend, covering all core modules, API routes, and security flows. The tests are designed to validate functionality, ensure data integrity, and catch potential issues before they reach production.
+This test suite provides comprehensive testing for the QuantumBallot backend, covering all core modules, API routes, and security flows. The tests are designed to validate functionality, ensure data integrity, and catch potential issues before they reach production.
 
 ## Test Coverage
 

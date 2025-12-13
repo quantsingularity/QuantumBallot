@@ -1,12 +1,12 @@
-# Chainocracy Governance Participation Guide
+# QuantumBallot Governance Participation Guide
 
 ## Introduction
 
-Welcome to the Chainocracy governance system! This guide is designed to help you understand how to participate effectively in the governance process. Whether you're a voter, a delegate, or someone interested in proposing changes, this document will walk you through the steps and best practices for engaging with the Chainocracy platform.
+Welcome to the QuantumBallot governance system! This guide is designed to help you understand how to participate effectively in the governance process. Whether you're a voter, a delegate, or someone interested in proposing changes, this document will walk you through the steps and best practices for engaging with the QuantumBallot platform.
 
-## Understanding Chainocracy Governance
+## Understanding QuantumBallot Governance
 
-Chainocracy is a decentralized governance system that enables community members to collectively make decisions through secure and transparent voting mechanisms. The platform incorporates several advanced features to ensure fair representation and protect against common vulnerabilities:
+QuantumBallot is a decentralized governance system that enables community members to collectively make decisions through secure and transparent voting mechanisms. The platform incorporates several advanced features to ensure fair representation and protect against common vulnerabilities:
 
 - **Quadratic Voting**: Your voting power is calculated as the square root of your reputation score, ensuring that wealth concentration doesn't disproportionately influence outcomes.
 - **Sybil Resistance**: Multiple mechanisms work together to prevent fake identity attacks.
@@ -18,9 +18,9 @@ Chainocracy is a decentralized governance system that enables community members 
 
 ### Creating an Account
 
-To participate in Chainocracy governance, you'll need to create an account and establish your identity:
+To participate in QuantumBallot governance, you'll need to create an account and establish your identity:
 
-1. **Registration**: Contact a Chainocracy administrator to register your account.
+1. **Registration**: Contact a QuantumBallot administrator to register your account.
 2. **Identity Verification**: You'll need to provide identity proof that meets the platform's verification standards.
 3. **Social Graph Analysis**: The system will analyze your connections to help prevent Sybil attacks.
 4. **Account Aging**: New accounts must age for a minimum period before participating in governance.
@@ -39,7 +39,7 @@ For example, if your reputation score is 100, your voting power would be 10 (√
 
 ### Viewing Active Elections
 
-When you log in to the Chainocracy platform, you'll see a dashboard of active and upcoming elections. Each election will display:
+When you log in to the QuantumBallot platform, you'll see a dashboard of active and upcoming elections. Each election will display:
 
 - **Title and Description**: What the election is about.
 - **Timeline**: When the election starts and ends.
@@ -74,7 +74,7 @@ Important considerations for delegation:
 
 ### Types of Proposals
 
-Chainocracy supports various types of proposals:
+QuantumBallot supports various types of proposals:
 
 - **Parameter Changes**: Modifications to system parameters like timelock delay or minimum reputation scores.
 - **Feature Additions**: New functionality for the platform.
@@ -102,7 +102,7 @@ A good proposal should include:
 
 ## Understanding Timelock Governance
 
-Critical changes to the Chainocracy system are subject to a timelock delay, which provides several benefits:
+Critical changes to the QuantumBallot system are subject to a timelock delay, which provides several benefits:
 
 - **Security**: Gives the community time to react to potentially malicious proposals.
 - **Deliberation**: Allows for thorough discussion before implementation.
@@ -117,7 +117,7 @@ The typical timelock process:
 
 ## Sybil Resistance and Your Responsibilities
 
-Chainocracy implements multiple layers of Sybil resistance to prevent attacks from fake identities:
+QuantumBallot implements multiple layers of Sybil resistance to prevent attacks from fake identities:
 
 - **Identity Verification**: Proving you are a unique individual.
 - **Reputation Scores**: Building trust over time.
@@ -163,13 +163,13 @@ As a participant, you have responsibilities to maintain the integrity of the sys
 If you encounter issues not covered in this guide:
 
 - **Community Forums**: Post your question in the community discussion area.
-- **Support Contact**: Reach out to support@chainocracy.example.com for assistance.
+- **Support Contact**: Reach out to support@QuantumBallot.example.com for assistance.
 - **Office Hours**: Administrators hold regular virtual office hours for governance questions.
 
 ## Conclusion
 
-Effective governance participation is essential for the health and growth of the Chainocracy ecosystem. By understanding the mechanisms, following best practices, and engaging thoughtfully, you contribute to a more robust and representative governance system.
+Effective governance participation is essential for the health and growth of the QuantumBallot ecosystem. By understanding the mechanisms, following best practices, and engaging thoughtfully, you contribute to a more robust and representative governance system.
 
 Remember that governance is a collective responsibility—your informed participation helps ensure that decisions reflect the true will of the community while protecting against vulnerabilities and attacks.
 
-We look forward to your valuable contributions to Chainocracy governance!
+We look forward to your valuable contributions to QuantumBallot governance!

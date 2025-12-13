@@ -3,7 +3,7 @@
 
 # Security group for Application Load Balancer
 resource "aws_security_group" "alb" {
-  name_prefix = "${var.environment}-chainocracy-alb-"
+  name_prefix = "${var.environment}-QuantumBallot-alb-"
   vpc_id      = var.vpc_id
   description = "Security group for Application Load Balancer"
 
@@ -44,7 +44,7 @@ resource "aws_security_group" "alb" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-alb-sg"
+    Name = "${var.environment}-QuantumBallot-alb-sg"
     Tier = "load-balancer"
     Environment = var.environment
   })
@@ -56,7 +56,7 @@ resource "aws_security_group" "alb" {
 
 # Security group for Web Application Firewall
 resource "aws_security_group" "waf" {
-  name_prefix = "${var.environment}-chainocracy-waf-"
+  name_prefix = "${var.environment}-QuantumBallot-waf-"
   vpc_id      = var.vpc_id
   description = "Security group for Web Application Firewall"
 
@@ -79,7 +79,7 @@ resource "aws_security_group" "waf" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-waf-sg"
+    Name = "${var.environment}-QuantumBallot-waf-sg"
     Tier = "security"
     Environment = var.environment
   })
@@ -91,7 +91,7 @@ resource "aws_security_group" "waf" {
 
 # Security group for application tier
 resource "aws_security_group" "app" {
-  name_prefix = "${var.environment}-chainocracy-app-"
+  name_prefix = "${var.environment}-QuantumBallot-app-"
   vpc_id      = var.vpc_id
   description = "Security group for application tier"
 
@@ -168,7 +168,7 @@ resource "aws_security_group" "app" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-app-sg"
+    Name = "${var.environment}-QuantumBallot-app-sg"
     Tier = "application"
     Environment = var.environment
   })
@@ -180,7 +180,7 @@ resource "aws_security_group" "app" {
 
 # Security group for database tier
 resource "aws_security_group" "db" {
-  name_prefix = "${var.environment}-chainocracy-db-"
+  name_prefix = "${var.environment}-QuantumBallot-db-"
   vpc_id      = var.vpc_id
   description = "Security group for database tier"
 
@@ -214,7 +214,7 @@ resource "aws_security_group" "db" {
   # No outbound rules - databases should not initiate connections
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-db-sg"
+    Name = "${var.environment}-QuantumBallot-db-sg"
     Tier = "database"
     Environment = var.environment
   })
@@ -226,7 +226,7 @@ resource "aws_security_group" "db" {
 
 # Security group for cache tier (Redis)
 resource "aws_security_group" "cache" {
-  name_prefix = "${var.environment}-chainocracy-cache-"
+  name_prefix = "${var.environment}-QuantumBallot-cache-"
   vpc_id      = var.vpc_id
   description = "Security group for cache tier"
 
@@ -249,7 +249,7 @@ resource "aws_security_group" "cache" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-cache-sg"
+    Name = "${var.environment}-QuantumBallot-cache-sg"
     Tier = "cache"
     Environment = var.environment
   })
@@ -261,7 +261,7 @@ resource "aws_security_group" "cache" {
 
 # Security group for bastion host
 resource "aws_security_group" "bastion" {
-  name_prefix = "${var.environment}-chainocracy-bastion-"
+  name_prefix = "${var.environment}-QuantumBallot-bastion-"
   vpc_id      = var.vpc_id
   description = "Security group for bastion host"
 
@@ -311,7 +311,7 @@ resource "aws_security_group" "bastion" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-bastion-sg"
+    Name = "${var.environment}-QuantumBallot-bastion-sg"
     Tier = "management"
     Environment = var.environment
   })
@@ -323,7 +323,7 @@ resource "aws_security_group" "bastion" {
 
 # Security group for monitoring and logging
 resource "aws_security_group" "monitoring" {
-  name_prefix = "${var.environment}-chainocracy-monitoring-"
+  name_prefix = "${var.environment}-QuantumBallot-monitoring-"
   vpc_id      = var.vpc_id
   description = "Security group for monitoring and logging infrastructure"
 
@@ -389,7 +389,7 @@ resource "aws_security_group" "monitoring" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-monitoring-sg"
+    Name = "${var.environment}-QuantumBallot-monitoring-sg"
     Tier = "monitoring"
     Environment = var.environment
   })
@@ -401,7 +401,7 @@ resource "aws_security_group" "monitoring" {
 
 # Security group for VPC endpoints
 resource "aws_security_group" "vpc_endpoints" {
-  name_prefix = "${var.environment}-chainocracy-vpce-"
+  name_prefix = "${var.environment}-QuantumBallot-vpce-"
   vpc_id      = var.vpc_id
   description = "Security group for VPC endpoints"
 
@@ -419,7 +419,7 @@ resource "aws_security_group" "vpc_endpoints" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-vpce-sg"
+    Name = "${var.environment}-QuantumBallot-vpce-sg"
     Tier = "endpoints"
     Environment = var.environment
   })
@@ -431,7 +431,7 @@ resource "aws_security_group" "vpc_endpoints" {
 
 # Security group for blockchain nodes
 resource "aws_security_group" "blockchain" {
-  name_prefix = "${var.environment}-chainocracy-blockchain-"
+  name_prefix = "${var.environment}-QuantumBallot-blockchain-"
   vpc_id      = var.vpc_id
   description = "Security group for blockchain nodes"
 
@@ -472,7 +472,7 @@ resource "aws_security_group" "blockchain" {
   }
 
   tags = merge(var.common_tags, {
-    Name = "${var.environment}-chainocracy-blockchain-sg"
+    Name = "${var.environment}-QuantumBallot-blockchain-sg"
     Tier = "blockchain"
     Environment = var.environment
   })

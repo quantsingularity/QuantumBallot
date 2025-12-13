@@ -1,6 +1,6 @@
-# Chainocracy Documentation
+# QuantumBallot Documentation
 
-This directory contains comprehensive documentation for the Chainocracy blockchain-based voting system.
+This directory contains comprehensive documentation for the QuantumBallot blockchain-based voting system.
 
 ## Documentation Structure
 
@@ -12,9 +12,9 @@ This directory contains comprehensive documentation for the Chainocracy blockcha
 6. **Developer Guide**: Guidelines for developers working on the project
 7. **Deployment Guide**: Instructions for deploying the application to production environments
 
-## About Chainocracy
+## About QuantumBallot
 
-Chainocracy is a comprehensive blockchain-based voting system designed to provide secure, transparent, and verifiable elections. The system leverages blockchain technology to ensure the integrity and immutability of votes, while providing a user-friendly experience for both election administrators and voters.
+QuantumBallot is a comprehensive blockchain-based voting system designed to provide secure, transparent, and verifiable elections. The system leverages blockchain technology to ensure the integrity and immutability of votes, while providing a user-friendly experience for both election administrators and voters.
 
 The project consists of three main components:
 

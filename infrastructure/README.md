@@ -1,10 +1,10 @@
-# Chainocracy Infrastructure
+# QuantumBallot Infrastructure
 
-This directory contains the infrastructure configuration and deployment resources for the Chainocracy project, a full-stack Web and Mobile application for American elections using Blockchain Technology. The infrastructure components are organized into several specialized subdirectories, each focusing on different aspects of deployment, orchestration, and infrastructure management.
+This directory contains the infrastructure configuration and deployment resources for the QuantumBallot project, a full-stack Web and Mobile application for American elections using Blockchain Technology. The infrastructure components are organized into several specialized subdirectories, each focusing on different aspects of deployment, orchestration, and infrastructure management.
 
 ## Overview
 
-The infrastructure directory provides all necessary configurations and scripts to deploy, manage, and scale the Chainocracy application across various environments. It follows infrastructure-as-code principles, ensuring consistent, reproducible deployments and environment configurations.
+The infrastructure directory provides all necessary configurations and scripts to deploy, manage, and scale the QuantumBallot application across various environments. It follows infrastructure-as-code principles, ensuring consistent, reproducible deployments and environment configurations.
 
 ## Directory Structure
 
@@ -23,7 +23,7 @@ Ansible is primarily used for server provisioning, configuration management, and
 
 ### Docker
 
-The `docker` directory contains Docker-related configuration files for containerizing the Chainocracy application components:
+The `docker` directory contains Docker-related configuration files for containerizing the QuantumBallot application components:
 
 - `backend.Dockerfile`: Dockerfile for building the backend API container
 - `frontend-web.Dockerfile`: Dockerfile for building the web frontend container

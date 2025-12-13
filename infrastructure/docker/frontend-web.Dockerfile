@@ -1,4 +1,4 @@
-# Enhanced Dockerfile for Chainocracy Web Frontend
+# Enhanced Dockerfile for QuantumBallot Web Frontend
 # Implements financial-grade security best practices with hardened Nginx
 
 # Build stage with security enhancements
@@ -11,13 +11,13 @@ ARG VERSION
 ARG VITE_API_URL=/api
 
 # Add metadata labels for compliance
-LABEL maintainer="Chainocracy Security Team" \
-      org.opencontainers.image.title="Chainocracy Web Frontend" \
-      org.opencontainers.image.description="Secure web frontend for Chainocracy election platform" \
+LABEL maintainer="QuantumBallot Security Team" \
+      org.opencontainers.image.title="QuantumBallot Web Frontend" \
+      org.opencontainers.image.description="Secure web frontend for QuantumBallot election platform" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.created="${BUILD_DATE}" \
       org.opencontainers.image.revision="${VCS_REF}" \
-      org.opencontainers.image.vendor="Chainocracy" \
+      org.opencontainers.image.vendor="QuantumBallot" \
       security.scan.required="true" \
       compliance.level="financial-grade"
 
@@ -80,9 +80,9 @@ RUN npm run lint && \
 FROM nginx:1.25.3-alpine
 
 # Add metadata labels
-LABEL maintainer="Chainocracy Security Team" \
-      org.opencontainers.image.title="Chainocracy Web Frontend" \
-      org.opencontainers.image.description="Secure web frontend for Chainocracy election platform" \
+LABEL maintainer="QuantumBallot Security Team" \
+      org.opencontainers.image.title="QuantumBallot Web Frontend" \
+      org.opencontainers.image.description="Secure web frontend for QuantumBallot election platform" \
       org.opencontainers.image.version="${VERSION}" \
       org.opencontainers.image.created="${BUILD_DATE}" \
       org.opencontainers.image.revision="${VCS_REF}" \
