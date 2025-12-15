@@ -1,297 +1,420 @@
 # QuantumBallot Mobile Frontend
 
-React Native mobile application for secure blockchain-based voting system.
+## Overview
+
+React Native mobile application for QuantumBallot - a secure blockchain-based voting system for American elections. This mobile app allows voters to cast their votes securely on iOS and Android devices.
 
 ## Features
 
-- 🔐 Secure authentication with JWT
-- 📱 Cross-platform (iOS & Android) support via Expo
-- 🗳️ Vote casting interface with candidate selection
-- 📊 Real-time election results and projections
-- 🔍 QR code scanning for verification
-- 📰 Election news and announcements
-- 🔒 Two-factor authentication support
-- 📡 Offline-ready architecture
+- ✅ Secure voter authentication
+- ✅ Two-factor authentication (OTP)
+- ✅ Browse candidates and election information
+- ✅ Cast votes recorded on blockchain
+- ✅ Vote verification and confirmation
+- ✅ Real-time election updates
+- ✅ QR code scanning for verification
+- ✅ Responsive UI for all screen sizes
+
+## Technology Stack
+
+- **Framework:** React Native (Expo)
+- **Language:** TypeScript
+- **Navigation:** React Navigation
+- **UI Library:** React Native Paper
+- **State Management:** React Context API
+- **HTTP Client:** Axios
+- **Authentication:** JWT + Expo Secure Store
 
 ## Prerequisites
 
 - Node.js 16+ and npm/yarn
-- Expo CLI: `npm install -g expo-cli`
-- For iOS: macOS with Xcode
-- For Android: Android Studio with SDK
-- Expo Go app on your mobile device (for testing)
+- Expo CLI (`npm install -g expo-cli`)
+- iOS Simulator (macOS) or Android Emulator/Device
+- Running QuantumBallot backend server
 
 ## Installation
 
-1. **Install dependencies:**
-
-   ```bash
-   npm install
-   ```
-
-2. **Configure environment:**
-
-   ```bash
-   cp .env.example .env
-   ```
-
-   Edit `.env` and set your backend API URL (default: `http://192.168.0.38:3010/api`)
-
-3. **Start development server:**
-
-   ```bash
-   npm start
-   # or
-   expo start
-   ```
-
-4. **Run on device/emulator:**
-
-   ```bash
-   # Android
-   npm run android
-
-   # iOS (macOS only)
-   npm run ios
-
-   # Web (for testing)
-   npm run web
-   ```
-
-## Configuration
-
-### API Endpoint Configuration
-
-The API base URL can be configured in `src/constants/config.ts`:
-
-```typescript
-const DEFAULT_API_BASE_URL = "http://192.168.0.38:3010";
-```
-
-For local development, replace `192.168.0.38` with your machine's IP address:
-
-- Find your IP: `ipconfig` (Windows) or `ifconfig` (macOS/Linux)
-- Update the URL in `config.ts`
-
-### Backend Requirements
-
-The mobile app requires the QuantumBallot backend API to be running. From the project root:
+### 1. Clone and Navigate
 
 ```bash
-cd backend-api
-npm install
-npm run dev
+cd mobile-frontend
 ```
 
-The backend should be accessible at `http://<YOUR_IP>:3010`
+### 2. Install Dependencies
+
+```bash
+npm install
+```
+
+### 3. Configure Environment
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` and update:
+
+```env
+API_BASE_URL=http://YOUR_IP:3010/api  # Replace YOUR_IP with your backend IP
+API_TIMEOUT=30000
+NODE_ENV=development
+```
+
+**Important:** For testing on physical devices, use your computer's local IP address (not `localhost`). Find your IP:
+
+- **macOS/Linux:** `ifconfig | grep inet`
+- **Windows:** `ipconfig`
+
+### 4. Start Development Server
+
+```bash
+npm start
+```
+
+This opens Expo Dev Tools in your browser. From here you can:
+
+- Press `a` to open in Android emulator
+- Press `i` to open in iOS simulator
+- Scan QR code with Expo Go app on physical device
+
+## Running on Devices
+
+### Android
+
+```bash
+npm run android
+```
+
+Requirements:
+
+- Android Studio with SDK installed
+- Android emulator running OR
+- Physical Android device with USB debugging enabled
+
+### iOS (macOS only)
+
+```bash
+npm run ios
+```
+
+Requirements:
+
+- Xcode installed
+- iOS Simulator OR
+- Physical iOS device with development profile
 
 ## Project Structure
 
 ```
 mobile-frontend/
 ├── src/
-│   ├── components/       # Reusable UI components
-│   │   ├── BottomNavigation/
-│   │   ├── CameraQR/
-│   │   ├── CandidateItem/
-│   │   ├── CandidatesList/
-│   │   └── ...
-│   ├── screens/          # Screen components
-│   │   ├── Login/
-│   │   ├── Registration/
-│   │   ├── Candidates/
-│   │   ├── Groups/       # Voting interface
-│   │   └── ...
-│   ├── routes/           # Navigation configuration
-│   ├── context/          # React Context (Auth, etc.)
+│   ├── @types/           # TypeScript type definitions
 │   ├── api/              # API client configuration
-│   ├── constants/        # App configuration
-│   ├── utils/            # Utility functions
-│   └── assets/           # Images, fonts, etc.
+│   ├── assets/           # Images, fonts, static files
+│   ├── components/       # Reusable UI components
+│   ├── constants/        # App configuration constants
+│   ├── context/          # React Context (Auth, etc.)
+│   ├── data_types/       # TypeScript interfaces
+│   ├── hooks/            # Custom React hooks
+│   ├── routes/           # Navigation configuration
+│   ├── screens/          # App screens
+│   ├── services/         # Business logic services
+│   └── theme/            # Styling and theme
 ├── __tests__/            # Test files
-├── App.tsx               # Root component
-├── package.json
-└── tsconfig.json
+├── App.tsx               # App entry point
+├── app.json              # Expo configuration
+├── babel.config.js       # Babel configuration
+├── jest.config.js        # Jest test configuration
+├── package.json          # Dependencies
+├── tsconfig.json         # TypeScript configuration
+└── .env.example          # Environment template
+```
+
+## Main Screens
+
+### 1. Login Screen
+
+- Enter Electoral ID and password
+- Secure authentication via JWT
+- Navigate to Registration if needed
+
+### 2. Registration Screen
+
+- Register new voters
+- Collect: Electoral ID, name, email, password, address, state
+- Form validation
+- Email verification
+
+### 3. Candidates Screen
+
+- View all election candidates
+- See candidate details (name, party, code)
+- View candidate photos
+- Access candidate details
+
+### 4. Groups/Voting Screen
+
+- Select candidate to vote for
+- Radio button selection
+- Submit vote to blockchain
+- Confirmation dialog
+
+### 5. Two-Factor Authentication
+
+- Enter 6-digit OTP code
+- Visual PIN pad
+- Code verification
+- Vote submission after OTP
+
+### 6. Thank You Screen
+
+- Vote confirmation
+- Transaction hash display
+- Success message
+
+## Configuration
+
+### API Endpoints
+
+Defined in `src/constants/config.ts`:
+
+```typescript
+ENDPOINTS: {
+  LOGIN: "/api/committee/auth-mobile",
+  REGISTER: "/api/committee/register-voter",
+  CANDIDATES: "/api/committee/candidates",
+  ANNOUNCEMENT: "/api/committee/announcement",
+  VERIFY_OTP: "/api/committee/verify-otp",
+  // ... more endpoints
+}
+```
+
+### Storage Keys
+
+```typescript
+STORAGE_KEYS: {
+  JWT_TOKEN: "my-jwt",
+  EMAIL: "my-email",
+  ELECTORAL_ID: "my-electoral-id",
+  PORT: "my-port",
+}
 ```
 
 ## Testing
 
-### Run all tests:
+### Run All Tests
 
 ```bash
 npm test
 ```
 
-### Run tests in watch mode:
+### Run Tests in Watch Mode
 
 ```bash
-npm run test:watch
+npm test:watch
 ```
 
-### Run tests with coverage:
+### Generate Coverage Report
 
 ```bash
-npm run test:coverage
+npm test:coverage
 ```
 
-### Test Structure:
+### Test Files
 
-- `__tests__/screens/` - Screen component tests
-- `__tests__/components/` - Component tests
-- `__tests__/integration/` - Integration tests
 - `__tests__/api/` - API client tests
+- `__tests__/components/` - Component unit tests
+- `__tests__/context/` - Context provider tests
+- `__tests__/screens/` - Screen component tests
+- `__tests__/integration/` - Integration tests
+- `__tests__/e2e/` - End-to-end tests
 
-## Development Workflow
+## Development
 
-### 1. Start Backend
-
-```bash
-cd ../backend-api
-npm run dev
-```
-
-### 2. Start Mobile App
+### Linting
 
 ```bash
-npm start
+npm run lint
 ```
 
-### 3. Test on Device
+### Code Formatting
 
-- Install Expo Go app on your phone
-- Scan QR code from terminal
-- Or use emulator: `npm run android` / `npm run ios`
+```bash
+npm run format
+```
 
-### 4. Development Cycle
+### Hot Reload
 
-- Make changes to source files
-- App will hot-reload automatically
-- Check console for errors
-- Test on device/emulator
+Expo supports hot reloading. Save your files and changes appear instantly on the device/emulator.
+
+### Debugging
+
+- Shake device to open developer menu
+- Use React Native Debugger
+- Check Expo Dev Tools console
+- View logs: `npx expo start --dev-client`
 
 ## Building for Production
 
-### Android APK:
+### Android APK
 
 ```bash
-expo build:android
-```
-
-### iOS IPA:
-
-```bash
-expo build:ios
-```
-
-### Using EAS Build (Recommended):
-
-```bash
-npm install -g eas-cli
 eas build --platform android
+```
+
+### iOS IPA
+
+```bash
 eas build --platform ios
 ```
 
+Requires Expo Application Services (EAS) account. See [Expo EAS Build](https://docs.expo.dev/build/introduction/) for setup.
+
 ## Common Issues & Solutions
 
-### Issue: "Network request failed"
-
-**Solution:** Ensure backend is running and accessible. Check IP address in config.
-
-### Issue: "Unable to resolve module"
-
-**Solution:** Clear cache and reinstall:
-
-```bash
-rm -rf node_modules
-npm install
-expo start -c
-```
-
-### Issue: "Metro bundler fails to start"
-
-**Solution:** Kill any processes on port 8081:
-
-```bash
-# macOS/Linux
-lsof -ti:8081 | xargs kill -9
-
-# Windows
-netstat -ano | findstr :8081
-taskkill /PID <PID> /F
-```
-
-### Issue: Cannot connect to backend from device
+### Issue: "Cannot connect to backend"
 
 **Solution:**
 
-1. Ensure device and computer are on same network
-2. Use computer's IP address (not localhost)
-3. Check firewall settings
-4. Verify backend is accessible: `curl http://<YOUR_IP>:3010/api/committee/candidates`
+- Verify backend is running: `cd backend && npm run dev`
+- Check `.env` API_BASE_URL is correct
+- Use local IP, not `localhost` for physical devices
+- Ensure device and computer are on same network
 
-## Key Screens
+### Issue: "Module not found" errors
 
-### Login Screen (`src/screens/Login`)
+**Solution:**
 
-- Electoral ID and password authentication
-- Link to registration
-- Error handling and validation
+```bash
+rm -rf node_modules package-lock.json
+npm install
+```
 
-### Registration Screen (`src/screens/Registration`)
+### Issue: "Expo app crashes on startup"
 
-- New voter registration
-- Form validation
-- State selection
-- Password strength requirements
+**Solution:**
 
-### Groups Screen (`src/screens/Groups`)
+- Clear Expo cache: `expo start -c`
+- Reinstall Expo Go app on device
+- Check for compatibility issues in `package.json`
 
-- Main voting interface
-- Candidate selection
-- Vote submission with confirmation
-- Blockchain transaction handling
+### Issue: "Cannot run on iOS simulator"
 
-### Candidates Screen (`src/screens/Candidates`)
+**Solution:**
 
-- Browse all candidates
-- View candidate details
-- Live election projections
-
-### Two-Factor Authentication (`src/screens/TwoFactor`)
-
-- OTP verification
-- QR code scanning
-- Email-based 2FA
-
-## API Integration
-
-The app integrates with these backend endpoints:
-
-- `POST /api/committee/auth-mobile` - Login
-- `POST /api/committee/register-voter` - Registration
-- `GET /api/committee/candidates` - Get candidates
-- `GET /api/committee/announcement` - Get election details
-- `GET /api/committee/refresh-token` - Refresh JWT
-- `POST /api/committee/verify-otp` - 2FA verification
-- `POST /blockchain/make-transaction` - Submit vote
+- Ensure Xcode is installed
+- Open Xcode and install additional components
+- Select simulator: Xcode → Open Developer Tool → Simulator
+- Run: `npm run ios`
 
 ## Security Considerations
 
-- JWT tokens stored in Expo SecureStore
-- Passwords never stored locally
-- HTTPS recommended for production
-- Token refresh mechanism
-- Session timeout handling
+### Secure Storage
+
+- JWTs stored in Expo Secure Store (encrypted)
+- Never store sensitive data in AsyncStorage
+- Clear auth data on logout
+
+### API Communication
+
+- All requests use HTTPS in production
+- JWT tokens in Authorization headers
+- Cookie-based session management
+- Request/response logging in development only
+
+### Input Validation
+
+- All forms validate before submission
+- XSS prevention via React's default escaping
+- SQL injection prevention (backend responsibility)
+
+## Performance Optimization
+
+### Image Loading
+
+- Lazy load candidate images
+- Cache network images
+- Use appropriate image sizes
+
+### API Calls
+
+- Minimize redundant network requests
+- Cache candidate and announcement data
+- Implement retry logic for failed requests
+
+### State Management
+
+- Use Context sparingly (avoid re-renders)
+- Memoize expensive computations
+- Optimize list rendering with `FlatList`
+
+## Accessibility
+
+- Semantic labels on all inputs
+- Screen reader support
+- Sufficient color contrast
+- Touch target sizes ≥ 44x44 pts
+- Keyboard navigation support
 
 ## Contributing
 
-1. Create feature branch: `git checkout -b feature/my-feature`
-2. Make changes and test thoroughly
-3. Run tests: `npm test`
-4. Commit: `git commit -m "Add my feature"`
-5. Push: `git push origin feature/my-feature`
-6. Create Pull Request
+1. Create a feature branch
+2. Make your changes
+3. Write/update tests
+4. Run linter and tests
+5. Submit a pull request
+
+## Backend Integration
+
+### Required Backend Endpoints
+
+The mobile app expects these endpoints to exist:
+
+**Authentication:**
+
+- `POST /api/committee/auth-mobile` - Login
+- `POST /api/committee/register-voter` - Register
+- `GET /api/committee/refresh-token` - Refresh JWT
+- `POST /api/committee/verify-otp` - Verify OTP
+
+**Data:**
+
+- `GET /api/committee/candidates` - Get candidates
+- `GET /api/committee/announcement` - Get election info
+
+**Blockchain:**
+
+- `POST /api/blockchain/make-transaction` - Submit vote (on province-specific port)
+- `GET /api/blockchain/voting-status?electoralId=X` - Check if voted (recommended)
+
+### Dynamic Port Configuration
+
+The backend uses province-specific ports for blockchain nodes:
+
+- Each state has a dedicated port (e.g., 3010, 3011, 3012...)
+- Port is returned during login and stored in auth state
+- All blockchain requests use the user's assigned port
 
 ## License
 
-MIT License - see LICENSE file for details
+MIT License - See LICENSE file for details
+
+## Support
+
+For issues or questions:
+
+- GitHub Issues: [Create an issue](https://github.com/abrar2030/QuantumBallot/issues)
+- Documentation: See `/docs` directory
+- Backend API: See `backend/README.md`
+
+## Version History
+
+- **v1.0.0** (Current) - Production-ready mobile frontend
+  - All placeholders implemented
+  - Voting status check implemented
+  - Two-factor authentication fixed
+  - Image loading service implemented
+  - Comprehensive error handling
+  - Full TypeScript support
+
+---

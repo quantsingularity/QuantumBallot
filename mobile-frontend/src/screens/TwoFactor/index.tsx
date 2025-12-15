@@ -6,31 +6,40 @@ import {
   FlatList,
   Platform,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import { NumberItem } from "@components/NumberItem";
 import { CandidateItem } from "@components/CandidateItem";
 import { PinItem } from "@components/PinItem";
-import { LOCALHOST, TOKEN_KEY, useAuth } from "src/context/AuthContext";
+import { useAuth } from "src/context/AuthContext";
 import * as FileSystem from "expo-file-system";
 import axios from "src/api/axios";
-import axios_ from "axios";
+import { Config } from "../../constants/config";
 import * as SecureStore from "expo-secure-store";
 
-const TRANSACTION_URL = "/blockchain/transaction";
-const VERIFY_OTP_URL = "/committee/verify-otp";
+const TRANSACTION_URL = "/blockchain/make-transaction";
+const VERIFY_OTP_URL = Config.ENDPOINTS.VERIFY_OTP;
+const TOKEN_KEY = Config.STORAGE_KEYS.JWT_TOKEN;
 
 const writeFile = async (token: string) => {
-  const fileUri = `${FileSystem.documentDirectory}/certificate.cert`;
-  await FileSystem.writeAsStringAsync(fileUri, token);
-  console.log("File written successfully.");
-  // console.log('URL: ', fileUri);
+  try {
+    const fileUri = `${FileSystem.documentDirectory}/certificate.cert`;
+    await FileSystem.writeAsStringAsync(fileUri, token);
+    if (Config.APP.SHOW_LOGS) {
+      console.log("Certificate file written successfully to:", fileUri);
+    }
+  } catch (error) {
+    if (Config.APP.SHOW_LOGS) {
+      console.error("Error writing certificate file:", error);
+    }
+  }
 };
 
 interface TwoFactorProps {
   navigation: {
-    navigate: (screen: string) => void;
+    navigate: (screen: string, params?: any) => void;
   };
   route: {
     params?: {
@@ -45,86 +54,53 @@ interface TwoFactorProps {
   };
 }
 
-export default function TwoFactor({ navigation, route }: TwoFactorProps) {
-  const { id, name, party, acronym, photo, src, isFactor } = route.params || {};
+export function TwoFactor({ navigation, route }: TwoFactorProps) {
+  const { id, name, party, acronym, photo, src } = route.params || {};
 
   const numColumns = 6;
   const [candidates, _setCandidates] = useState([
     {
-      name: name,
-      party: party,
-      photo: photo,
-      acronym: acronym,
-      src: src,
-      key: id,
+      name: name || "Unknown",
+      party: party || "Independent",
+      photo: photo || "",
+      acronym: acronym || "",
+      src: src || "",
+      key: id || "0",
     },
   ]);
 
   const [numCodes, setNumCodes] = useState([11, 12, 13, 14, 15, 16]);
 
   const [numbers, _setNumbers] = useState([
-    {
-      number: "1",
-      key: "1",
-    },
-    {
-      number: "2",
-      key: "2",
-    },
-    {
-      number: "3",
-      key: "3",
-    },
-    {
-      number: "4",
-      key: "4",
-    },
-    {
-      number: "5",
-      key: "5",
-    },
-    {
-      number: "6",
-      key: "6",
-    },
-    {
-      number: "7",
-      key: "7",
-    },
-    {
-      number: "8",
-      key: "8",
-    },
-    {
-      number: "9",
-      key: "9",
-    },
-    {
-      number: " ",
-      key: "10",
-    },
-    {
-      number: "0",
-      key: "11",
-    },
-    {
-      number: "del",
-      key: "12",
-    },
+    { number: "1", key: "1" },
+    { number: "2", key: "2" },
+    { number: "3", key: "3" },
+    { number: "4", key: "4" },
+    { number: "5", key: "5" },
+    { number: "6", key: "6" },
+    { number: "7", key: "7" },
+    { number: "8", key: "8" },
+    { number: "9", key: "9" },
+    { number: " ", key: "10" },
+    { number: "0", key: "11" },
+    { number: "del", key: "12" },
   ]);
 
-  const [xTexts, setXtexts] = useState<string[]>(["X"]);
+  const [_xTexts, setXtexts] = useState<string[]>(["X"]);
   const [selected, setSelected] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [otpCode, setOtpCode] = useState<string>("");
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const { authState, onLogOut } = useAuth();
-  const [_activeScreen, setActiveScreen] = useState(0);
 
   useEffect(() => {
-    // alert("Check authentication :)");
+    // Check authentication on component mount
     if (!authState?.authenticated || !authState?.electoralId) {
-      onLogOut!();
-      setActiveScreen("Login");
+      Alert.alert("Authentication Required", "Please log in to continue.", [
+        { text: "OK", onPress: () => onLogOut!() },
+      ]);
+      navigation.navigate("Login");
     }
   }, []);
 
@@ -132,29 +108,47 @@ export default function TwoFactor({ navigation, route }: TwoFactorProps) {
     navigation.navigate("Candidates");
   };
 
-  const openThankYou = async (data: string) => {
+  const openThankYou = async (transactionHash: string) => {
     const token = authState?.token || "";
     await writeFile(token);
-    navigation.navigate("Thank Vote", { data });
+    navigation.navigate("Thank Vote", { data: transactionHash });
   };
 
   const placeVote = async (): Promise<string> => {
-    const URL = LOCALHOST + authState?.port + "/api" + TRANSACTION_URL;
-    console.log("URL: ", URL);
-    const body = {
-      identifier: authState?.electoralId,
-      choiceCode: id + 1,
-      secret: authState?.token,
-    };
-    const response = await axios_.post(URL, body);
-    const statusCode = response.status;
+    try {
+      // Build the blockchain transaction URL using the province-specific port
+      const port = authState?.port || "3010";
+      const baseUrl = Config.API_BASE_URL.replace(/:\d+$/, ""); // Remove existing port if any
+      const blockchainUrl = `${baseUrl}:${port}/api${TRANSACTION_URL}`;
 
-    if (statusCode === 201) {
-      const transactionHash = response.data.details.transactionHash;
-      return transactionHash;
+      if (Config.APP.SHOW_LOGS) {
+        console.log("Placing vote at:", blockchainUrl);
+      }
+
+      const body = {
+        identifier: authState?.electoralId,
+        choiceCode: parseInt(id) + 1, // Ensure it's a number
+        secret: authState?.token,
+      };
+
+      const response = await axios.post(blockchainUrl, body);
+      const statusCode = response.status;
+
+      if (statusCode === 200 || statusCode === 201) {
+        const transactionHash =
+          response.data.details?.transactionHash ||
+          response.data.transactionHash ||
+          "";
+        return transactionHash;
+      }
+
+      throw new Error("Failed to record vote on blockchain");
+    } catch (error: any) {
+      if (Config.APP.SHOW_LOGS) {
+        console.error("Error placing vote:", error);
+      }
+      throw error;
     }
-
-    return "";
   };
 
   const resetValues = () => {
@@ -164,7 +158,11 @@ export default function TwoFactor({ navigation, route }: TwoFactorProps) {
   };
 
   const verifyToken = async () => {
+    if (isProcessing) return; // Prevent duplicate submissions
+
+    setIsProcessing(true);
     try {
+      // Ensure we have the auth token in headers
       if (!axios.defaults.headers.common["Authorization"]) {
         const token = await SecureStore.getItemAsync(TOKEN_KEY);
         if (token) {
@@ -178,36 +176,55 @@ export default function TwoFactor({ navigation, route }: TwoFactorProps) {
         token: authState?.token,
         otpCode: otpCode,
       };
-      console.log("URI: ", VERIFY_OTP_URL);
 
-      const response = await axios.post(VERIFY_OTP_URL, body);
-      const data = await placeVote();
-
-      const statusCode = response.status; // 200 for testing reasons
-
-      console.log("response: ", response);
-      console.log("code: ", statusCode);
-
-      if (statusCode === 200 && data.length > 0) {
-        console.log("Transaction? = ", data);
-        openThankYou(data);
-      } else {
-        onPressBack();
+      if (Config.APP.SHOW_LOGS) {
+        console.log("Verifying OTP at:", VERIFY_OTP_URL);
       }
-    } catch (error) {
-      onPressBack();
-      console.log(error);
+
+      // First verify the OTP
+      const response = await axios.post(VERIFY_OTP_URL, body);
+      const statusCode = response.status;
+
+      if (statusCode === 200) {
+        // OTP verified, now place the vote
+        const transactionHash = await placeVote();
+
+        if (transactionHash && transactionHash.length > 0) {
+          if (Config.APP.SHOW_LOGS) {
+            console.log(
+              "Vote recorded with transaction hash:",
+              transactionHash,
+            );
+          }
+          openThankYou(transactionHash);
+        } else {
+          throw new Error("Failed to get transaction hash");
+        }
+      } else {
+        throw new Error("OTP verification failed");
+      }
+    } catch (error: any) {
+      if (Config.APP.SHOW_LOGS) {
+        console.error("Error in verifyToken:", error);
+      }
+
+      Alert.alert(
+        "Verification Failed",
+        error.response?.data?.message ||
+          error.message ||
+          "Failed to verify OTP and record vote. Please try again.",
+        [{ text: "OK", onPress: onPressBack }],
+      );
+    } finally {
+      setIsProcessing(false);
+      resetValues();
     }
   };
 
-  const [otpCode, setOtpCode] = useState<string>("");
-
   useEffect(() => {
-    setIsRefreshing(true);
-
-    if (otpCode.length === 6) {
+    if (otpCode.length === 6 && !isProcessing) {
+      setIsRefreshing(true);
       verifyToken();
-      resetValues();
     }
   }, [otpCode]);
 
@@ -215,20 +232,22 @@ export default function TwoFactor({ navigation, route }: TwoFactorProps) {
     <View style={styles.container}>
       <View style={styles.containerHeader}>
         <View style={styles.topBar}>
-          <TouchableOpacity onPress={onPressBack}>
-            <CaretLeft size={32} />
+          <TouchableOpacity onPress={onPressBack} disabled={isProcessing}>
+            <CaretLeft size={32} color={isProcessing ? "#999" : "#000"} />
           </TouchableOpacity>
         </View>
 
         <View style={styles.topTitle}>
-          <Text style={styles.textFactor}>Two-factor authentication</Text>
+          <Text style={styles.textFactor}>Two-Factor Authentication</Text>
         </View>
       </View>
 
       <View style={styles.containerVerification}>
         <Text style={styles.textVerification}>TOTP Verification Code</Text>
-        <Text>Please enter the code you got.</Text>
-        <Text>It is about to expire in less than 5 minutes.</Text>
+        <Text style={styles.textInstructions}>
+          Please enter the 6-digit code from your authenticator app.
+        </Text>
+        <Text style={styles.textWarning}>The code expires in 5 minutes.</Text>
 
         <View style={styles.containerCode}>
           <FlatList
@@ -243,9 +262,7 @@ export default function TwoFactor({ navigation, route }: TwoFactorProps) {
           />
         </View>
       </View>
-      <Text style={styles.textResend} /*onPress={openThankYou}*/>
-        Resend OTP
-      </Text>
+
       <View style={styles.containerDigits}>
         <View style={styles.containerPIN}>
           <FlatList
@@ -284,7 +301,7 @@ export default function TwoFactor({ navigation, route }: TwoFactorProps) {
                     acronym={item.acronym}
                     selected={selected}
                     setSelected={setSelected}
-                    xTexts={xTexts}
+                    xTexts={_xTexts}
                     setXtexts={setXtexts}
                     isFactor={true}
                     navigation={navigation}
@@ -299,9 +316,18 @@ export default function TwoFactor({ navigation, route }: TwoFactorProps) {
           />
         </View>
       </View>
+
+      {isProcessing && (
+        <View style={styles.processingOverlay}>
+          <Text style={styles.processingText}>Processing your vote...</Text>
+        </View>
+      )}
     </View>
   );
 }
+
+// Use named export to match app.routes.tsx import
+export default TwoFactor;
 
 const styles = StyleSheet.create({
   container: {
@@ -314,7 +340,7 @@ const styles = StyleSheet.create({
   containerHeader: {
     flexDirection: "row",
     marginLeft: 20,
-    marginTop: Platform.OS === "android" ? StatusBar.currentHeight : 45,
+    marginTop: Platform.OS === "android" ? StatusBar.currentHeight || 30 : 45,
     backgroundColor: "transparent",
     width: "100%",
     maxHeight: 100,
@@ -327,7 +353,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     backgroundColor: "transparent",
-    zIndex: 2, // Set a higher zIndex for the topBar
+    zIndex: 2,
   },
   topTitle: {
     flex: 1,
@@ -339,7 +365,7 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     bottom: 0,
-    zIndex: 1, // Set a lower zIndex for the topTitle
+    zIndex: 1,
   },
   textFactor: {
     textAlign: "center",
@@ -354,17 +380,24 @@ const styles = StyleSheet.create({
   },
   textVerification: {
     fontWeight: "600",
-    paddingBottom: 2.5,
+    fontSize: 16,
+    paddingBottom: 5,
+    color: "#000",
   },
-  textResend: {
-    textAlign: "center",
-    fontWeight: "600",
-    textAlignVertical: "bottom",
-    bottom: 0,
+  textInstructions: {
     fontSize: 14,
+    color: "#666",
+    marginTop: 5,
+  },
+  textWarning: {
+    fontSize: 13,
+    color: "#FF9800",
+    marginTop: 3,
+    fontStyle: "italic",
   },
   containerCode: {
     backgroundColor: "transparent",
+    marginTop: 20,
   },
   containerDigits: {
     flex: 3,
@@ -381,21 +414,40 @@ const styles = StyleSheet.create({
     backgroundColor: "transparent",
     paddingTop: 0,
   },
+  candidateContainer: {
+    alignItems: "center",
+  },
   containerPIN: {
     height: "100%",
     paddingBottom: 100,
   },
   textVoting: {
     textAlign: "center",
-    /*        fontWeight: '600',
-     */ textAlignVertical: "bottom",
+    textAlignVertical: "bottom",
     bottom: 5,
     fontSize: 14,
+    color: "#666",
   },
   containerFlatCandidate: {
     position: "absolute",
     bottom: 30,
     left: 0,
     right: 0,
+  },
+  processingOverlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+    zIndex: 999,
+  },
+  processingText: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "600",
   },
 });

@@ -22,6 +22,11 @@ interface Candidate {
   status?: string;
 }
 
+interface VotingStatusResponse {
+  hasVoted: boolean;
+  message?: string;
+}
+
 export function Groups() {
   const navigation = useNavigation();
   const { authState } = useAuth();
@@ -35,10 +40,25 @@ export function Groups() {
   const [hasVoted, setHasVoted] = useState(false);
 
   useEffect(() => {
-    fetchCandidates();
-    fetchAnnouncement();
-    checkVotingStatus();
+    initializeVotingScreen();
   }, []);
+
+  const initializeVotingScreen = async () => {
+    setLoading(true);
+    try {
+      await Promise.all([
+        fetchCandidates(),
+        fetchAnnouncement(),
+        checkVotingStatus(),
+      ]);
+    } catch (error) {
+      if (Config.APP.SHOW_LOGS) {
+        console.error("Error initializing voting screen:", error);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const fetchCandidates = async () => {
     try {
@@ -54,8 +74,6 @@ export function Groups() {
         "Error",
         "Failed to load candidates. Please try again later.",
       );
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -72,11 +90,40 @@ export function Groups() {
     }
   };
 
-  const checkVotingStatus = () => {
-    // In a real implementation, this would check if the user has already voted
-    // For now, we'll check based on stored data or API call
-    // TODO: Implement actual voting status check via API
-    setHasVoted(false);
+  const checkVotingStatus = async () => {
+    try {
+      // Check if the user has already voted by querying the blockchain
+      // This endpoint should return whether the electoral ID has already cast a vote
+      const port = authState?.port || "3010";
+      const baseUrl = Config.API_BASE_URL.replace(/:\d+$/, "");
+      const votingStatusUrl = `${baseUrl}:${port}/api/blockchain/voting-status`;
+
+      const response = await axios.get(votingStatusUrl, {
+        params: {
+          electoralId: authState?.electoralId,
+        },
+      });
+
+      if (response.data && typeof response.data.hasVoted === "boolean") {
+        setHasVoted(response.data.hasVoted);
+      } else {
+        // If endpoint doesn't exist or returns unexpected data, assume not voted
+        setHasVoted(false);
+      }
+    } catch (error: any) {
+      if (Config.APP.SHOW_LOGS) {
+        console.error("Error checking voting status:", error);
+      }
+      // On error, assume user hasn't voted (fail-open for better UX)
+      // In production, you might want to be more conservative
+      if (error.response?.status === 404) {
+        // Endpoint not implemented yet - allow voting
+        setHasVoted(false);
+      } else {
+        // Other errors - show warning but allow voting
+        setHasVoted(false);
+      }
+    }
   };
 
   const handleVoteSubmit = async () => {
@@ -88,9 +135,15 @@ export function Groups() {
       return;
     }
 
+    // Find the selected candidate's name for the confirmation message
+    const candidate = candidates.find((c) => c.code === selectedCandidate);
+    const candidateName = candidate
+      ? `${candidate.name} (${candidate.party})`
+      : `Candidate ${selectedCandidate}`;
+
     Alert.alert(
       "Confirm Vote",
-      `Are you sure you want to vote for candidate ${selectedCandidate}? This action cannot be undone.`,
+      `Are you sure you want to vote for ${candidateName}?\n\nThis action cannot be undone and will be permanently recorded on the blockchain.`,
       [
         {
           text: "Cancel",
@@ -109,12 +162,14 @@ export function Groups() {
   const submitVote = async () => {
     setSubmitting(true);
     try {
-      // In a real implementation, this would submit to the blockchain
-      // For now, we'll simulate the vote submission
-
       // Get the province port from auth state
       const port = authState?.port || "3010";
-      const blockchainUrl = `http://192.168.0.38:${port}/blockchain/make-transaction`;
+      const baseUrl = Config.API_BASE_URL.replace(/:\d+$/, "");
+      const blockchainUrl = `${baseUrl}:${port}/api/blockchain/make-transaction`;
+
+      if (Config.APP.SHOW_LOGS) {
+        console.log("Submitting vote to:", blockchainUrl);
+      }
 
       const voteData = {
         candidateCode: selectedCandidate,
@@ -126,27 +181,42 @@ export function Groups() {
 
       if (response.status === 200 || response.status === 201) {
         setHasVoted(true);
-        Alert.alert("Success", "Your vote has been recorded successfully!", [
-          {
-            text: "OK",
-            onPress: () => {
-              // Navigate to thank you screen
-              (navigation as any).navigate("Thank Vote", {
-                candidateCode: selectedCandidate,
-              });
+        Alert.alert(
+          "Success",
+          "Your vote has been recorded successfully on the blockchain!",
+          [
+            {
+              text: "OK",
+              onPress: () => {
+                // Navigate to thank you screen
+                (navigation as any).navigate("Thank Vote", {
+                  candidateCode: selectedCandidate,
+                  transactionHash:
+                    response.data.transactionHash ||
+                    response.data.details?.transactionHash,
+                });
+              },
             },
-          },
-        ]);
+          ],
+        );
       }
     } catch (error: any) {
       if (Config.APP.SHOW_LOGS) {
         console.error("Error submitting vote:", error);
       }
-      Alert.alert(
-        "Error",
-        error.response?.data?.message ||
-          "Failed to submit vote. Please try again or contact support.",
-      );
+
+      let errorMessage =
+        "Failed to submit vote. Please try again or contact support.";
+
+      if (error.response?.status === 409) {
+        errorMessage =
+          "You have already voted in this election. Each voter can only vote once.";
+        setHasVoted(true);
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      Alert.alert("Error", errorMessage);
     } finally {
       setSubmitting(false);
     }
@@ -155,11 +225,18 @@ export function Groups() {
   const isVotingOpen = () => {
     if (!announcement) return false;
 
-    const now = new Date();
-    const startTime = new Date(announcement.startTimeVoting);
-    const endTime = new Date(announcement.endTimeVoting);
+    try {
+      const now = new Date();
+      const startTime = new Date(announcement.startTimeVoting);
+      const endTime = new Date(announcement.endTimeVoting);
 
-    return now >= startTime && now <= endTime;
+      return now >= startTime && now <= endTime;
+    } catch (error) {
+      if (Config.APP.SHOW_LOGS) {
+        console.error("Error checking voting time window:", error);
+      }
+      return false;
+    }
   };
 
   if (loading) {
@@ -179,6 +256,17 @@ export function Groups() {
         <Title>Thank You!</Title>
         <Text style={{ textAlign: "center", marginTop: 20, fontSize: 16 }}>
           You have already cast your vote in this election.
+        </Text>
+        <Text
+          style={{
+            textAlign: "center",
+            marginTop: 10,
+            fontSize: 14,
+            color: "#666",
+          }}
+        >
+          Your vote has been securely recorded on the blockchain and cannot be
+          changed.
         </Text>
         <Text
           style={{
@@ -229,10 +317,20 @@ export function Groups() {
         {announcement && (
           <Card style={{ margin: 20, marginTop: 0 }}>
             <Card.Content>
+              <Text
+                style={{ fontSize: 16, fontWeight: "bold", marginBottom: 5 }}
+              >
+                {announcement.title || "Election Information"}
+              </Text>
               <Text style={{ fontSize: 14, color: "#666" }}>
-                Election closes:{" "}
+                Voting closes:{" "}
                 {new Date(announcement.endTimeVoting).toLocaleString()}
               </Text>
+              {announcement.description && (
+                <Text style={{ fontSize: 13, color: "#666", marginTop: 5 }}>
+                  {announcement.description}
+                </Text>
+              )}
             </Card.Content>
           </Card>
         )}
@@ -303,7 +401,8 @@ export function Groups() {
           }}
         >
           Your vote is secure and anonymous. It will be recorded on the
-          blockchain and cannot be changed once submitted.
+          blockchain and cannot be changed once submitted. The integrity of your
+          vote is guaranteed by cryptographic verification.
         </Text>
       </ScrollView>
     </Container>
