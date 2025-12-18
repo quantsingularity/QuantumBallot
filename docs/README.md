@@ -1,69 +1,27 @@
 # QuantumBallot Documentation
 
-This directory contains the official documentation for the QuantumBallot project, a full-stack Web and Mobile application for American elections using Blockchain Technology. The documentation is built using Sphinx, a powerful documentation generation tool that uses reStructuredText as its markup language.
+This directory contains comprehensive documentation for the QuantumBallot blockchain-based voting system.
 
-## Overview
+## Documentation Structure
 
-The documentation in this directory provides comprehensive information about the QuantumBallot system, including setup instructions, configuration details, and usage guides. It is designed to be a central resource for developers, administrators, and users of the QuantumBallot platform.
+1. **Project Overview**: General information about the project, its components, and features
+2. **Installation Guide**: Step-by-step instructions for setting up the development environment
+3. **User Manual**: Instructions for using the web and mobile applications
+4. **API Documentation**: Detailed documentation of the backend API endpoints
+5. **Architecture Documentation**: System architecture, component interactions, and data flow
+6. **Developer Guide**: Guidelines for developers working on the project
+7. **Deployment Guide**: Instructions for deploying the application to production environments
 
-## Structure
+## About QuantumBallot
 
-The documentation is organized as follows:
+QuantumBallot is a comprehensive blockchain-based voting system designed to provide secure, transparent, and verifiable elections. The system leverages blockchain technology to ensure the integrity and immutability of votes, while providing a user-friendly experience for both election administrators and voters.
 
-- `conf.py`: Configuration file for Sphinx documentation generation
-- `index.rst`: Main entry point for the documentation, containing the root table of contents
-- `Makefile` and `make.bat`: Build scripts for generating documentation on Unix/Linux and Windows systems
-- `sections/`: Directory containing the actual documentation content organized by topic
-  - `dev/`: Development-related documentation
-    - `setup_and_requirements.rst`: System requirements and setup instructions
-    - `establish_network_center.rst`: Network center configuration
-    - `installation_and_setup.rst`: Detailed installation procedures
-    - `backend_and_frontend.rst`: Backend and frontend development documentation
-- `images/`: Directory containing images used throughout the documentation
-- `requirements.txt`: Python dependencies required for building the documentation
+The project consists of three main components:
 
-## Building the Documentation
+1. **Backend API**: A Node.js/Express.js server that manages the blockchain, handles authentication, processes votes, and provides real-time updates.
+2. **Web Frontend**: A React-based web application for election committee members to manage elections, monitor voting progress, and verify voter identities.
+3. **Mobile Frontend**: A React Native application for voters to authenticate, view candidate information, cast votes, and verify their vote submission.
 
-To build the documentation locally:
+## License
 
-1. Ensure you have Python installed on your system
-2. Install the required dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-3. Build the HTML documentation:
-   ```
-   make html
-   ```
-   or on Windows:
-   ```
-   make.bat html
-   ```
-4. The generated documentation will be available in the `_build/html` directory
-
-## Documentation Content
-
-The documentation covers several key aspects of the QuantumBallot system:
-
-- System requirements and compatibility information for both mobile and web platforms
-- Network requirements for optimal performance
-- Setup and installation procedures for development and production environments
-- Backend API documentation and integration guides
-- Frontend development guidelines for both web and mobile interfaces
-- Blockchain integration and configuration details
-- User guides for committee members, voters, and system administrators
-
-## Contributing to Documentation
-
-When contributing to the documentation:
-
-1. Use reStructuredText (.rst) format for all documentation files
-2. Place images in the `images/` directory and reference them relatively
-3. Update the table of contents in `index.rst` when adding new sections
-4. Follow the existing structure and style for consistency
-5. Build and test documentation locally before submitting changes
-
-## Related Resources
-
-- Video demonstrations of the system are available at: [QuantumBallot YouTube Playlist](https://www.youtube.com/playlist?list=PL3FCe9r4avxF5OAZdxIAxMeC3--3c6OwU)
-- For more detailed technical documentation, refer to the `documentation` directory at the root of the repository
+This project is licensed under the ISC License - see the LICENSE file in the main project directory for details.

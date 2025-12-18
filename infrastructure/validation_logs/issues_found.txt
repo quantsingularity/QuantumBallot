@@ -1,7 +1,0 @@
-==== ISSUE DISCOVERY PHASE ====
-
-TERRAFORM ISSUES:
-1. Missing terraform required_version constraint in providers.tf
-2. No terraform.tfvars.example files in environments
-environments/dev/main.tf
-environments/prod/main.tf
