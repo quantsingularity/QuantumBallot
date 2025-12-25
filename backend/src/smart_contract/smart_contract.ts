@@ -55,24 +55,24 @@ enum ElectionState {
 }
 
 class SmartContract {
-  private candidates: Candidate[];
-  private candidatesTest: Candidate[];
+  private candidates: Candidate[] = [];
+  private candidatesTest: Candidate[] = [];
 
-  private voters: Voter[];
-  private votersTest: Voter[];
+  private voters: Voter[] = [];
+  private votersTest: Voter[] = [];
 
-  private citizens: Citizen[];
+  private citizens: Citizen[] = [];
 
-  private hashCandidates: HashMap<Candidate>;
-  private hashVoters: HashMap<Voter>;
+  private hashCandidates: HashMap<Candidate> = {};
+  private hashVoters: HashMap<Voter> = {};
 
   private electionState: ElectionState;
-  private announcement: Announcement;
+  private announcement!: Announcement;
 
-  private provinces: string[];
-  private results: Results;
+  private provinces: string[] = [];
+  private results!: Results;
 
-  private statsPerProvince: HashMap<HashMap<number>>;
+  private statsPerProvince: HashMap<HashMap<number>> = {};
 
   // Track processed votes to prevent double voting
   private processedVotes: Set<string>;
