@@ -20,6 +20,9 @@ if (!fs.existsSync(dbDir)) {
 
 const db = new Level(dbPath, { valueEncoding: "json" });
 
+// Increase max listeners to prevent warnings
+db.setMaxListeners(20);
+
 const BLOCK = getBlockAddress("block");
 const CHAIN = getBlockAddress("chain");
 const USER_COMMITTEE = getBlockAddress("user_committee");
