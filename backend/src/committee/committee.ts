@@ -42,7 +42,7 @@ class Committee {
   users: User[];
   candidates: Candidate[];
   votersGenerated: Voter[];
-  announcement: Announcement;
+  announcement!: Announcement;
 
   constructor() {
     this.citizens = [];
@@ -56,7 +56,7 @@ class Committee {
   public async loadCitizens() {
     try {
       this.citizens = await readCitizens();
-    } catch (error) {
+    } catch (error: any) {
       // console.error('Error loading citizens:', error);
     }
   }
@@ -64,7 +64,7 @@ class Committee {
   public async loadUsers() {
     try {
       this.users = await readUsers();
-    } catch (error) {}
+    } catch (error: any) {}
   }
 
   public async generateIdentifiers() {
@@ -96,7 +96,7 @@ class Committee {
 
       this.votersGenerated = voters;
       return voters;
-    } catch (e) {}
+    } catch (e: any) {}
 
     return [];
   }
@@ -107,7 +107,7 @@ class Committee {
       await clearCandidates();
       this.candidates = [];
       return this.candidates;
-    } catch (e) {}
+    } catch (e: any) {}
 
     return [];
   }
@@ -131,7 +131,7 @@ class Committee {
 
       await writeCandidateTemp(code, obj);
       this.candidates = await readCandidatesTemp();
-    } catch (e) {}
+    } catch (e: any) {}
 
     return this.candidates;
   }
@@ -151,7 +151,7 @@ class Committee {
 
         return output;
       }
-    } catch (error) {}
+    } catch (error: any) {}
 
     return null;
   }
@@ -170,7 +170,7 @@ class Committee {
 
         return output;
       }
-    } catch (error) {}
+    } catch (error: any) {}
     return null;
   }
 
@@ -178,14 +178,14 @@ class Committee {
     try {
       await clearCitizens();
       await this.loadCitizens();
-    } catch (error) {}
+    } catch (error: any) {}
   }
 
   public async eraseUsers() {
     try {
       await clearUsers();
       await this.loadUsers();
-    } catch (error) {}
+    } catch (error: any) {}
 
     return this.users;
   }
@@ -194,7 +194,7 @@ class Committee {
     try {
       await removeUser(key);
       await this.loadUsers();
-    } catch (error) {}
+    } catch (error: any) {}
 
     return this.users;
   }
@@ -203,7 +203,7 @@ class Committee {
     try {
       await removeCitizen(key);
       await this.loadCitizens();
-    } catch (error) {}
+    } catch (error: any) {}
 
     return this.citizens;
   }
@@ -211,13 +211,13 @@ class Committee {
   private async saveCitizen(citzen: Citizen) {
     try {
       await writeCitizen(citzen.electoralId, citzen);
-    } catch (e) {}
+    } catch (e: any) {}
   }
 
   private async saveUser(user: User) {
     try {
       await writeUser(user.username, user);
-    } catch (e) {}
+    } catch (e: any) {}
   }
 
   public async updateTokenCitzen(electoralId: string, refreshToken: string) {
@@ -228,7 +228,7 @@ class Committee {
 
     try {
       await this.saveCitizen(citizen);
-    } catch (e) {}
+    } catch (e: any) {}
 
     const tmp = this.citizens.filter(
       (x) => x.electoralId.localeCompare(citizen.electoralId) !== 0,
@@ -242,7 +242,7 @@ class Committee {
 
     try {
       await this.saveUser(user);
-    } catch (e) {}
+    } catch (e: any) {}
 
     const tmp = this.users.filter(
       (x) => x.username.localeCompare(user.username) !== 0,
@@ -282,7 +282,7 @@ class Committee {
   public async updateCitizen(data: any) {
     try {
       await this.loadCitizens();
-      let oldCitizen: Citizen = this.citizens.find(
+      let oldCitizen = this.citizens.find(
         (x) => x.electoralId === data.electoralId,
       );
 
@@ -298,7 +298,7 @@ class Committee {
         await this.saveCitizen(oldCitizen);
         return true;
       }
-    } catch (e) {}
+    } catch (e: any) {}
 
     return false;
   }
@@ -306,7 +306,7 @@ class Committee {
   public async updateUser(data: any) {
     try {
       await this.loadUsers();
-      let oldUser: User = this.users.find((x) => x.username === data.username);
+      let oldUser = this.users.find((x) => x.username === data.username);
 
       const hashedPwd = await bcrypt.hash(data.password, 10);
 
@@ -321,7 +321,7 @@ class Committee {
         await this.saveUser(oldUser);
         return true;
       }
-    } catch (e) {}
+    } catch (e: any) {}
 
     return false;
   }
@@ -362,7 +362,7 @@ class Committee {
       await writeAnnouncement(announcement);
       this.announcement = announcement;
       return this.announcement;
-    } catch (e) {}
+    } catch (e: any) {}
 
     return null;
   }
@@ -370,7 +370,7 @@ class Committee {
   public async getAnnouncement() {
     try {
       this.announcement = await readAnnouncement();
-    } catch (error) {}
+    } catch (error: any) {}
 
     return this.announcement;
   }
@@ -433,7 +433,7 @@ class Committee {
       });
 
       return qrCodeData;
-    } catch (error) {
+    } catch (error: any) {
       // console.error(error);
       return null;
     }
@@ -446,7 +446,7 @@ class Committee {
   public async getVotersGenerated() {
     try {
       this.votersGenerated = await readVoterGenerated();
-    } catch (error) {}
+    } catch (error: any) {}
 
     return this.votersGenerated;
   }
@@ -454,7 +454,7 @@ class Committee {
   public async getCandidates() {
     try {
       this.candidates = await readCandidatesTemp();
-    } catch (error) {}
+    } catch (error: any) {}
 
     return this.candidates;
   }

@@ -1,9 +1,9 @@
 /**
  * Middleware tests for authentication and security
  */
-const { verifyJWT } = require("../dist/middleware/verifyJWT");
-const { verifyJWTWeb } = require("../dist/middleware/verifyJWTWeb");
-const { credentials } = require("../dist/middleware/credentials");
+const { verifyJWT } = require("../build/middleware/verifyJWT");
+const { verifyJWTWeb } = require("../build/middleware/verifyJWTWeb");
+const { credentials } = require("../build/middleware/credentials");
 const jwt = require("jsonwebtoken");
 
 // Mock dependencies

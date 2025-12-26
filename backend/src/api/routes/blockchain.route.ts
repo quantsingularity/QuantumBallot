@@ -1,6 +1,7 @@
 import { setMaxListeners } from "events";
 import BlockChain from "../../blockchain/blockchain";
 import { Block } from "../../blockchain/data_types";
+import { Request, Response, NextFunction } from "express";
 
 const axios = require("axios");
 const LOCALHOST = "http://localhost:";
@@ -16,7 +17,12 @@ const router = express.Router();
 const verifyJWTWeb = require("../../middleware/verifyJWTWeb");
 
 // Error response helper function
-const errorResponse = (res, status, message, details = null) => {
+const errorResponse = (
+  res: Response,
+  status: number,
+  message: string,
+  details: any = null,
+) => {
   const response: any = {
     success: false,
     message,
@@ -32,9 +38,9 @@ const errorResponse = (res, status, message, details = null) => {
 
 // Success response helper function
 const successResponse = (
-  res,
-  status,
-  data,
+  res: Response,
+  status: number,
+  data: any,
   message = "Operation successful",
 ) => {
   return res.status(status).json({
@@ -46,21 +52,26 @@ const successResponse = (
 };
 
 // Async handler to catch errors in async routes
-const asyncHandler = (fn) => (req, res, next) => {
-  Promise.resolve(fn(req, res, next)).catch((err) => {
-    console.error(`API Error: ${err.message}`, err);
-    return errorResponse(
-      res,
-      500,
-      "Internal server error",
-      process.env.NODE_ENV === "development" ? err.message : null,
-    );
-  });
-};
+const asyncHandler =
+  (fn: Function) => (req: Request, res: Response, next: NextFunction) => {
+    Promise.resolve(fn(req, res, next)).catch((err: any) => {
+      console.error(`API Error: ${err.message}`, err);
+      return errorResponse(
+        res,
+        500,
+        "Internal server error",
+        process.env.NODE_ENV === "development" ? err.message : null,
+      );
+    });
+  };
 
-module.exports = function (blockchain: BlockChain, allNodes) {
+module.exports = function (blockchain: BlockChain, allNodes: string[]) {
   // Input validation middleware
-  const validateTransaction = (req, res, next) => {
+  const validateTransaction = (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) => {
     const { identifier, choiceCode } = req.body;
 
     if (!identifier) {
@@ -80,14 +91,14 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       return successResponse(res, 200, blockchain);
     }),
   );
 
   router.get(
     "/pending-transactions",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const pendingTransactions = blockchain.getPendingTransactions();
       return successResponse(res, 200, pendingTransactions);
     }),
@@ -95,7 +106,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/transactions",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const transactions = blockchain.getTransactions();
       return successResponse(res, 200, transactions);
     }),
@@ -103,7 +114,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/blocks",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const blocks = blockchain.getBlocks();
       return successResponse(res, 200, blocks);
     }),
@@ -111,7 +122,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/block-detail/:id",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const blockHash = req.params.id;
 
       if (!blockHash) {
@@ -130,7 +141,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/chain",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       return successResponse(res, 200, blockchain);
     }),
   );
@@ -138,7 +149,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
   router.get(
     "/get-results",
     verifyJWTWeb,
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const results = await blockchain.smartContract.getResults();
 
       if (!results) {
@@ -151,7 +162,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/get-results-computed",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const results = await blockchain.smartContract.getResultsComputed();
 
       if (!results) {
@@ -172,7 +183,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
   router.post(
     "/transaction",
     validateTransaction,
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const data = req.body;
 
       try {
@@ -218,13 +229,15 @@ module.exports = function (blockchain: BlockChain, allNodes) {
         } else {
           return errorResponse(res, 400, "Invalid vote data");
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Transaction error:", error);
         return errorResponse(
           res,
           500,
           "Failed to process transaction",
-          process.env.NODE_ENV === "development" ? error.message : null,
+          process.env.NODE_ENV === "development"
+            ? (error as Error).message
+            : null,
         );
       }
     }),
@@ -233,7 +246,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
   router.post(
     "/transaction/broadcast",
     validateTransaction,
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const data = req.body;
 
       // Validate required fields
@@ -268,13 +281,15 @@ module.exports = function (blockchain: BlockChain, allNodes) {
           ans,
           "Transaction broadcasted successfully",
         );
-      } catch (error) {
+      } catch (error: any) {
         console.error("Broadcast error:", error);
         return errorResponse(
           res,
           500,
           "Transaction added but broadcast failed",
-          process.env.NODE_ENV === "development" ? error.message : null,
+          process.env.NODE_ENV === "development"
+            ? (error as Error).message
+            : null,
         );
       }
     }),
@@ -282,7 +297,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/voters",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const voters = await blockchain.getSmartContractVoters();
       return successResponse(
         res,
@@ -295,7 +310,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/clear-voters",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       await blockchain.smartContract.eraseVoters();
       const voters = await blockchain.smartContract.getVoters();
       return successResponse(
@@ -309,7 +324,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/clear-results",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       await blockchain.smartContract.eraseResults();
       return successResponse(res, 200, null, "Results cleared successfully");
     }),
@@ -317,7 +332,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/clear-chains",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const result = await blockchain.clearChainsFromStorage();
       return successResponse(
         res,
@@ -330,7 +345,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/candidates",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const candidates = await blockchain.getSmartContractCandidates();
       return successResponse(
         res,
@@ -343,7 +358,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/deploy-voters",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const ans = await blockchain.deployVoters();
 
       if (ans !== null) {
@@ -362,7 +377,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.get(
     "/deploy-candidates",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const ans = await blockchain.deployCandidatesBlockchain();
 
       if (ans !== null) {
@@ -382,7 +397,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.post(
     "/receive-new-block",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const block = req.body;
 
       // Validate block data
@@ -399,51 +414,58 @@ module.exports = function (blockchain: BlockChain, allNodes) {
           return successResponse(
             res,
             200,
-            { block },
+            null,
             "Block accepted and added to chain",
           );
         } else {
-          return errorResponse(res, 400, "Block rejected", { block });
+          return errorResponse(res, 400, "Block rejected", null);
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error("Consensus error:", error);
         return errorResponse(
           res,
           500,
           "Error during consensus process",
-          process.env.NODE_ENV === "development" ? error.message : null,
+          process.env.NODE_ENV === "development"
+            ? (error as Error).message
+            : null,
         );
       }
     }),
   );
 
-  const broadcastData = async (endpoint, data, res) => {
+  const broadcastData = async (
+    endpoint: string,
+    data: any,
+    res: Response,
+  ): Promise<any[] | undefined> => {
     try {
       const requests = allNodes
-        .filter((url) => url !== NODE_ADDRESS)
-        .map((url) => {
+        .filter((url: string) => url !== NODE_ADDRESS)
+        .map((url: string) => {
           const URI = LOCALHOST + url + OFFSET + endpoint;
           return axios.post(URI, data);
         });
 
       const responses = await Promise.all(requests);
 
-      const allResp = [];
-      responses.forEach((x) => {
+      const allResp: any[] = [];
+      responses.forEach((x: any) => {
         allResp.push(x.data);
       });
 
       return allResp;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Broadcast error:", error);
       // Don't throw, just log the error and continue
+      return undefined;
     }
   };
 
   router.get(
     "/mine",
-    asyncHandler(async (req, res) => {
-      const block: Block = blockchain.mineBlock();
+    asyncHandler(async (req: Request, res: Response) => {
+      const block: Block | null = blockchain.mineBlock();
 
       if (!block) {
         return errorResponse(res, 500, "Mining failed");
@@ -457,13 +479,15 @@ module.exports = function (blockchain: BlockChain, allNodes) {
           { block },
           "New block mined successfully",
         );
-      } catch (error) {
+      } catch (error: any) {
         console.error("Mining broadcast error:", error);
         return errorResponse(
           res,
           500,
           "Block mined but broadcast failed",
-          process.env.NODE_ENV === "development" ? error.message : null,
+          process.env.NODE_ENV === "development"
+            ? (error as Error).message
+            : null,
         );
       }
     }),
@@ -471,7 +495,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
   router.post(
     "/synchronize-chain",
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req: Request, res: Response) => {
       const data = req.body;
 
       if (!data.chain) {
@@ -494,12 +518,12 @@ module.exports = function (blockchain: BlockChain, allNodes) {
     }),
   );
 
-  const runConsensus = async (res) => {
+  const runConsensus = async (res: Response) => {
     try {
       // Here we apply the longest chain rule.
       const requests = allNodes
-        .filter((url) => url !== NODE_ADDRESS)
-        .map((url) => {
+        .filter((url: string) => url !== NODE_ADDRESS)
+        .map((url: string) => {
           const URI = LOCALHOST + url + OFFSET;
           return axios.get(URI);
         });
@@ -507,7 +531,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
       const responses = await Promise.all(requests);
 
       let blockchains: BlockChain[] = [blockchain];
-      responses.forEach((element) => {
+      responses.forEach((element: any) => {
         blockchains.push(element.data);
       });
 
@@ -521,7 +545,7 @@ module.exports = function (blockchain: BlockChain, allNodes) {
 
       await broadcastData("/synchronize-chain", longestBlockchain, res);
       return longestBlockchain;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Consensus error:", error);
       // Don't throw, just log the error and continue
     }

@@ -9,7 +9,7 @@ class CryptoBlockchain {
   keyLength: number;
   algorithm = "aes-256-cbc"; //Using AES encryption
 
-  constructor(KEY_VAR, IV_VAR) {
+  constructor(KEY_VAR: any, IV_VAR: any) {
     this.KEY = Buffer.from(KEY_VAR || "", "hex");
     this.IV = Buffer.from(IV_VAR || "", "hex");
     this.keyLength = 32;
@@ -52,7 +52,7 @@ class CryptoBlockchain {
   }
 
   // Use the key to decrypt data.
-  public decryptData(encryptedData): string {
+  public decryptData(encryptedData: any): string {
     // console.log("EncryptedData: ", encryptedData);
 
     let IV = Buffer.from(encryptedData.IV, "hex");

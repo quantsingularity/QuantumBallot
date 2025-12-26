@@ -1,15 +1,15 @@
 /**
  * Comprehensive test suite for the committee module
  */
-const Committee = require("../dist/committee/committee").default;
-const { Role } = require("../dist/committee/data_types");
-const leveldb = require("../dist/leveldb");
+const Committee = require("../build/committee/committee").default;
+const { Role } = require("../build/committee/data_types");
+const leveldb = require("../build/leveldb");
 const bcrypt = require("bcrypt");
 const speakeasy = require("speakeasy");
 const qrcode = require("qrcode");
 
 // Mock dependencies
-jest.mock("../dist/leveldb", () => ({
+jest.mock("../build/leveldb", () => ({
   readCitizens: jest.fn().mockResolvedValue([]),
   readUsers: jest.fn().mockResolvedValue([]),
   clearVotersGenerated: jest.fn().mockResolvedValue(),

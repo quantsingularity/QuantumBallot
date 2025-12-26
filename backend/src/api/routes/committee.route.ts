@@ -1,4 +1,5 @@
 import Committee from "../../committee/committee";
+import { Request, Response } from "express";
 import { Otp, PROVINCES_PORT } from "../../committee/data_types";
 import emailTemplate from "../../email_center/emailTemplate";
 import sendEmail from "../../email_center/sendEmail";
@@ -21,23 +22,23 @@ const cookieParser = require("cookie-parser");
 // middleware for cookies
 express().use(cookieParser());
 
-router.get("/", (req, res) => {
+router.get("/", (req: Request, res: Response) => {
   res.status(401).json({});
 });
 
-router.get("/registers", (req, res) => {
+router.get("/registers", (req: Request, res: Response) => {
   res.json({
     registers: committee.getCitizens(),
     note: "Request accepted ...",
   });
 });
 
-router.get("/generate-identifiers", async (req, res) => {
+router.get("/generate-identifiers", async (req: Request, res: Response) => {
   const ans = await committee.generateIdentifiers();
   res.json({ voters: ans, note: "Request accepted ..." });
 });
 
-router.post("/add-candidate", async (req, res) => {
+router.post("/add-candidate", async (req: Request, res: Response) => {
   let data = req.body;
   if (!data.name || !data.party || !data.code)
     return res.status(400).json({ note: "Rejected." }); // Changed status code to 400 for client errors
@@ -55,7 +56,7 @@ router.post("/add-candidate", async (req, res) => {
     acronym,
     status,
   );
-  if (ans) {
+  if (ans !== null && ans !== undefined) {
     res.status(200).send({
       note: "Request accepted, candidate added.",
       candidates: ans,
@@ -65,13 +66,13 @@ router.post("/add-candidate", async (req, res) => {
   }
 });
 
-router.post("/add-user", async (req, res) => {
+router.post("/add-user", async (req: Request, res: Response) => {
   let data = req.body;
   if (!data.name || !data.username || !data.role || !data.password)
     return res.status(400).json({ note: "Rejected." }); // Changed status code to 400 for client errors
 
   const ans = await committee.addUser(data);
-  if (ans) {
+  if (ans !== null && ans !== undefined) {
     res.send({
       note: "Request accepted, user added.",
       users: ans,
@@ -81,16 +82,16 @@ router.post("/add-user", async (req, res) => {
   }
 });
 
-router.get("/clear-candidates", async (req, res) => {
+router.get("/clear-candidates", async (req: Request, res: Response) => {
   res.json({
     candidates: committee.clearCandidates(),
     note: "Request accepted ...",
   });
 });
 
-router.get("/candidates", async (req, res) => {
+router.get("/candidates", async (req: Request, res: Response) => {
   const ans = await committee.getCandidates();
-  if (ans) {
+  if (ans !== null && ans !== undefined) {
     res.json({ candidates: ans, note: "Request accepted ..." });
   } else {
     res.send({ note: "Rejected. Something went wrong ..." });
@@ -98,16 +99,16 @@ router.get("/candidates", async (req, res) => {
 });
 
 // status(400)
-router.get("/announcement", async (req, res) => {
+router.get("/announcement", async (req: Request, res: Response) => {
   const ans = await committee.getAnnouncement();
-  if (ans) {
+  if (ans !== null && ans !== undefined) {
     res.json({ announcement: ans, note: "Request accepted ..." });
   } else {
     res.send({ note: "Rejected. Something went wrong ..." });
   }
 });
 
-router.post("/deploy-announcement", async (req, res) => {
+router.post("/deploy-announcement", async (req: Request, res: Response) => {
   let data = req.body;
   if (
     !data.startTimeVoting ||
@@ -119,7 +120,7 @@ router.post("/deploy-announcement", async (req, res) => {
     return res.status(400).json({ note: "Rejected." }); // Changed status code to 400 for client errors
 
   const ans = await committee.deployAnnouncement(data);
-  if (ans) {
+  if (ans !== null && ans !== undefined) {
     res.status(201).send({
       note: "Request accepted, user added.",
     });
@@ -128,37 +129,37 @@ router.post("/deploy-announcement", async (req, res) => {
   }
 });
 
-router.get("/users", async (req, res) => {
+router.get("/users", async (req: Request, res: Response) => {
   const ans = await committee.getUsers();
-  if (ans) {
+  if (ans !== null && ans !== undefined) {
     res.json({ users: ans, note: "Request accepted ..." });
   } else {
     res.send({ note: "Rejected. Something went wrong ..." });
   }
 });
 
-router.get("/voter-identifiers", async (req, res) => {
+router.get("/voter-identifiers", async (req: Request, res: Response) => {
   const ans = await committee.getVotersGenerated();
   res.json({ registers: ans, note: "Request accepted ..." });
 });
 
-router.get("/clear-registers", (req, res) => {
+router.get("/clear-registers", (req: Request, res: Response) => {
   res.json({
     registers: committee.eraseCitzens(),
     note: "Request accepted ...",
   });
 });
 
-router.get("/clear-users", (req, res) => {
+router.get("/clear-users", (req: Request, res: Response) => {
   res.json({ users: committee.eraseUsers(), note: "Request accepted ..." });
 });
 
-router.post("/delete-user", async (req, res) => {
+router.post("/delete-user", async (req: Request, res: Response) => {
   let data = req.body;
   if (!data.username) return res.status(400).json({ note: "Rejected." }); // Changed status code to 400 for client errors
   const username = data.username;
   const ans = await committee.eraseUser(username);
-  if (ans) {
+  if (ans !== null && ans !== undefined) {
     const users = await committee.getUsers();
     res.send({ users: users, note: "Request accepted ..." });
   } else {
@@ -166,12 +167,12 @@ router.post("/delete-user", async (req, res) => {
   }
 });
 
-router.post("/delete-register", async (req, res) => {
+router.post("/delete-register", async (req: Request, res: Response) => {
   let data = req.body;
   if (!data.electoralId) return res.status(400).json({ note: "Rejected." }); // Changed status code to 400 for client errors
   const electoralId = data.electoralId;
   const ans = await committee.eraseRegister(electoralId);
-  if (ans) {
+  if (ans !== null && ans !== undefined) {
     const citizens = await committee.getCitizens();
     res.status(200).send({ registers: citizens, note: "Request accepted ..." });
   } else {
@@ -179,7 +180,7 @@ router.post("/delete-register", async (req, res) => {
   }
 });
 
-router.post("/register-voter", async (req, res) => {
+router.post("/register-voter", async (req: Request, res: Response) => {
   let data = req.body;
   if (
     !data.electoralId ||
@@ -202,13 +203,13 @@ router.post("/register-voter", async (req, res) => {
     } else {
       res.status(401).send({ note: "Rejected. Something went wrong ..." });
     }
-  } catch (e) {
+  } catch (e: any) {
     console.log(e);
     res.status(401).send({ note: "Rejected. Something went wrong ..." });
   }
 });
 
-router.post("/update-citizen", async (req, res) => {
+router.post("/update-citizen", async (req: Request, res: Response) => {
   let data = req.body;
   if (
     !data.electoralId ||
@@ -221,7 +222,7 @@ router.post("/update-citizen", async (req, res) => {
     return res.status(400).json({ note: "Rejected." }); // Changed status code to 400 for client errors
 
   const ans = await committee.updateCitizen(data);
-  if (ans) {
+  if (ans !== null && ans !== undefined) {
     res.send({
       note: "Request accepted, citzen updated.",
       message: "Success!",
@@ -238,13 +239,13 @@ const credentials = require("../../middleware/credentials");
 
 express().use(credentials);
 
-router.post("/update-user", async (req, res) => {
+router.post("/update-user", async (req: Request, res: Response) => {
   let data = req.body;
   if (!data.name || !data.username || !data.role)
     return res.status(400).json({ note: "Rejected." }); // Changed status code to 400 for client errors
 
   const ans = await committee.updateUser(data);
-  if (ans) {
+  if (ans !== null && ans !== undefined) {
     res.send({
       note: "Request accepted, user updated.",
       message: "Success!",
@@ -255,7 +256,7 @@ router.post("/update-user", async (req, res) => {
   }
 });
 
-router.post("/send-email", async (req, res) => {
+router.post("/send-email", async (req: Request, res: Response) => {
   const data = req.body;
 
   if (!data.email)
@@ -284,7 +285,7 @@ router.post("/send-email", async (req, res) => {
       } else {
         console.log("Failed to generate QR code.");
       }
-    } catch (error) {
+    } catch (error: any) {
       // console.error("Error generating QR code:", error);
     }
 
@@ -292,17 +293,17 @@ router.post("/send-email", async (req, res) => {
 
     try {
       await sendEmail(email, textContent, htmlContent);
-    } catch (error) {
+    } catch (error: any) {
       // console.error(error);
       ans = false;
     }
 
-    if (ans) {
+    if (ans !== null && ans !== undefined) {
       res.status(200).json({ note: "Success" });
     } else {
       res.status(500).json({ note: "Rejected. Failed to send email." });
     }
-  } catch (error) {
+  } catch (error: any) {
     // console.error(error);
     res.status(500).json({ note: "Rejected. Internal server error." });
   }
@@ -333,13 +334,13 @@ router.post("/verify-otp", verifyJWT, async (req, res) => {
     console.log("OTP Valid? => ", ans);
 
     setTimeout(() => {
-      if (ans) {
+      if (ans !== null && ans !== undefined) {
         res.status(200).json({ note: "Verified" });
       } else {
         res.status(401).json({ note: "Failed." });
       }
     }, 1000);
-  } catch (error) {
+  } catch (error: any) {
     console.error(error);
     res.status(500).json({ note: "Rejected." });
   }
@@ -347,7 +348,7 @@ router.post("/verify-otp", verifyJWT, async (req, res) => {
 
 express().use(verifyJWT);
 
-router.post("/auth-mobile", async (req, res) => {
+router.post("/auth-mobile", async (req: Request, res: Response) => {
   let data = req.body;
   let electoralId = data.electoralId;
   let password = data.password;
@@ -377,7 +378,7 @@ router.post("/auth-mobile", async (req, res) => {
 
     res.cookie("jwt", refreshToken, {
       httpOnly: true,
-      sameSite: "None",
+      sameSite: "none",
       secure: true,
       maxAge: 24 * 60 * 60 * 1000,
     }); // Let's set secure: false for now.
@@ -386,18 +387,18 @@ router.post("/auth-mobile", async (req, res) => {
       return res.status(201).send({
         accessToken: accessToken,
         email: ans.email,
-        port: PROVINCES_PORT[ans.province],
+        port: PROVINCES_PORT[province as keyof typeof PROVINCES_PORT],
       });
     } else {
       return res.send({ note: "Rejected. Something went wrong ..." });
     }
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).send({ note: "Internal server error" });
   }
 });
 
 express().use(verifyJWTWeb);
-router.post("/auth-web", async (req, res) => {
+router.post("/auth-web", async (req: Request, res: Response) => {
   let data = req.body;
   let username = data.username;
   let password = data.password;
@@ -443,7 +444,7 @@ router.post("/auth-web", async (req, res) => {
     } else {
       return res.send({ note: "Rejected. Something went wrong ..." });
     }
-  } catch (error) {
+  } catch (error: any) {
     res.status(500).send({ note: "Internal server error" });
   }
 });
@@ -469,7 +470,7 @@ router.get("/refresh-token", verifyJWT, (req, res) => {
     return jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET,
-      (err, decoded) => {
+      (err: any, decoded: any) => {
         if (err || foundUser.electoralId !== decoded.electoralId)
           res.sendStatus(403);
 
@@ -482,12 +483,12 @@ router.get("/refresh-token", verifyJWT, (req, res) => {
         return res.status(200).json({ accessToken }); // Send JSON response containing access token
       },
     );
-  } catch (error) {
+  } catch (error: any) {
     return res.sendStatus(500); // Forbidden
   }
 });
 
-router.get("/refresh-token-web", async (req, res) => {
+router.get("/refresh-token-web", async (req: Request, res: Response) => {
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   // console.log("token: ", token);
@@ -510,7 +511,7 @@ router.get("/refresh-token-web", async (req, res) => {
     return jwt.verify(
       refreshToken,
       process.env.REFRESH_TOKEN_SECRET,
-      async (err, decoded) => {
+      async (err: any, decoded: any) => {
         if (err) {
           // console.log("Session has expired.");
         }
@@ -544,12 +545,12 @@ router.get("/refresh-token-web", async (req, res) => {
           .send({ accessToken: accessToken, refreshToken: refreshToken });
       },
     );
-  } catch (error) {
+  } catch (error: any) {
     return res.sendStatus(500); //Forbidden
   }
 });
 
-router.get("/log-out", (req, res) => {
+router.get("/log-out", (req: Request, res: Response) => {
   const cookies = req.cookies;
   if (!cookies?.jwt) return res.sendStatus(204); //No content
   const refreshToken = cookies.jwt;
@@ -559,18 +560,18 @@ router.get("/log-out", (req, res) => {
     .getCitizens()
     .find((x) => x.refreshToken === refreshToken);
   if (!foundUser) {
-    res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
+    res.clearCookie("jwt", { httpOnly: true, sameSite: "none", secure: true });
     return res.sendStatus(204);
   }
 
   // Delete refreshToken in db
   committee.updateTokenCitzen(foundUser.electoralId, "");
 
-  res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
+  res.clearCookie("jwt", { httpOnly: true, sameSite: "none", secure: true });
   res.sendStatus(204);
 });
 
-router.get("/log-out-web", (req, res) => {
+router.get("/log-out-web", (req: Request, res: Response) => {
   // On client, also delete the accessToken
 
   const cookies = req.cookies;
@@ -582,14 +583,14 @@ router.get("/log-out-web", (req, res) => {
     .getUsers()
     .find((x) => x.refreshToken === refreshToken);
   if (!foundUser) {
-    res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
+    res.clearCookie("jwt", { httpOnly: true, sameSite: "none", secure: true });
     return res.sendStatus(204);
   }
 
   // Delete refreshToken in db
   committee.updateTokenUser(foundUser.username, "");
 
-  res.clearCookie("jwt", { httpOnly: true, sameSite: "None", secure: true });
+  res.clearCookie("jwt", { httpOnly: true, sameSite: "none", secure: true });
   res.sendStatus(204);
 });
 

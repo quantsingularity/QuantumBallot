@@ -4,7 +4,7 @@ import * as path from "path";
 import * as fs from "fs";
 
 const NODE_ADDRESS = process.argv[2] || "3000";
-const getBlockAddress = (str) => str + NODE_ADDRESS;
+const getBlockAddress = (str: string) => str + NODE_ADDRESS;
 
 const { Level } = require("level");
 
@@ -19,9 +19,6 @@ if (!fs.existsSync(dbDir)) {
 }
 
 const db = new Level(dbPath, { valueEncoding: "json" });
-
-// Increase max listeners to prevent warnings
-db.setMaxListeners(20);
 
 const BLOCK = getBlockAddress("block");
 const CHAIN = getBlockAddress("chain");
@@ -68,8 +65,8 @@ export async function connectToDB(): Promise<void> {
     // Open the database if not already open
     await db.open();
     console.log(`LevelDB connected successfully at: ${dbPath}`);
-  } catch (error) {
-    if (error.code === "LEVEL_DATABASE_NOT_OPEN") {
+  } catch (error: any) {
+    if ((error as any).code === "LEVEL_DATABASE_NOT_OPEN") {
       // Database is already open, which is fine
       console.log(`LevelDB already open at: ${dbPath}`);
     } else {
@@ -86,7 +83,7 @@ export async function closeDB(): Promise<void> {
   try {
     await db.close();
     console.log("LevelDB connection closed");
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error closing LevelDB:", error);
     throw error;
   }
@@ -99,52 +96,52 @@ export function getDB() {
   return db;
 }
 
-export async function writeTransaction(key, value) {
+export async function writeTransaction(key: string, value: any) {
   await transactiondb.put(key, value);
 }
 
-export async function writeChain(value) {
+export async function writeChain(value: Block[]) {
   await chaindb.put(CHAIN, value);
 
   let chain: Block[] = value;
-  chain.forEach((x) => {
+  chain.forEach((x: any) => {
     writeBlock(x.blockHeader.blockHash, x);
   });
 }
 
-export async function writeBlock(key, value) {
+export async function writeBlock(key: string, value: any) {
   await blockdb.put(key, value);
 }
 
-export async function writeCitizen(key, value) {
+export async function writeCitizen(key: string, value: any) {
   await citizensdb.put(key, value);
 }
 
-export async function writeUser(key, value) {
+export async function writeUser(key: string, value: any) {
   await userdb.put(key, value);
 }
 
-export async function writeAnnouncement(value) {
+export async function writeAnnouncement(value: any) {
   await announcementdb.put(ANNOUNCEMENT, value);
 }
 
-export async function writeResults(value) {
+export async function writeResults(value: any) {
   await resultsdb.put(RESULTS, value);
 }
 
-export async function writeVoterGenerated(key, value) {
+export async function writeVoterGenerated(key: string, value: any) {
   await votersgenerateddb.put(key, value);
 }
 
-export async function writeVoterCitizenRelation(key, value) {
+export async function writeVoterCitizenRelation(key: string, value: any) {
   await votercitizenrelationdb.put(key, value);
 }
 
-export async function writeCandidateTemp(key, value) {
+export async function writeCandidateTemp(key: string, value: any) {
   await candidatesTempDb.put(key, value);
 }
 
-export async function updateVoter(key, value) {
+export async function updateVoter(key: string, value: any) {
   votersdb.put(key, value);
 }
 
@@ -221,7 +218,7 @@ export async function readVoterGenerated() {
   return votersGenerated;
 }
 
-export async function readBlock(key) {
+export async function readBlock(key: string) {
   const value = await blockdb.get(key);
   return value;
 }
@@ -230,16 +227,16 @@ export async function readChain() {
   try {
     const value = await chaindb.get(CHAIN);
     return value;
-  } catch (error) {
+  } catch (error: any) {
     // Return empty array if chain doesn't exist yet
-    if (error.code === "LEVEL_NOT_FOUND") {
+    if ((error as any).code === "LEVEL_NOT_FOUND") {
       return [];
     }
     throw error;
   }
 }
 
-export async function readVoterCitizenRelation(key) {
+export async function readVoterCitizenRelation(key: string) {
   const value = await votercitizenrelationdb.get(key);
   return value;
 }
@@ -252,8 +249,8 @@ export async function readAnnouncement() {
   try {
     const value = await announcementdb.get(ANNOUNCEMENT);
     return value;
-  } catch (error) {
-    if (error.code === "LEVEL_NOT_FOUND") {
+  } catch (error: any) {
+    if ((error as any).code === "LEVEL_NOT_FOUND") {
       return null;
     }
     throw error;
@@ -264,8 +261,8 @@ export async function readResults() {
   try {
     const value = await resultsdb.get(RESULTS);
     return value;
-  } catch (error) {
-    if (error.code === "LEVEL_NOT_FOUND") {
+  } catch (error: any) {
+    if ((error as any).code === "LEVEL_NOT_FOUND") {
       return null;
     }
     throw error;
@@ -282,12 +279,12 @@ export async function readTransactions() {
   return transactions;
 }
 
-export async function readCitizen(key) {
+export async function readCitizen(key: string) {
   const value = await citizensdb.get(key);
   return value;
 }
 
-export async function readUser(key) {
+export async function readUser(key: string) {
   const value = await userdb.get(key);
   return value;
 }
@@ -301,11 +298,11 @@ export async function readCitizens() {
   return citizens;
 }
 
-export async function removeUser(key) {
+export async function removeUser(key: string) {
   return userdb.del(key);
 }
 
-export async function removeCitizen(key) {
+export async function removeCitizen(key: string) {
   return citizensdb.del(key);
 }
 
@@ -343,9 +340,9 @@ export async function clearVoters() {
 }
 
 export async function readBlocks() {
-  let blocks = [];
+  let blocks: any[] = [];
   let stream = blockdb.createReadStream();
-  stream.on("data", function (block) {
+  stream.on("data", function (block: any) {
     blocks.push(block);
   });
 

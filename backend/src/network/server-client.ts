@@ -1,3 +1,4 @@
+import { Request, Response } from "express";
 import { request } from "axios";
 import { randomUUID } from "crypto";
 import BlockChain from "../blockchain/blockchain";
@@ -27,7 +28,7 @@ const p2p = new P2pNetwork();
 
 const blockchain = new BlockChain();
 
-const redirectRoute = (text) => require(text)(blockchain, allNodes);
+const redirectRoute = (text: any) => require(text)(blockchain, allNodes);
 
 app.use("/api", redirectRoute("../api/index"));
 
@@ -64,7 +65,7 @@ app.post("/connect_node", function (req, res) {
 
   if (!urls) res.status(401);
 
-  urls.forEach((url) => {
+  urls.forEach((url: any) => {
     newClient(url);
   });
 
@@ -103,14 +104,14 @@ const addNode = (node) => {
   allNodes = removeDuplicated(allNodes);
 };
 
-const requestSingleConnection = (url, thisAllNodes) => {
+const requestSingleConnection = (url: any, thisAllNodes: any) => {
   axios
     .post(LOCALHOST + url + "/update_nodes", { urls: thisAllNodes })
-    .then((_) => {})
-    .catch((error) => console.error(error));
+    .then((_: any) => {})
+    .catch((error: any) => console.error(error));
 };
 
-const requestConnection = (thisAllNodes, destines) => {
+const requestConnection = (thisAllNodes: any, destines: any) => {
   thisAllNodes = [...thisAllNodes, ...getAllNodes()];
   thisAllNodes = removeDuplicated(thisAllNodes);
 
@@ -118,7 +119,7 @@ const requestConnection = (thisAllNodes, destines) => {
   let nodesListed = [...thisAllNodes];
 
   const requests = [];
-  destines.forEach((url) => {
+  destines.forEach((url: any) => {
     // console.log("? URL => ", url);
 
     const request = axios
@@ -130,13 +131,13 @@ const requestConnection = (thisAllNodes, destines) => {
         nodesListed = [...nodesListed, ...urls_x];
         nodesListed = removeDuplicated(nodesListed);
       })
-      .catch((error) => console.error(error));
+      .catch((error: any) => console.error(error));
     requests.push(request);
   });
 
   Promise.all(requests)
-    .then((data) => {})
-    .then((data) => {
+    .then((data: any) => {})
+    .then((data: any) => {
       let allGood = true;
       let newNodes = [];
 
@@ -166,7 +167,7 @@ const requestConnection = (thisAllNodes, destines) => {
         requestConnection(newNodes, newNodes);
       }
     })
-    .catch((error) => console.error(error));
+    .catch((error: any) => console.error(error));
 };
 
 const isUpdated = (nodeList) => {
@@ -275,7 +276,7 @@ let clients = {};
 const newClient = (url) => {
   const client = io_client.connect(url);
   clients[url] = clients[url] ? clients[url] : client;
-  clients[url].on("connect", (data) => {
+  clients[url].on("connect", (data: any) => {
     console.log("I am a client, I could connect.");
     serverConnected(client);
   });
@@ -338,7 +339,7 @@ const addNewNode = (): void => {
 
       axios
         .post(URI, newObj)
-        .then((data) => {
+        .then((data: any) => {
           if (data.status === 201) {
             console.log("Nodes added.");
           }
@@ -366,7 +367,7 @@ const removeNode = (): void => {
         (x) => !nodes.includes(x) || x === NODE_ADDRESS,
       );
 
-      allNodes.forEach((url) => {
+      allNodes.forEach((url: any) => {
         if (clients[url]) {
           clients[url].disconnect();
           clientConnected[url] = null;

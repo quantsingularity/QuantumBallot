@@ -28,13 +28,16 @@ const sendEmail = async (
   };
 
   // send mail with defined transport object
-  const info = await transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error("Error sending email: ", error);
-    } else {
-      console.log("Email sent: %s", info.response);
-    }
-  });
+  const info = await transporter.sendMail(
+    mailOptions,
+    (error: any, info: any) => {
+      if (error) {
+        console.error("Error sending email: ", error);
+      } else {
+        console.log("Email sent: %s", info.response);
+      }
+    },
+  );
 
   return info;
 };

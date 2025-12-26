@@ -1,7 +1,7 @@
 /**
  * Comprehensive test suite for the crypto module
  */
-const CryptoBlockchain = require("../dist/crypto/cryptoBlockchain").default;
+const CryptoBlockchain = require("../build/crypto/cryptoBlockchain").default;
 const fs = require("fs");
 const crypto = require("crypto");
 

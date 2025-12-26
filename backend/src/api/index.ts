@@ -1,15 +1,16 @@
-import express from "express";
-import cors from "cors";
+import BlockChain from "../blockchain/blockchain";
+const express = require("express");
+const cors = require("cors");
 const corsOptions = require("../config/coreOptions");
-// <--- Middleware --->
 
 const app_api = express();
+// <--- Middleware --->
 
 app_api.use(express.json());
 app_api.use(express.urlencoded({ extended: false }));
 app_api.use(cors(corsOptions));
 
-module.exports = function (blockchain: any, allNodes: any) {
+module.exports = function (blockchain: BlockChain, allNodes: string[]) {
   const redirectRoute = (text: string) => require(text)(blockchain, allNodes);
 
   // <--- API ROUTE END-POINTS --->

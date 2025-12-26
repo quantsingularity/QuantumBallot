@@ -75,7 +75,7 @@ class P2P {
         .catch((error) => {
           console.log("Error: ", error);
         });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error occurred during the broadcast:", error);
     }
   }

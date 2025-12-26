@@ -26,8 +26,8 @@ const CryptoBlockVote = new CryptoBlockchain(
 class BlockChain {
   chain: Block[];
   transactionPool: Transaction[]; // Pending Transactions
-  smartContract: SmartContract;
-  nodeAddress: string;
+  smartContract!: SmartContract;
+  nodeAddress!: string;
 
   constructor() {
     this.chain = [this.getGenesisBlock()];
@@ -35,7 +35,7 @@ class BlockChain {
 
     try {
       this.smartContract = new SmartContract();
-    } catch (e) {}
+    } catch (e: any) {}
   }
 
   public setNodeAddress(nodeAddress: string) {
@@ -46,7 +46,7 @@ class BlockChain {
   private async loadChain() {
     try {
       this.chain = await readChain();
-    } catch (e) {}
+    } catch (e: any) {}
   }
 
   public async clearChainsFromStorage() {
@@ -55,7 +55,7 @@ class BlockChain {
         this.loadChain();
         this.smartContract = new SmartContract();
       });
-    } catch (error) {}
+    } catch (error: any) {}
 
     return [];
   }
@@ -63,7 +63,7 @@ class BlockChain {
   private saveChain() {
     try {
       writeChain(this.chain);
-    } catch (e) {}
+    } catch (e: any) {}
   }
 
   private getGenesisBlock(): Block {
@@ -105,20 +105,20 @@ class BlockChain {
 
         return true;
       }
-    } catch (e) {}
+    } catch (e: any) {}
 
     return false;
   }
 
-  private getLastBlock(): Block {
+  private getLastBlock(): Block | null {
     const lastIndex: number = this.chain.length - 1;
-    if (lastIndex < 0) null;
+    if (lastIndex < 0) return null;
     return this.chain[lastIndex];
   }
 
   private isBlockLast(block: Block) {
-    const lastBlock: Block = this.getLastBlock();
-    if (lastBlock !== null) return true;
+    const lastBlock: Block | null = this.getLastBlock();
+    if (lastBlock === null) return false;
     return (
       lastBlock.blockHeader.blockHash === block.blockHeader.previousBlockHash &&
       lastBlock.blockIndex + 1 === block.blockIndex
@@ -152,7 +152,7 @@ class BlockChain {
     choiceCode: string,
     choiceCodeIV: string,
     secret: string,
-  ): Transaction {
+  ): Transaction | null {
     if (!this.smartContract.isValidElectionTime()) {
       return null;
     }
@@ -186,8 +186,8 @@ class BlockChain {
     let blockHeader: BlockHeader = {
       version: "1",
       blockHash: "",
-      previousBlockHash: this.getLastBlock().blockHeader.blockHash,
-      merkleRoot: this.createMarkle(this.transactionPool),
+      previousBlockHash: this.getLastBlock()?.blockHeader.blockHash || "-",
+      merkleRoot: this.createMarkle(this.transactionPool) || "-",
       timestamp: Date.now(),
       difficultyTarget: -1,
       nonce: nonce,
@@ -238,9 +238,8 @@ class BlockChain {
       genesisBlock.transactions[i].data.voteTime = blockHeader.timestamp;
     }
 
-    genesisBlock.blockHeader.merkleRoot = this.createMarkle(
-      genesisBlock.transactions,
-    );
+    genesisBlock.blockHeader.merkleRoot =
+      this.createMarkle(genesisBlock.transactions) || "-";
 
     return genesisBlock;
   }
@@ -249,7 +248,7 @@ class BlockChain {
     try {
       const ans = await this.smartContract.getVoters();
       return ans;
-    } catch (e) {}
+    } catch (e: any) {}
 
     return null;
   }
@@ -258,7 +257,7 @@ class BlockChain {
     try {
       const ans = await this.smartContract.getCandidates();
       return ans;
-    } catch (e) {}
+    } catch (e: any) {}
 
     return null;
   }
@@ -269,10 +268,10 @@ class BlockChain {
 
       try {
         this.smartContract = new SmartContract();
-      } catch (e) {}
+      } catch (e: any) {}
 
       return ans;
-    } catch (e) {}
+    } catch (e: any) {}
 
     return null;
   }
@@ -281,31 +280,31 @@ class BlockChain {
     try {
       const ans = await deployCandidates();
       return ans;
-    } catch (e) {}
+    } catch (e: any) {}
 
     return null;
   }
 
-  public encryptDataIdentifier(data) {
+  public encryptDataIdentifier(data: string) {
     return CryptoBlockIdentifier.encryptData(data);
   }
 
-  public encryptDataVoter(data) {
+  public encryptDataVoter(data: string) {
     return CryptoBlockVote.encryptData(data);
   }
 
-  public decryptDataIdentifier(data) {
+  public decryptDataIdentifier(data: any) {
     return CryptoBlockIdentifier.decryptData(data);
   }
 
-  public decryptDataVoter(data) {
+  public decryptDataVoter(data: any) {
     return CryptoBlockVote.decryptData(data);
   }
 
   private createTransaction(
     identifier: string,
     electoralId: string,
-    electoralIdIV,
+    electoralIdIV: string,
     choiceCode: string,
     choiceCodeIV: string,
     secret: string,
@@ -376,15 +375,16 @@ class BlockChain {
   public proofOfIdentity() {}
   public proofOfImportance() {}
 
-  public mineBlock(): Block {
+  public mineBlock(): Block | null {
     const DIFFICULTY_TARGET = 4;
-    let lastHashBlock: string = this.getLastBlock().blockHeader.blockHash;
+    let lastHashBlock: string =
+      this.getLastBlock()?.blockHeader.blockHash || "-";
 
     if (!this.isValidTransactionPool(this.transactionPool)) {
       return null;
     }
 
-    let merkleRoot: string = this.createMarkle(this.transactionPool);
+    let merkleRoot: string = this.createMarkle(this.transactionPool) || "-";
     let nonce: number = this.proofOfWork(
       lastHashBlock,
       merkleRoot,
@@ -506,7 +506,7 @@ class BlockChain {
     return `Blockchain: ${this.chain}\nPendingTransaction: ${this.transactionPool}`;
   }
 
-  private createMarkle(transactions: Transaction[]): string {
+  private createMarkle(transactions: Transaction[]): string | null {
     let hashList: string[] = transactions.map((x) => x.transactionHash);
 
     // Stop if hash list is empty
@@ -622,7 +622,7 @@ class BlockChain {
         electoralIdEncrypted.CIPHER_TEXT,
       );
       return identifier;
-    } catch (e) {
+    } catch (e: any) {
       //console.log(e);
     }
 

@@ -55,24 +55,24 @@ enum ElectionState {
 }
 
 class SmartContract {
-  private candidates: Candidate[] = [];
-  private candidatesTest: Candidate[] = [];
+  private candidates!: Candidate[];
+  private candidatesTest!: Candidate[];
 
-  private voters: Voter[] = [];
-  private votersTest: Voter[] = [];
+  private voters!: Voter[];
+  private votersTest!: Voter[];
 
-  private citizens: Citizen[] = [];
+  private citizens!: Citizen[];
 
-  private hashCandidates: HashMap<Candidate> = {};
-  private hashVoters: HashMap<Voter> = {};
+  private hashCandidates!: HashMap<Candidate>;
+  private hashVoters!: HashMap<Voter>;
 
   private electionState: ElectionState;
   private announcement!: Announcement;
 
-  private provinces: string[] = [];
+  private provinces!: string[];
   private results!: Results;
 
-  private statsPerProvince: HashMap<HashMap<number>> = {};
+  private statsPerProvince!: HashMap<HashMap<number>>;
 
   // Track processed votes to prevent double voting
   private processedVotes: Set<string>;
@@ -127,7 +127,7 @@ class SmartContract {
         this.loadCitizens(),
         this.loadResults(),
       ]);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error initializing variables:", error);
       // Handle initialization errors gracefully
     }
@@ -150,7 +150,7 @@ class SmartContract {
     try {
       this.citizens = await readCitizens();
       return this.citizens;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error loading citizens:", error);
       this.citizens = [];
       return [];
@@ -161,7 +161,7 @@ class SmartContract {
     try {
       this.announcement = await readAnnouncement();
       return this.announcement;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error loading announcement:", error);
       return null;
     }
@@ -171,7 +171,7 @@ class SmartContract {
     try {
       this.results = await readResults();
       return this.results;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error loading results:", error);
       return null;
     }
@@ -181,7 +181,7 @@ class SmartContract {
     try {
       this.voters = await readVoters();
       return this.voters;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error loading voters:", error);
       this.voters = [];
       return [];
@@ -192,7 +192,7 @@ class SmartContract {
     try {
       this.candidates = await readCandidates();
       return this.candidates;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error loading candidates:", error);
       this.candidates = [];
       return [];
@@ -202,7 +202,7 @@ class SmartContract {
   public async getAnnouncement() {
     try {
       this.announcement = await readAnnouncement();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error getting announcement:", error);
     }
 
@@ -239,7 +239,7 @@ class SmartContract {
   public async getVoters() {
     try {
       this.votersTest = await readVoters();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error getting voters:", error);
       this.votersTest = [];
     }
@@ -250,7 +250,7 @@ class SmartContract {
   public async getCandidates() {
     try {
       this.candidatesTest = await readCandidates();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error getting candidates:", error);
       this.candidatesTest = [];
     }
@@ -264,7 +264,7 @@ class SmartContract {
       await this.loadVoters();
       // Clear processed votes tracking
       this.processedVotes.clear();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error erasing voters:", error);
       throw new Error("Failed to erase voters");
     }
@@ -273,9 +273,9 @@ class SmartContract {
   public async eraseResults() {
     try {
       await clearResults();
-      this.results = null;
+      this.results = null as any;
       await this.loadResults();
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error erasing results:", error);
       throw new Error("Failed to erase results");
     }
@@ -298,7 +298,7 @@ class SmartContract {
         electoralId: decryptedId,
         identifier: voter.identifier,
       };
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error decrypting voter data:", error);
       throw new Error("Failed to decrypt voter data");
     }
@@ -376,8 +376,8 @@ class SmartContract {
 
         // Calculate vote duration
         if (this.announcement.startTimeVoting) {
-          const startTime: Date = new Date(this.announcement.startTimeVoting);
-          const endTime: Date = new Date(voter.voteTime);
+          const startTime = new Date(this.announcement.startTimeVoting);
+          const endTime = new Date(voter.voteTime || Date.now());
 
           if (!isNaN(startTime.getTime()) && !isNaN(endTime.getTime())) {
             const duration =
@@ -394,7 +394,7 @@ class SmartContract {
           votesProcessed[voter.identifier] = true;
           this.processedVotes.add(voter.identifier); // Track processed vote
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error(
           `Error processing vote for voter ${voter.identifier}:`,
           error,
@@ -406,7 +406,7 @@ class SmartContract {
     // Calculate statistics
     const durationPerVote =
       counter_votes > 0 ? sum_durations / counter_votes : 0;
-    const winner: Candidate = this.winningCandidate();
+    const winner: Candidate | null = this.winningCandidate();
 
     // Prepare candidate results
     let candidate_results: CandidateResult[] = [];
@@ -454,7 +454,7 @@ class SmartContract {
     let results: Results = {
       startTime: startTime,
       endTime: endTime,
-      winner: winner,
+      winner: winner!,
       expectedTotalVotes: this.announcement.numOfVoters,
       totalVotesReceived: counter_votes,
       totalCandidates: this.announcement.numOfCandidates,
@@ -470,7 +470,7 @@ class SmartContract {
       await writeResults(results);
       await this.loadResults();
       this.results = results;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error saving results:", error);
       throw new Error("Failed to save election results");
     }
@@ -510,7 +510,7 @@ class SmartContract {
     let choice_code: string;
     try {
       choice_code = CryptoBlockVote.decryptData(objData);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error decrypting vote:", error);
       return;
     }
@@ -535,9 +535,7 @@ class SmartContract {
       const voterFound = this.revealVoter(voter);
       const electoralId: string = voterFound.electoralId;
 
-      const citizen: Citizen = this.citizens.find(
-        (x) => x.electoralId === electoralId,
-      );
+      const citizen = this.citizens.find((x) => x.electoralId === electoralId);
       if (!citizen) {
         console.log("Citizen not found for electoral ID:", electoralId);
         return;
@@ -563,7 +561,7 @@ class SmartContract {
 
         this.statsPerProvince[province] = currentStatOfProvince;
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error updating statistics:", error);
       // Continue with vote processing even if statistics update fails
     }
@@ -572,7 +570,7 @@ class SmartContract {
     this.processedVotes.add(voter.identifier);
   }
 
-  public winningCandidate() {
+  public winningCandidate(): Candidate | null {
     if (!this.candidates || this.candidates.length === 0) return null;
 
     // Find candidate with most votes
@@ -605,7 +603,7 @@ class SmartContract {
       await this.initVariables();
       await this.processVotes();
       return this.results;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error getting results:", error);
       throw new Error("Failed to get election results");
     }
@@ -615,7 +613,7 @@ class SmartContract {
     try {
       await this.initVariables();
       return this.results;
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error getting computed results:", error);
       throw new Error("Failed to get computed election results");
     }
