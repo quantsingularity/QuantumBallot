@@ -1,12 +1,12 @@
 /**
  * Comprehensive test suite for the blockchain module
  */
-const BlockChain = require("../build/blockchain/blockchain").default;
-const SmartContract = require("../build/smart_contract/smart_contract").default;
-const leveldb = require("../build/leveldb");
+const BlockChain = require("../dist/blockchain/blockchain").default;
+const SmartContract = require("../dist/smart_contract/smart_contract").default;
+const leveldb = require("../dist/leveldb");
 
 // Mock dependencies
-jest.mock("../build/smart_contract/smart_contract", () => {
+jest.mock("../dist/smart_contract/smart_contract", () => {
   return {
     default: jest.fn().mockImplementation(() => ({
       update: jest.fn(),
@@ -17,7 +17,7 @@ jest.mock("../build/smart_contract/smart_contract", () => {
   };
 });
 
-jest.mock("../build/leveldb", () => ({
+jest.mock("../dist/leveldb", () => ({
   readChain: jest.fn().mockResolvedValue([]),
   writeChain: jest.fn(),
   clearChains: jest.fn().mockResolvedValue([]),
