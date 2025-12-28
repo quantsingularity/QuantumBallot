@@ -12,7 +12,7 @@ set -e
 
 echo "Starting QuantumBallot project setup..."
 
-PROJECT_DIR="/home/ubuntu/projects_extracted/QuantumBallot"
+PROJECT_DIR="/QuantumBallot"
 
 if [ ! -d "${PROJECT_DIR}" ]; then
   echo "Error: Project directory ${PROJECT_DIR} not found."
