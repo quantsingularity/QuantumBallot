@@ -1,4 +1,4 @@
-# Enhanced Dockerfile for QuantumBallot Web Frontend
+# Dockerfile for QuantumBallot Web Frontend
 # Implements financial-grade security best practices with hardened Nginx
 
 # Build stage with security enhancements

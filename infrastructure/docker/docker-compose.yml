@@ -1,4 +1,4 @@
-# Enhanced Docker Compose for QuantumBallot
+# Docker Compose for QuantumBallot
 # Implements financial-grade security and comprehensive monitoring
 
 version: "3.8"

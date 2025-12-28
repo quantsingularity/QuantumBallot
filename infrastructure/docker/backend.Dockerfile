@@ -1,4 +1,4 @@
-# Enhanced Dockerfile for QuantumBallot Backend API
+# Dockerfile for QuantumBallot Backend API
 # Implements financial-grade security best practices and compliance requirements
 
 # Use specific version with security patches

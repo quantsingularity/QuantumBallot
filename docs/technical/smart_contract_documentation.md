@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides comprehensive technical documentation for the enhanced QuantumBallot smart contract system. The system has been redesigned with a focus on security, robust voting mechanisms, and transparent governance. This documentation is intended for developers who need to understand, maintain, or extend the smart contract functionality.
+This document provides comprehensive technical documentation for the QuantumBallot smart contract system. The system has been redesigned with a focus on security, robust voting mechanisms, and transparent governance. This documentation is intended for developers who need to understand, maintain, or extend the smart contract functionality.
 
 ## Architecture
 
@@ -14,7 +14,7 @@ The QuantumBallot smart contract system is implemented in Rust and consists of s
 4. **Event System**: A comprehensive event system tracks all important state changes for transparency and auditability.
 5. **Error Handling**: Custom error types provide detailed information about operation failures.
 6. **Timelock Governance**: Critical actions are subject to a timelock delay for security.
-7. **Voting Mechanisms**: Enhanced voting includes quadratic voting, delegation, and transparent counting.
+7. **Voting Mechanisms**: Voting includes quadratic voting, delegation, and transparent counting.
 8. **Sybil Resistance**: Multiple mechanisms work together to prevent Sybil attacks.
 
 ## Data Structures
@@ -574,6 +574,6 @@ match contract.place_vote("user1", 1) {
 
 ## Conclusion
 
-The enhanced QuantumBallot smart contract system provides a secure, transparent, and fair platform for decentralized governance. By implementing robust security measures, advanced voting mechanisms, and comprehensive Sybil resistance, the system ensures that governance decisions reflect the true will of the community while protecting against common vulnerabilities and attacks.
+The QuantumBallot smart contract system provides a secure, transparent, and fair platform for decentralized governance. By implementing robust security measures, advanced voting mechanisms, and comprehensive Sybil resistance, the system ensures that governance decisions reflect the true will of the community while protecting against common vulnerabilities and attacks.
 
 For further assistance or to report issues, please contact the QuantumBallot development team.

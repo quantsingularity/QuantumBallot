@@ -1,4 +1,4 @@
-// Enhanced Smart Contract with improved security
+// Smart Contract with improved security
 import assert from "assert";
 import {
   Voter,
