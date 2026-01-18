@@ -397,7 +397,7 @@ Helper script for CI/CD pipelines.
 
 ```bash
 # 1. Clone and setup
-git clone https://github.com/abrar2030/QuantumBallot.git
+git clone https://github.com/quantsingularity/QuantumBallot.git
 cd QuantumBallot
 ./scripts/setup.sh
 

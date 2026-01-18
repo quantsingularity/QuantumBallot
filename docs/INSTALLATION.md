@@ -77,7 +77,7 @@ npm --version
 git --version
 
 # Clone repository
-git clone https://github.com/abrar2030/QuantumBallot.git
+git clone https://github.com/quantsingularity/QuantumBallot.git
 cd QuantumBallot
 ```
 
@@ -96,7 +96,7 @@ npm --version
 git --version
 
 # Clone repository
-git clone https://github.com/abrar2030/QuantumBallot.git
+git clone https://github.com/quantsingularity/QuantumBallot.git
 cd QuantumBallot
 ```
 
@@ -119,7 +119,7 @@ npm --version
 git --version
 
 # Clone repository
-git clone https://github.com/abrar2030/QuantumBallot.git
+git clone https://github.com/quantsingularity/QuantumBallot.git
 cd QuantumBallot
 ```
 
@@ -319,7 +319,7 @@ Scan QR code with Expo Go app (iOS/Android) to run on device.
 
 ```bash
 # Clone repository
-git clone https://github.com/abrar2030/QuantumBallot.git
+git clone https://github.com/quantsingularity/QuantumBallot.git
 cd QuantumBallot
 
 # Build and start all services

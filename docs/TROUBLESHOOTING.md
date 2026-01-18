@@ -75,7 +75,7 @@ npm install
 
 ```bash
 # Use HTTPS instead of SSH
-git clone https://github.com/abrar2030/QuantumBallot.git
+git clone https://github.com/quantsingularity/QuantumBallot.git
 
 # Or setup SSH key
 ssh-keygen -t ed25519 -C "your_email@example.com"
@@ -664,7 +664,7 @@ If your issue isn't covered here:
    npx expo start  # Watch terminal output
    ```
 
-2. **Search existing issues**: https://github.com/abrar2030/QuantumBallot/issues
+2. **Search existing issues**: https://github.com/quantsingularity/QuantumBallot/issues
 
 3. **Create new issue**: Include:
    - OS and version
@@ -673,7 +673,7 @@ If your issue isn't covered here:
    - Error messages
    - What you've tried
 
-4. **Ask in Discussions**: https://github.com/abrar2030/QuantumBallot/discussions
+4. **Ask in Discussions**: https://github.com/quantsingularity/QuantumBallot/discussions
 
 ---
 

@@ -403,7 +403,7 @@ MIT License - See LICENSE file for details
 
 For issues or questions:
 
-- GitHub Issues: [Create an issue](https://github.com/abrar2030/QuantumBallot/issues)
+- GitHub Issues: [Create an issue](https://github.com/quantsingularity/QuantumBallot/issues)
 - Documentation: See `/docs` directory
 - Backend API: See `backend/README.md`
 

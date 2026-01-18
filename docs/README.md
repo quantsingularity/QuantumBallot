@@ -10,7 +10,7 @@ QuantumBallot is a full-stack election management system leveraging blockchain t
 
 Get started with QuantumBallot in 3 steps:
 
-1. **Clone the repository**: `git clone https://github.com/abrar2030/QuantumBallot.git`
+1. **Clone the repository**: `git clone https://github.com/quantsingularity/QuantumBallot.git`
 2. **Install dependencies**: Navigate to `backend/`, `web-frontend/`, or `mobile-frontend/` and run `npm install`
 3. **Configure environment**: Copy `.env.example` to `.env` and set required variables
 4. **Start development**: Run `npm run dev` in the backend, then start the frontend(s)
@@ -105,8 +105,8 @@ QuantumBallot/
 
 ## Support & Resources
 
-- **GitHub Repository**: https://github.com/abrar2030/QuantumBallot
-- **Issues & Bug Reports**: https://github.com/abrar2030/QuantumBallot/issues
+- **GitHub Repository**: https://github.com/quantsingularity/QuantumBallot
+- **Issues & Bug Reports**: https://github.com/quantsingularity/QuantumBallot/issues
 - **License**: MIT License - see [LICENSE](../LICENSE)
 - **Test Coverage**: 87% overall (Backend: 92%, Web: 85%, Mobile: 83%)
 

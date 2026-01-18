@@ -60,14 +60,14 @@ Before contributing, ensure you have:
 
 ```bash
 # 1. Fork the repository on GitHub
-# Click "Fork" button at https://github.com/abrar2030/QuantumBallot
+# Click "Fork" button at https://github.com/quantsingularity/QuantumBallot
 
 # 2. Clone your fork
 git clone https://github.com/YOUR_USERNAME/QuantumBallot.git
 cd QuantumBallot
 
 # 3. Add upstream remote
-git remote add upstream https://github.com/abrar2030/QuantumBallot.git
+git remote add upstream https://github.com/quantsingularity/QuantumBallot.git
 
 # 4. Install dependencies
 ./scripts/setup.sh
@@ -87,7 +87,7 @@ npm test  # in each component directory
 
 Before starting work:
 
-1. **Check existing issues**: https://github.com/abrar2030/QuantumBallot/issues
+1. **Check existing issues**: https://github.com/quantsingularity/QuantumBallot/issues
 2. **Create new issue** if your contribution doesn't have one
 3. **Discuss your approach** in the issue comments
 4. **Wait for approval** from maintainers

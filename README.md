@@ -1,7 +1,7 @@
 # QuantumBallot
 
-![CI/CD Status](https://img.shields.io/github/actions/workflow/status/abrar2030/QuantumBallot/cicd.yml?branch=main&label=CI/CD&logo=github)
-[![Test Coverage](https://img.shields.io/badge/coverage-87%25-brightgreen)](https://github.com/abrar2030/QuantumBallot/actions)
+![CI/CD Status](https://img.shields.io/github/actions/workflow/status/quantsingularity/QuantumBallot/cicd.yml?branch=main&label=CI/CD&logo=github)
+[![Test Coverage](https://img.shields.io/badge/coverage-87%25-brightgreen)](https://github.com/quantsingularity/QuantumBallot/actions)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 A full-stack Web and Mobile application for American elections using Blockchain Technology. The system presents a user-friendly interface accessible via both web browsers and mobile platforms.
@@ -187,7 +187,7 @@ Comprehensive documentation using Sphinx, including:
 
 ```bash
 # Clone the repository
-git clone https://github.com/abrar2030/QuantumBallot.git
+git clone https://github.com/quantsingularity/QuantumBallot.git
 cd QuantumBallot/backend
 
 # Install dependencies
