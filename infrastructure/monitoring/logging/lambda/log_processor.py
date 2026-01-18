@@ -12,7 +12,6 @@ import re
 from datetime import datetime
 
 import boto3
-from botocore.exceptions import ClientError
 
 # Configure logging
 logger = logging.getLogger()
