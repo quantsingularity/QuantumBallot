@@ -29,14 +29,7 @@ A full-stack Web and Mobile application for American elections using Blockchain 
 
 ## Overview
 
-QuantumBallot is a comprehensive election management system that leverages blockchain technology to ensure secure, transparent, and tamper-proof elections in America. The platform consists of multiple components:
-
-- **Web Frontend**: For election committee members and administrators
-- **Mobile Frontend**: For voters to cast their votes securely
-- **Backend API**: Handles business logic and blockchain operations
-- **Blockchain Implementation**: Core technology ensuring election integrity
-
-The system allows committee members to seamlessly access the application through their browsers, while voters have the convenience of utilizing their smartphones, whether running on iOS or Android.
+QuantumBallot is a comprehensive election management system that leverages blockchain technology to ensure secure, transparent, and tamper-proof elections in America. The system allows committee members to seamlessly access the application through their browsers, while voters have the convenience of utilizing their smartphones, whether running on iOS or Android.
 
 ## Project Structure
 
