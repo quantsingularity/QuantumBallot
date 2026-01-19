@@ -44,12 +44,16 @@ The project is organized into several main components:
 
 ```
 QuantumBallot/
-├── backend/           # Node.js/Express backend with blockchain implementation
-├── docs/                  # Technical documentation and API references
-├── mobile-frontend/       # React Native mobile application for voters
-├── web-frontend/          # React web application for committee members
-├── infrastructure/        # Deployment and infrastructure configuration
-└── .github/workflows/     # CI/CD pipeline configurations
+├── code/                   # Core backend logic, services, and shared utilities
+├── docs/                   # Project documentation
+├── infrastructure/         # DevOps, deployment, and infra-related code
+├── mobile-frontend/        # Mobile application
+├── web-frontend/           # Web dashboard
+├── scripts/                # Automation, setup, and utility scripts
+├── LICENSE                 # License information
+├── README.md               # Project overview and instructions
+├── eslint.config.js        # ESLint configuration
+└── package.json            # Node.js project metadata and dependencies
 ```
 
 ### Backend API
